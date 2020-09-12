@@ -14,6 +14,18 @@ public class User {
     public User() {
     }
 
+    public User(int uid, String uname, String password, String address, String sex, String phone, String email, String code, String status) {
+        this.uid = uid;
+        this.uname = uname;
+        this.password = password;
+        this.address = address;
+        this.sex = sex;
+        this.phone = phone;
+        this.email = email;
+        this.code = code;
+        this.status = status;
+    }
+
     public int getUid() {
         return uid;
     }
