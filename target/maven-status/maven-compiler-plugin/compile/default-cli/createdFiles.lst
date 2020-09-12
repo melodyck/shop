@@ -1,0 +1,8 @@
+entity\User.class
+entity\goods.class
+util\JedisUtil.class
+util\UuidUtil.class
+util\MailUtils$1.class
+util\Md5Util.class
+util\JDBCUtils.class
+util\MailUtils.class
