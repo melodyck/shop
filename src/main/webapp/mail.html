@@ -31,6 +31,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  new WOW().init();
 </script>
 <!-- //animation-effect -->
+
+	<script>
+		$(function () {
+			$("#submiton").click(function () {
+				$.post("/shop/FeedBackServlet",
+						$("#submit").serialize(),
+						function(data){
+								location.href="mail.html"
+						},
+						'json')
+			})
+		})
+	</script>
 </head>
 	
 <body>
@@ -212,12 +225,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				deserunt mollit anim id est laborum.</p>
 			<div class="mail-grids">
 				<div class="col-md-8 mail-grid-left animated wow slideInLeft" data-wow-delay=".5s">
-					<form>
-						<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-						<input type="email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-						<input type="text" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}" required="">
-						<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
-						<input type="submit" value="Submit Now" >
+					<form id="submit">
+						<input type="text" id="ename" name="ename" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+						<input type="email" name="email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+						<input type="text" name="subject" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}" required="">
+						<textarea type="text" name="message"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+						<input type="button" value="Submit Now" id="submiton">
 					</form>
 				</div>
 				<div class="col-md-4 mail-grid-right animated wow slideInRight" data-wow-delay=".5s">
