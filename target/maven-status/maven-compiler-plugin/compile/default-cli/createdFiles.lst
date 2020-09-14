@@ -1,4 +1,11 @@
 web\filter\CharchaterFilter.class
+entity\Record.class
+entity\PageBean.class
+dao\impl\CartDaoImpl.class
+dao\CartDao.class
+util\Md5Util.class
+web\servlet\CheckCodeServlet.class
+web\servlet\TestCodeServlet.class
 entity\Cart.class
 web\servlet\BaseServlet.class
 util\UuidUtil.class
@@ -7,13 +14,8 @@ util\MailUtils$1.class
 service\CartService.class
 util\JDBCUtils.class
 util\MailUtils.class
-entity\Record.class
 service\impl\CartServiceImpl.class
-entity\PageBean.class
 entity\User.class
-dao\impl\CartDaoImpl.class
 util\JedisUtil.class
 web\servlet\CartServlet.class
-dao\CartDao.class
-util\Md5Util.class
 entity\ResultInfo.class
