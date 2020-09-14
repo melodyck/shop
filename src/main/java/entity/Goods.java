@@ -1,23 +1,23 @@
 package entity;
 
-public class goods {
+public class Goods {
     private int gid;
     private double price;
     private String gname;
     private int bid;
     private int lid;
-    private String descriptioin;
+    private String description;
 
-    public goods() {
+    public Goods() {
     }
 
-    public goods(int gid, double price, String gname, int bid, int lid, String descriptioin) {
+    public Goods(int gid, double price, String gname, int bid, int lid, String descriptioin) {
         this.gid = gid;
         this.price = price;
         this.gname = gname;
         this.bid = bid;
         this.lid = lid;
-        this.descriptioin = descriptioin;
+        this.description = descriptioin;
     }
 
     public int getGid() {
@@ -60,11 +60,11 @@ public class goods {
         this.lid = lid;
     }
 
-    public String getDescriptioin() {
-        return descriptioin;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptioin(String descriptioin) {
-        this.descriptioin = descriptioin;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
