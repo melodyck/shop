@@ -1,6 +1,6 @@
 package entity;
 
-public class goods {
+public class Goods {
     private int gid;
     private double price;
     private String gname;
@@ -8,10 +8,10 @@ public class goods {
     private int lid;
     private String descriptioin;
 
-    public goods() {
+    public Goods() {
     }
 
-    public goods(int gid, double price, String gname, int bid, int lid, String descriptioin) {
+    public Goods(int gid, double price, String gname, int bid, int lid, String descriptioin) {
         this.gid = gid;
         this.price = price;
         this.gname = gname;
