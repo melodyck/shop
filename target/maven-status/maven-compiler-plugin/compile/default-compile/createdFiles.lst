@@ -1,7 +1,0 @@
-service\impl\UserServiceImpl.class
-service\UserService.class
-dao\UserDao.class
-dao\impl\UserDaoImpl.class
-web\servlet\CheckCodeServlet.class
-web\servlet\LoginServlet.class
-web\servlet\RegisterServlet.class
