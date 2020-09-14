@@ -7,6 +7,7 @@ public class Goods {
     private int bid;
     private int lid;
     private String description;
+    private String test;
 
     public Goods() {
     }
