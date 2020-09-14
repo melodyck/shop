@@ -6,7 +6,7 @@ public class Goods {
     private String gname;
     private int bid;
     private int lid;
-    private String descriptioin;
+    private String description;
 
     public Goods() {
     }
@@ -17,7 +17,7 @@ public class Goods {
         this.gname = gname;
         this.bid = bid;
         this.lid = lid;
-        this.descriptioin = descriptioin;
+        this.description = descriptioin;
     }
 
     public int getGid() {
@@ -60,11 +60,11 @@ public class Goods {
         this.lid = lid;
     }
 
-    public String getDescriptioin() {
-        return descriptioin;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptioin(String descriptioin) {
-        this.descriptioin = descriptioin;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
