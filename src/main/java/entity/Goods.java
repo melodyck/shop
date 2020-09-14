@@ -4,19 +4,18 @@ public class Goods {
     private int gid;
     private double price;
     private String gname;
-    private int bid;
+    private int bir;
     private int lid;
     private String description;
-    private String test;
 
     public Goods() {
     }
 
-    public Goods(int gid, double price, String gname, int bid, int lid, String descriptioin) {
+    public Goods(int gid, double price, String gname, int bir, int lid, String descriptioin) {
         this.gid = gid;
         this.price = price;
         this.gname = gname;
-        this.bid = bid;
+        this.bir = bir;
         this.lid = lid;
         this.description = descriptioin;
     }
@@ -46,11 +45,11 @@ public class Goods {
     }
 
     public int getBid() {
-        return bid;
+        return bir;
     }
 
-    public void setBid(int bid) {
-        this.bid = bid;
+    public void setBid(int bir) {
+        this.bir = bir;
     }
 
     public int getLid() {
