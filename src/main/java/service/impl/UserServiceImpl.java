@@ -11,16 +11,19 @@ import util.UuidUtil;
 public class UserServiceImpl implements UserService {
     UserDao ud =new UserDaoImpl();
     public boolean registUser(User user){
-        try{
+
             user.setStatus("N");
             user.setCode(UuidUtil.getUuid());
 //            String text = "<a href='http://localhost:80/travel/active?code="+user.getCode()+"'>账号激活</a>";
 //            MailUtils.sendMail(user.getEmail(),text,"账号激活邮件");
-        ud.registUser(user);
-        return true;
-        }catch (Exception e){
-            return false;
-        }
+        int i = ud.registUser(user);
+if(i==0){ System.out.println("插入失败");
+    return false;
+}else{
+    System.out.println("插入成功");
+    return true;
+}
+
 
     }
 
@@ -35,6 +38,18 @@ public class UserServiceImpl implements UserService {
             return null;
         } else {
            return resultUser;
+        }
+
+    }
+
+    @Override
+    public boolean checkUser(String uname) {
+try{
+         ud.checkUser(uname);
+return false;
+}
+        catch(Exception e){
+    return  true;
         }
 
     }

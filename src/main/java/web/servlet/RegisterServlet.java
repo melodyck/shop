@@ -22,10 +22,10 @@ import java.util.Set;
 public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String[]> map = request.getParameterMap();
-        Set<Map.Entry<String, String[]>> entries = map.entrySet();
-        entries.stream().forEach(entry -> {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
-        });
+//        Set<Map.Entry<String, String[]>> entries = map.entrySet();
+//        entries.stream().forEach(entry -> {
+//            System.out.println(entry.getKey() + ":" + entry.getValue());
+//        });
         User user=new User();
         UserService us=new UserServiceImpl();
         try {
@@ -35,7 +35,7 @@ public class RegisterServlet extends HttpServlet {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        System.out.println(user.getEmail()+user.getPassword()+user.getUname());
+        System.out.println(user.getEmail()+user.getPassword()+user.getUname()+user.getSex());
         boolean flag = us.registUser(user);
         System.out.println(flag);
         ResultInfo info=new ResultInfo();
