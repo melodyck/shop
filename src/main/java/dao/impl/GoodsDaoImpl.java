@@ -22,5 +22,23 @@ public class GoodsDaoImpl implements GoodsDao {
         return goods;
     }
 
-
+    @Override
+    //查找商品总数
+    public int findCount(int lid) {
+        String sql="select count(*) from tab_Goods where lid=?";
+        return jdbcTemplate.queryForObject(sql,Integer.class,lid);
+    }
+    //查询出某页要显示的商品页面
+    @Override
+    public List<Goods> findByPage(int lid, int start, int pageSize) {
+        String sql="select * from tab_Goods where gid=? limit ?,?";
+        List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),lid,start,pageSize);
+        return list;
+    }
+    //根据商品id查询所有信息
+    @Override
+    public Goods findById(int gid) {
+        String sql = "select * from tab_Goods where gid = ?";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class), gid);
+    }
 }
