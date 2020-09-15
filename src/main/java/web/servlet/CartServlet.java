@@ -21,7 +21,7 @@ public class CartServlet extends BaseServlet {
         //创建cart对象集合
         List<Cart> cartList = new ArrayList<>();
         //1.判断其是否登录
-        Object _uid = request.getSession().getAttribute("uid");
+/*        Object _uid = request.getSession().getAttribute("uid");
         if (_uid == null){
             //1.1未登录的情况就从cookie中获取购物车中的商品信息
             Cookie[] cookies = request.getCookies();
@@ -35,12 +35,13 @@ public class CartServlet extends BaseServlet {
                 }
                 cartList.add(cart);
             }
-        }else {
+        }else {*/
             //1.2登录状态下从数据库中查询购物车中的商品信息
-            int uid = Integer.parseInt((String) _uid);
+        String _uid = request.getParameter("uid");
+        int uid = Integer.parseInt(_uid);
             CartService cs = new CartServiceImpl();
             cartList = cs.findByUid(uid);
-        }
+//        }
         System.out.println(cartList);
         outputJson(request, response, cartList);
     }

@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 public class Goods {
     private int gid;
     private double price;
@@ -7,6 +9,7 @@ public class Goods {
     private int bid;
     private int lid;
     private String description;
+    private List<GoodsPic> picList;
 
     public Goods() {
     }
@@ -18,6 +21,14 @@ public class Goods {
         this.bid = bid;
         this.lid = lid;
         this.description = description;
+    }
+
+    public List<GoodsPic> getPicList() {
+        return picList;
+    }
+
+    public void setPicList(List<GoodsPic> picList) {
+        this.picList = picList;
     }
 
     public int getGid() {
