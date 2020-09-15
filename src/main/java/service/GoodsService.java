@@ -1,9 +1,9 @@
 package service;
 
 import entity.PageBean;
-import entity.goods;
+import entity.Goods;
 
 public interface GoodsService {
-    PageBean<goods> findByPage(int gid,int currentPage,int pageSize);
-    goods findOne(int gid);
+    PageBean<Goods> findByPage(int gid,int currentPage,int pageSize);
+    Goods findOne(int gid);
 }

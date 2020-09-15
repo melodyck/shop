@@ -1,7 +1,7 @@
 package web.servlet;
 
 import entity.PageBean;
-import entity.goods;
+import entity.Goods;
 import service.GoodsService;
 import service.impl.GoodsServiceImpl;
 
@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class GoodsServlet extends BaseServlet {
-    @WebServlet("/goods/*")
+    @WebServlet("/Goods/*")
     public class RouteServlet extends BaseServlet {
-        private GoodsService goodsService = new GoodsServiceImpl();
+        private GoodsService GoodsService = new GoodsServiceImpl();
 
         public void queryPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
             // 1.接收参数
-            String _gid = request.getParameter("gid");
-            int cid = Integer.parseInt(_gid);
+            String _lid = request.getParameter("lid");
+            int lid = Integer.parseInt(_lid);
             String _currentPage = request.getParameter("currentPage");
             // 处理_currentPage
             int currentPage = 1;
@@ -32,9 +32,9 @@ public class GoodsServlet extends BaseServlet {
                 pageSize = Integer.parseInt(_pageSize);
             }
             // 2.调用service获得pageBean对象
-            PageBean<goods> page = goodsService.findByPage(cid, currentPage, pageSize);
+            PageBean<Goods> page = GoodsService.findByPage(lid, currentPage, pageSize);
             // 3.将结果序列化为json返回
-            writeValue(response, page);
+            outputJson(request,response, page);
         }
     }
 }

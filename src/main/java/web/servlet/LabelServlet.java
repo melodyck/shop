@@ -15,6 +15,6 @@ public class LabelServlet extends BaseServlet {
     private LabelService labelService = new LabelServiceImpl();
     public void findAll(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Label> list = labelService.findAll();
-        writeValue(response, list);
+        outputJson(request,response, list);
     }
 }
