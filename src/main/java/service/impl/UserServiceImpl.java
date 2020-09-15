@@ -17,10 +17,10 @@ public class UserServiceImpl implements UserService {
 //            String text = "<a href='http://localhost:80/travel/active?code="+user.getCode()+"'>账号激活</a>";
 //            MailUtils.sendMail(user.getEmail(),text,"账号激活邮件");
         int i = ud.registUser(user);
-if(i==0){ System.out.println("插入失败");
-    return false;
-}else{
-    System.out.println("插入成功");
+        if(i==0){ System.out.println("插入失败");
+         return false;
+         }else{
+       System.out.println("插入成功");
     return true;
 }
 
