@@ -27,7 +27,7 @@ public class GoodsServlet extends BaseServlet {
             }
             String _pageSize = request.getParameter("pageSize");
             // 处理_pageSize
-            int pageSize = 8;
+            int pageSize = 9;
             if (_pageSize != null && _pageSize.length() > 0) {
                 pageSize = Integer.parseInt(_pageSize);
             }

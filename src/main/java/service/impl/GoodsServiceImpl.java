@@ -1,5 +1,7 @@
 package service.impl;
 
+import dao.GoodsDao;
+import dao.impl.GoodsDaoImpl;
 import entity.PageBean;
 import entity.Goods;
 import service.GoodsService;
@@ -7,13 +9,13 @@ import service.GoodsService;
 import java.util.List;
 
 public class GoodsServiceImpl implements GoodsService {
-    GoodsDao GoodsDao=new GoodsDaoImpl();
+    private GoodsDao GoodsDao=new GoodsDaoImpl();
     @Override
-    public PageBean<Goods> findByPage(int gid, int currentPage, int pageSize) {
+    public PageBean<Goods> findByPage(int lid, int currentPage, int pageSize) {
         PageBean<Goods> pageBean=new PageBean<>();
-        int totalCount=GoodsDao.findCount(gid);
+        int totalCount=GoodsDao.findCount(lid);
         int start =(currentPage-1)*pageSize;
-        List<Goods> byPage = GoodsDao.findByPage(gid, start, pageSize);
+        List<Goods> byPage = GoodsDao.findByPage(lid, start, pageSize);
         int totalPage = (totalCount + pageSize - 1) / pageSize;
         pageBean.setCurrentPage(currentPage);
         pageBean.setList(byPage);

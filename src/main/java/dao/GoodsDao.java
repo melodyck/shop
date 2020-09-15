@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface GoodsDao {
 
-    int findCount(int gid);
+    int findCount(int lid);
 
-    List<Goods> findByPage(int gid, int start, int pageSize);
+    List<Goods> findByPage(int lid, int start, int pageSize);
 
     Goods findById(int gid);
 }
