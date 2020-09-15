@@ -31,25 +31,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  new WOW().init();
 </script>
 	<script>
-		// $(function () {
-        //  $("#submit").click(function () {
-        //            "/shop/login",
-        //          $("#login").serialize(),
-		//             function (data) {
-        //            if(data.flag){
-	    //         location.href("index.html");
-        //            }else{
-		//
-        //         }
-		//        },"json"
-		//  });
-		// });
 		$(function () {
 			$("#submit").click(function () {
+				$.post( "/shop/login",
+						$("#login").serialize(),
+						function (data) {
+							if(data.flag){
+								location.href="index.html"
+							}else{
 
-
+							}
+						},"json")
 			})
-
 		})
 	</script>
 <!-- //animation-effect -->
@@ -237,10 +230,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<form id="login">
 					<input type="email" name="email" placeholder="Email Address" required=" " >
 					<input type="password" name="password" placeholder="Password" required=" " >
-					<div class="forgot">
-						<a href="#">Forgot Password?</a>
-					</div>
-					<input type="button" id="submit"value="Login">
+<!--					<div class="forgot">-->
+<!--						<a href="#">Forgot Password?</a>-->
+<!--					</div>-->
+					<input type="button" id="submit"value="Login" style="margin:10px">
 				</form>
 			</div>
 			<h4 class="animated wow slideInUp" data-wow-delay=".5s">For New People</h4>

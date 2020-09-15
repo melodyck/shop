@@ -26,7 +26,104 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/wow.min.js"></script>
 <script>
  new WOW().init();
+
 </script>
+	<script>
+		$(function () {
+			$.get('/Shop/label/findAll',{},function (data) {
+				var lis1='<h6>Men\'s Wear</h6>';
+				var lis2='<h6>Women\'s Wear</h6>';
+				var lis3='<h6>Kid\'s Wear</h6>';
+				for(var i=0;i<data.length;i++){
+					var li = '<li><a href="products.html?lid='+ data[i].lid + '">' + data[i].lname + '</a></li>';
+					if(data[i].lname.startsWith("women")) {lis2 += li;}
+					else if(data[i].lname.startsWith("men")) {lis1 += li;}
+					else { lis3 += li;}
+				}
+				$("#labellist1").html(lis1);
+				$("#labellist2").html(lis2);
+				$("#labellist3").html(lis3);
+			},'json');
+		});
+	</script>
+	<script>
+		$(function () {
+			var lid=location.search.split("=")[1];
+			// 2.发送异步请求分页查询
+			load(lid,1);
+
+		});
+		function load(lid, currentPage) {
+			$.get('/Shop/goods/queryPage',
+					{lid: lid, currentPage: currentPage},
+					function(pb) {
+						// pb就是pageBean对象的json格式
+						// 1.将totalCount更新
+						$("#totalCount").html(pb.totalCount);
+						// 2.将totalPage更新
+						$("#totalPage").html(pb.totalPage);
+						// 3.更新页码 - 首页-上一页-末页-下一页
+						// 前2 后2
+						var start = pb.currentPage - 2;
+						var end = pb.currentPage + 2;
+						// 前面不足5个, 后面补齐
+						if (start < 1) {
+							start = 1;
+							end = start + 4;
+						}
+						if (end > pb.totalPage) {
+							end = pb.totalPage;
+							start = end - 4;
+						}
+						// 总页数不足5个
+						if (pb.totalPage < 5) {
+							start = 1;
+							end = pb.totalPage
+						}
+					// <nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
+					// 			<ul class="pagination paging">
+					// 			<li>
+					// 			<a href="#" aria-label="Previous">
+					// 			<span aria-hidden="true">&laquo;</span>
+					// 	</a>
+					// 	</li>
+					// 	<li class="active">
+						// 	<a href="#">1<span class="sr-only">(current)</span></a></li>
+					// 	<li><a href="#">2</a></li>
+					// 	<li><a href="#">3</a></li>
+					// 	<li><a href="#">4</a></li>
+					// 	<li><a href="#">5</a></li>
+					// 	<li>
+					// 	<a href="#" aria-label="Next">
+					// 			<span aria-hidden="true">&raquo;</span>
+					// 	</a>
+					// 	</li>
+					// 	</ul>
+					// 	</nav>
+						var lis='';
+						// var firstPage='<a href="javascript:load()">1<span class="sr-only">(current)</span></a></li>';
+						var beforeNum=pb.currentPage-1;
+						if(beforeNum<1){beforeNum=1;}
+						var beforePage='<li><a href="javascript:load('+lid+','+beforeNum+')" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>';
+						lis += beforePage;
+						for(var i=start;i<end;i++){
+							var li='';
+							if (i == pb.currentPage) {
+								li = '<li  onclick="load('+lid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
+							} else {
+								li = '<li  onclick="load('+lid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
+							}
+							lis += li;
+						}
+						var nextNum=pb.currentPage+1;
+						if(nextNum>pb.totalPage){nextNum=pb.totalPage;}
+						var nextPage = '<li><a href="javascript:load('+lid+','+nextNum+')" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>';
+						lis+=nextPage;
+						$("#page").html(lis);
+						var lislist='';
+
+			})};
+	</script>
 <!-- //animation-effect -->
 </head>
 	
@@ -77,35 +174,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<ul class="dropdown-menu multi-column columns-3">
 									<div class="row">
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
+											<ul class="multi-column-dropdown" id="labellist1">
 												<h6>Men's Wear</h6>
 												<li><a href="products.html">Clothing</a></li>
 												<li><a href="products.html">Wallets</a></li>
-												<li><a href="products.html">Shoes</a></li>
-												<li><a href="products.html">Watches</a></li>
-												<li><a href="products.html">Accessories</a></li>
+<!--												<li><a href="products.html">Shoes</a></li>-->
+<!--												<li><a href="products.html">Watches</a></li>-->
+<!--												<li><a href="products.html">Accessories</a></li>-->
 											</ul>
 										</div>
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
+											<ul class="multi-column-dropdown" id="labellist2">
 												<h6>Women's Wear</h6>
 												<li><a href="products.html">Clothing</a></li>
 												<li><a href="products.html">Wallets,Bags</a></li>
-												<li><a href="products.html">Footwear</a></li>
-												<li><a href="products.html">Watches</a></li>
-												<li><a href="products.html">Accessories</a></li>
-												<li><a href="products.html">Jewellery</a></li>
-												<li><a href="products.html">Beauty & Grooming</a></li>
+<!--												<li><a href="products.html">Footwear</a></li>-->
+<!--												<li><a href="products.html">Watches</a></li>-->
+<!--												<li><a href="products.html">Accessories</a></li>-->
+<!--												<li><a href="products.html">Jewellery</a></li>-->
+<!--												<li><a href="products.html">Beauty & Grooming</a></li>-->
 											</ul>
 										</div>
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
+											<ul class="multi-column-dropdown" id="labellist3">
 												<h6>Kid's Wear</h6>
-												<li><a href="products.html">Kids Home Fashion</a></li>
+<!--												<li><a href="products.html">Kids Home Fashion</a></li>-->
 												<li><a href="products.html">Boy's Clothing</a></li>
 												<li><a href="products.html">Girl's Clothing</a></li>
-												<li><a href="products.html">Shoes</a></li>
-												<li><a href="products.html">Brand Stores</a></li>
+<!--												<li><a href="products.html">Shoes</a></li>-->
+<!--												<li><a href="products.html">Brand Stores</a></li>-->
 											</ul>
 										</div>
 										<div class="clearfix"></div>
@@ -694,13 +791,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="clearfix"> </div>
 				</div>
 				<nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
-				  <ul class="pagination paging">
+				  <ul class="pagination paging" id="page">
 					<li>
 					  <a href="#" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
 					  </a>
 					</li>
-					<li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>
+<!--					<li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>-->
+					  <li><a href="#">1</a></li>
 					<li><a href="#">2</a></li>
 					<li><a href="#">3</a></li>
 					<li><a href="#">4</a></li>
