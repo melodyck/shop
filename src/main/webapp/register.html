@@ -31,6 +31,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<script>
 		$(function () {
+			$.validator.addMethod("checkEmail",function (value) {
+				var flag=false;
+            $.ajax({
+				url:"/shop/checkEmail",
+				data:{email: value},
+				success:function (result) {
+                   flag=result.flag;
+				},
+				dataType:"json",
+				type:"post",
+				async:false
+			});
+				return flag;
+			})
 			//检测用户名是否存在
 			$.validator.addMethod("checkUser", function (value) {
 				var flag = false;
@@ -78,7 +92,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						required : true
 					},
 					email : {
-						required : true
+						required : true,
+						checkEmail:true
 					},
 					password : {
 						required : true,
@@ -335,7 +350,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<input type="radio" name="sex" id="female" value="女"> 女
 					</label>
 				<h6 >登录信息</h6>
-					<input type="email" placeholder="请输入邮箱" name="email">
+					<input type="text" placeholder="请输入邮箱" name="email">
 					<input type="password" placeholder="请输入密码" name="password">
 					<input type="password" placeholder="确认密码" name="repeatPassword">
 

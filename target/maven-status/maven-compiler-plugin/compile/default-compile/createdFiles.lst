@@ -1,1 +1,4 @@
+web\servlet\ActiveServlet.class
+entity\GoodsPic.class
 web\servlet\CheckUserServlet.class
+web\servlet\CheckEmailServlet.class
