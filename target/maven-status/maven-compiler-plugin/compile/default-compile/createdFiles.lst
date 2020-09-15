@@ -1,4 +1,5 @@
 web\filter\CharchaterFilter.class
+dao\GoodsDao.class
 dao\impl\MailDaoImpl.class
 dao\MailDao.class
 entity\Record.class
@@ -7,6 +8,7 @@ dao\impl\CartDaoImpl.class
 dao\CartDao.class
 util\Md5Util.class
 web\servlet\CheckCodeServlet.class
+entity\GoodsPic.class
 web\servlet\TestCodeServlet.class
 service\FeedBackService.class
 entity\Cart.class
@@ -15,6 +17,7 @@ web\servlet\BaseServlet.class
 util\UuidUtil.class
 entity\Goods.class
 util\MailUtils$1.class
+dao\impl\GoodsDaoImpl.class
 service\CartService.class
 util\JDBCUtils.class
 util\MailUtils.class
