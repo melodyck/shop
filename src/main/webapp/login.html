@@ -32,18 +32,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 	<script>
 		$(function () {
-         $("#submit").click(function () {
-                   "/shop/login",
-                 $("#login").serialize(),
-		            function (data) {
-                   if(data.flag){
-	            location.href("index.html");
-                   }else{
+			$("#submit").click(function () {
+				$.post( "/shop/login",
+						$("#login").serialize(),
+						function (data) {
+							if(data.flag){
+								location.href="index.html"
+							}else{
 
-                }
-		       },"json"
-		 });
-		});
+							}
+						},"json")
+			})
+		})
 	</script>
 <!-- //animation-effect -->
 </head>
@@ -233,7 +233,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="forgot">
 						<a href="#">Forgot Password?</a>
 					</div>
-					<input type="submit" id="submit"value="Login">
+					<input type="button" id="submit"value="Login">
 				</form>
 			</div>
 			<h4 class="animated wow slideInUp" data-wow-delay=".5s">For New People</h4>

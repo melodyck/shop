@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import util.JDBCUtils;
 
+import java.util.List;
+
 public class UserDaoImpl implements UserDao {
     JdbcTemplate template=new JdbcTemplate(JDBCUtils.getDataSource());
     public int registUser(User user){
