@@ -16,9 +16,5 @@ public class MailDaoImpl implements MailDao {
         jdbcTemplate.update(sql,new Date(),ename,email,suject,message);
     }
 
-    @Override
-    public void searchGoods(String str) {
-        String sql="select * from tab_goods where str like '%?%' ";
-        jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(Goods.class),str);
-    }
+
 }

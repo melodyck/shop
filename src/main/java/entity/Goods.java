@@ -11,13 +11,13 @@ public class Goods {
     public Goods() {
     }
 
-    public Goods(int gid, double price, String gname, int bid, int lid, String descriptioin) {
+    public Goods(int gid, double price, String gname, int bid, int lid, String description) {
         this.gid = gid;
         this.price = price;
         this.gname = gname;
         this.bid = bid;
         this.lid = lid;
-        this.description = descriptioin;
+        this.description = description;
     }
 
     public int getGid() {
