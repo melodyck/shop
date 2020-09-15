@@ -2035,7 +2035,7 @@ label.radio {
 	background:#F7F7F9;
 	margin:3em auto 0;
 }
-.login-form-grids input[type="email"],.login-form-grids input[type="password"],.login-form-grids input[type="text"]{
+.login-form-grids input[type="email"],.login-form-grids input[type="password"]{
 	outline: none;
     border: 1px solid #DBDBDB;
     padding: 10px 10px 10px 45px;
@@ -2044,12 +2044,25 @@ label.radio {
     display: block;
     width: 100%;
 }
+.login-form-grids input[type="text"]{
+    outline: none;
+    border: 1px solid #DBDBDB;
+    padding: 10px 10px 10px 10px;
+    font-size: 14px;
+    color: #999;
+    display: block;
+    width: 100%;
+}
 .login-form-grids input[type="email"]{
 	background:url(../images/img-sp.png) no-repeat 5px -182px #fff;
+    margin:1em 0 0;
 }
 .login-form-grids input[type="password"]{
 	background:url(../images/img-sp.png) no-repeat 5px -220px #fff;
 	margin:1em 0 0;
+}
+.login-form-grids input[type="text"]{
+    margin:1em 0 0;
 }
 .forgot {
     margin: 1.5em 0 0;
@@ -2121,13 +2134,7 @@ label.radio {
 	text-transform:uppercase;
 	margin:0 0 2em;
 }
-.login-form-grids input[type="text"]{
-	background:url(../images/img-sp.png) no-repeat 5px -259px #fff;
-}
-.login-form-grids input[type="text"]:nth-child(2){
-	background:url(../images/img-sp.png) no-repeat 0px -298px #fff;
-	margin:1em 0;
-}
+
 .register-check-box label{
 	font-size:14px;
 	font-weight:500;
@@ -2503,7 +2510,6 @@ td.invert-image a img {
 		padding: .5em 1em;
 		margin: 0;
 		width: auto;
-		display: -webkit-inline-box;
 	}
 	.collections-bottom-grid h3 {
 		font-size: 2.5em;

@@ -1,0 +1,7 @@
+web\servlet\BaseServlet.class
+service\LabelService.class
+entity\Label.class
+dao\LabelDao.class
+web\servlet\LabelServlet.class
+dao\impl\LabelDaoImpl.class
+service\impl\LabelServiceImpl.class
