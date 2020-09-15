@@ -14,4 +14,13 @@ public class GoodsDaoImpl implements GoodsDao {
         Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class), str);
         return goods;
     }
+
+    @Override
+    public Goods findAllGoods() {
+        String sql="select * from tab_goods";
+        Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class));
+        return goods;
+    }
+
+
 }
