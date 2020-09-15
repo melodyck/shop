@@ -2,7 +2,9 @@ package dao;
 
 import entity.Goods;
 
-<<<<<<< HEAD
+import java.util.List;
+
+
 public interface GoodsDao {
     Goods SearchGoods(String str);
 

@@ -21,18 +21,18 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final String email = request.getParameter("email");
         String password = request.getParameter("password");
-        UserService us=new UserServiceImpl();
-        ResultInfo info=new ResultInfo();
-        try{
-       User user= us.login(email,password);
-       request.getSession().setAttribute("loginUser",user);
-       info.setFlag(true);
-        }catch(Exception e){
-         info.setFlag(false);
+        UserService us = new UserServiceImpl();
+        ResultInfo info = new ResultInfo();
+        try {
+            User user = us.login(email, password);
+            request.getSession().setAttribute("loginUser", user);
+            info.setFlag(true);
+        } catch (Exception e) {
+            info.setFlag(false);
         }
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         response.setContentType("application/json;charset=utf-8");
-        mapper.writeValue(response.getOutputStream(),info);
+        mapper.writeValue(response.getOutputStream(), info);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -34,7 +34,7 @@ public class GoodsServlet extends BaseServlet {
             // 2.调用service获得pageBean对象
             PageBean<Goods> page = GoodsService.findByPage(lid, currentPage, pageSize);
             // 3.将结果序列化为json返回
-            outputJson(request,response, page);
+            outputJson(request, response, page);
         }
     }
 }

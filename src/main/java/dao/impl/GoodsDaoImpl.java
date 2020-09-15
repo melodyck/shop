@@ -6,8 +6,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import util.JDBCUtils;
 
+import java.util.List;
+
 public class GoodsDaoImpl implements GoodsDao {
     private JdbcTemplate jdbcTemplate=new JdbcTemplate(JDBCUtils.getDataSource());
+    //模糊查询商品
     @Override
     public Goods SearchGoods(String str) {
         String sql="select * from tab_goods where str like '%?%' ";
@@ -15,6 +18,7 @@ public class GoodsDaoImpl implements GoodsDao {
         return goods;
     }
 
+    //查询数据库所有商品
     @Override
     public Goods findAllGoods() {
         String sql="select * from tab_goods";
