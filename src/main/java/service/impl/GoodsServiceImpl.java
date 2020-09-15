@@ -30,4 +30,10 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods findOne(int gid) {
         return null;
     }
+
+    @Override
+    public Goods SearchGoods(String str) {
+        Goods goods = GoodsDao.SearchGoods(str);
+        return goods;
+    }
 }

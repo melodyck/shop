@@ -13,8 +13,8 @@ public class GoodsDaoImpl implements GoodsDao {
     //模糊查询商品
     @Override
     public Goods SearchGoods(String str) {
-        String sql="select * from tab_goods where str like '%?%' ";
-        Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class), str);
+        String sql="select * from tab_goods g join tab_label l on g.lid=l.lid where gname like '%?%' || lname like '%?%'";
+        Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class), str,str);
         return goods;
     }
 
