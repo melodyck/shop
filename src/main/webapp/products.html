@@ -54,7 +54,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		});
 		function load(lid, currentPage) {
-			console.log("load")
 			$.get('/Shop/Goods/queryPage',
 					{lid: lid, currentPage: currentPage},
 					function(pb) {
@@ -151,7 +150,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									'\t\t\t\t\t\t\t<h4><a href="single.html?gid='+good.gid+'">'+good.gname+'</a></h4>\n' +
 									'\t\t\t\t\t\t\t<p>Vel illum qui dolorem.</p>\n' +
 									'\t\t\t\t\t\t\t<div class="simpleCart_shelfItem products-right-grid1-add-cart">\n' +
-									'\t\t\t\t\t\t\t\t<p><i>$'+good.price*2+'</i> <span class="item_price">$'+good.price+'</span><a class="item_add" href="#">add to cart </a></p>\n' +
+									'\t\t\t\t\t\t\t\t<p><i>$'+good.price*2+'</i> <span class="item_price">$'+good.price+'</span><a class="item_add" href="javascript:load('+good.gid+', '+uid+')">add to cart </a></p>\n' +
 									'\t\t\t\t\t\t\t</div>';
 									switch (i) {
 										case 0:divlist1+=div ;break;
