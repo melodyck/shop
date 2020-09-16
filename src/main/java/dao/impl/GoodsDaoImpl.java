@@ -37,10 +37,7 @@ public class GoodsDaoImpl implements GoodsDao {
     public List<Goods> findByPage(int lid, int start, int pageSize) {
         String sql="select * from tab_goods where lid=? limit ?,?";
         List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),lid,start,pageSize);
-        for (Goods good:list
-             ) {
-            System.out.println(good);
-        }
+
         return list;
     }
     //根据商品id查询所有信息

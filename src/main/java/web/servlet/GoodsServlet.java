@@ -26,7 +26,7 @@ public class GoodsServlet extends BaseServlet {
             }
             String _pageSize = request.getParameter("pageSize");
             // 处理_pageSize
-            int pageSize = 9;
+            int pageSize = 12;
             if (_pageSize != null && _pageSize.length() > 0) {
                 pageSize = Integer.parseInt(_pageSize);
             }
@@ -43,5 +43,6 @@ public class GoodsServlet extends BaseServlet {
         // 3.序列化返回
         outputJson(request,response, goods);
     }
+
     }
 
