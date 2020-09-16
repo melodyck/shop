@@ -30,17 +30,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean checkUser(String uname) {
+    public User checkUser(String uname) {
         String sql="select * from tab_user where uname=?";
-        List list1=template.query(sql, new BeanPropertyRowMapper<>(User.class), uname);
-        return list1.size()==0;
+        User user = template.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), uname);
+        return user;
     }
 
     @Override
-    public boolean checkEmail(String email) {
+    public User checkEmail(String email) {
         String sql="select * from tab_user where email=?";
-        List list = template.query(sql, new BeanPropertyRowMapper<>(User.class), email);
-        return list.size()==0;
+        User user = template.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), email);
+        return user;
     }
 
     @Override
