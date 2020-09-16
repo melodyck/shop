@@ -38,4 +38,9 @@ public class GoodsServiceImpl implements GoodsService {
 
         return goods;
     }
+    @Override
+    public Goods SearchGoods(String str) {
+        Goods goods = GoodsDao.SearchGoods(str);
+        return goods;
+    }
 }

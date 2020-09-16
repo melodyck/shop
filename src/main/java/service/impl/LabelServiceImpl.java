@@ -8,7 +8,8 @@ import service.LabelService;
 import java.util.List;
 
 public class LabelServiceImpl implements LabelService {
-  private   LabelDao labelDao=new LabelDaoImpl();
+    private LabelDao labelDao = new LabelDaoImpl();
+
     @Override
     public List<Label> findAll() {
         List<Label> list = labelDao.findAll();

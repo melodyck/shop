@@ -10,6 +10,22 @@ import java.util.List;
 
 public class GoodsDaoImpl implements GoodsDao {
     private JdbcTemplate jdbcTemplate=new JdbcTemplate(JDBCUtils.getDataSource());
+    //模糊查询商品
+    @Override
+    public Goods SearchGoods(String str) {
+        String sql="select * from tab_goods g join tab_label l on g.lid=l.lid where gname like '%?%' || lname like '%?%'";
+        Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class), str,str);
+        return goods;
+    }
+
+    //查询数据库所有商品
+    @Override
+    public Goods findAllGoods() {
+        String sql="select * from tab_goods";
+        Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class));
+        return goods;
+    }
+
     @Override
     //查找商品总数
     public int findCount(int lid) {

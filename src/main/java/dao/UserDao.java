@@ -3,9 +3,12 @@ package dao;
 import entity.User;
 
 public interface UserDao {
-    public int registUser(User user);
+    public void registUser(User user);
 
     User findUserByEmailAndPassword(String email,String password);
 
-    User checkUser(String uname);
+    boolean checkUser(String uname);
+    boolean checkEmail(String email);
+    int updateUserStatus(String code);
+
 }

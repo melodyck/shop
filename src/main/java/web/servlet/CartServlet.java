@@ -17,7 +17,7 @@ import java.util.List;
 @WebServlet("/cart/*")
 public class CartServlet extends BaseServlet {
     //查找购物车中的所有商品
-    public void findAll(HttpServletRequest request, HttpServletResponse response){
+    public void findAll(HttpServletRequest request, HttpServletResponse response) {
         //创建cart对象集合
         List<Cart> cartList = new ArrayList<>();
         //1.判断其是否登录
@@ -36,11 +36,11 @@ public class CartServlet extends BaseServlet {
                 cartList.add(cart);
             }
         }else {*/
-            //1.2登录状态下从数据库中查询购物车中的商品信息
+        //1.2登录状态下从数据库中查询购物车中的商品信息
         String _uid = request.getParameter("uid");
         int uid = Integer.parseInt(_uid);
-            CartService cs = new CartServiceImpl();
-            cartList = cs.findByUid(uid);
+        CartService cs = new CartServiceImpl();
+        cartList = cs.findByUid(uid);
 //        }
         System.out.println(cartList);
         outputJson(request, response, cartList);

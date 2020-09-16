@@ -31,12 +31,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<script>
 		$(function () {
+			$.validator.addMethod("checkEmail",function (value) {
+				var flag=false;
+            $.ajax({
+				url:"/shop/user/checkEmail",
+				data:{email: value},
+				success:function (result) {
+                   flag=result.flag;
+				},
+				dataType:"json",
+				type:"post",
+				async:false
+			});
+				return flag;
+			})
 			//检测用户名是否存在
 			$.validator.addMethod("checkUser", function (value) {
 				var flag = false;
 				$.ajax({
 					url : "/shop/user/checkUser",
-					data : {username : value},
+					data : {uname : value},
 					success : function (result) {
 						flag = result.flag;
 					},
@@ -78,7 +92,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						required : true
 					},
 					email : {
-						required : true
+						required : true,
+						checkEmail:true
 					},
 					password : {
 						required : true,
@@ -324,7 +339,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<p class="est animated wow zoomIn" data-wow-delay=".5s">创建属于你的帐号,开启一场购物之旅</p>
 			<div class="login-form-grids">
 				<h5 class="animated wow slideInUp" data-wow-delay=".5s">个人信息</h5>
-				<form class="animated wow slideInUp form-horizontal" id="registerForm" data-wow-delay=".5s" action="/shop/user/register">
+				<form class="animated wow slideInUp form-horizontal" id="registerForm" data-wow-delay=".5s" action="/shop/user/register" method="post">
 					<input type="text" placeholder="请输入用户名" name="uname">
 					<input type="text" placeholder="请输入电话号码" name="phone">
 					<input type="text" placeholder="请输入收件地址" name="address">
@@ -335,7 +350,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<input type="radio" name="sex" id="female" value="女"> 女
 					</label>
 				<h6 >登录信息</h6>
-					<input type="email" placeholder="请输入邮箱" name="email">
+					<input type="text" placeholder="请输入邮箱" name="email">
 					<input type="password" placeholder="请输入密码" name="password">
 					<input type="password" placeholder="确认密码" name="repeatPassword">
 

@@ -38,6 +38,9 @@ public class RegisterServlet extends HttpServlet {
         System.out.println(user.getEmail()+user.getPassword()+user.getUname()+user.getSex());
         boolean flag = us.registUser(user);
         System.out.println(flag);
+//        if(flag){
+//           request.getRequestDispatcher(request.getContextPath()+"/login.html").forward(request,response);
+//        }
         ResultInfo info=new ResultInfo();
         info.setFlag(flag);
         ObjectMapper mapper=new ObjectMapper();

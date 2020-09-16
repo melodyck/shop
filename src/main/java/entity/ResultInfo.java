@@ -24,6 +24,7 @@ public class ResultInfo implements Serializable {
      * @param flag
      * @param errorMsg
      */
+
     public ResultInfo(boolean flag, String errorMsg) {
         this.flag = flag;
         this.errorMsg = errorMsg;

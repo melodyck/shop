@@ -13,8 +13,9 @@ import java.util.List;
 @WebServlet("/label/*")
 public class LabelServlet extends BaseServlet {
     private LabelService labelService = new LabelServiceImpl();
+
     public void findAll(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Label> list = labelService.findAll();
-        outputJson(request,response, list);
+        outputJson(request, response, list);
     }
 }

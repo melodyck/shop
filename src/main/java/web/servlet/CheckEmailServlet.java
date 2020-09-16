@@ -2,8 +2,6 @@ package web.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.ResultInfo;
-import entity.User;
-import org.apache.commons.beanutils.BeanUtils;
 import service.UserService;
 import service.impl.UserServiceImpl;
 
@@ -13,25 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/checkEmail")
+public class CheckEmailServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String email = request.getParameter("email");
         UserService us = new UserServiceImpl();
+        boolean flag = us.checkEmail(email);
         ResultInfo info = new ResultInfo();
-        try {
-            User user = us.login(email, password);
-            request.getSession().setAttribute("loginUser", user);
-            info.setFlag(true);
-        } catch (Exception e) {
-            info.setFlag(false);
-        }
+        info.setFlag(flag);
         ObjectMapper mapper = new ObjectMapper();
-        response.setContentType("application/json;charset=utf-8");
+        response.setCharacterEncoding("application/json;charset=utf-8");
         mapper.writeValue(response.getOutputStream(), info);
     }
 
