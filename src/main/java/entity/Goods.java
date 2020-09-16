@@ -8,19 +8,30 @@ public class Goods {
     private String gname;
     private int bid;
     private int lid;
+    private String gimage;
     private String description;
     private List<GoodsPic> picList;
 
     public Goods() {
     }
 
-    public Goods(int gid, double price, String gname, int bid, int lid, String description) {
+    public String getGimage() {
+        return gimage;
+    }
+
+    public void setGimage(String gimage) {
+        this.gimage = gimage;
+    }
+
+    public Goods(int gid, double price, String gname, int bid, int lid, String gimage, String description, List<GoodsPic> picList) {
         this.gid = gid;
         this.price = price;
         this.gname = gname;
         this.bid = bid;
         this.lid = lid;
+        this.gimage = gimage;
         this.description = description;
+        this.picList = picList;
     }
 
     public List<GoodsPic> getPicList() {

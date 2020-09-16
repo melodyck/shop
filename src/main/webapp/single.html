@@ -12,6 +12,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- //for-mobile-apps -->
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<script defer src="js/jquery.flexslider.js"></script>
+	<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
 <!-- js -->
 <script src="js/jquery.min.js"></script>
 <!-- //js -->
@@ -27,6 +29,114 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script>
  new WOW().init();
 </script>
+	<script>
+$(function () {
+	var gid=location.search.split("=")[1];
+
+	$.get('/Shop/Goods/single',{gid:gid},function (good) {
+		var lis='';
+		var lis1='';
+		// for (var i = 0; i < good.picList.length; i++) {
+		// 	var goodpic = good.picList[i];
+		// 	var li = '<li data-thumb="'+goodpic.smallPic+'">\n' +
+		// 			'\t\t\t\t\t\t\t\t<div class="thumb-image"> <img src="'+goodpic.samllPic+'" data-imagezoom="true" class="img-responsive"> </div>\n' +
+		// 			'\t\t\t\t\t\t\t</li>';
+		// 	lis+=li;
+		// }
+		for(var i=0;i<good.picList.length;i++) {
+			var goodpic=good.picList[i];
+			var li = '<li data-thumb="'+goodpic.bigPic+'">\n' +
+					'\t\t\t\t\t\t\t\t<div class="thumb-image"> <img src="'+goodpic.bigPic+'" data-imagezoom="true" class="img-responsive"> </div>\n' +
+					'\t\t\t\t\t\t\t</li>';
+			lis+=li;
+		}
+
+		$("#piclist").html(lis);
+
+		var li1='\n' +
+				'\t\t\t\t\t<h3>'+good.gname+'</h3>\n' +
+				'\t\t\t\t\t<h4><span class="item_price">$'+good.price+'</span> - $'+good.price*2+'</h4>\n' +
+				'\t\t\t\t\t<div class="rating1">\n' +
+				'\t\t\t\t\t\t<span class="starRating">\n' +
+				'\t\t\t\t\t\t\t<input id="rating5" type="radio" name="rating" value="5">\n' +
+				'\t\t\t\t\t\t\t<label for="rating5">5</label>\n' +
+				'\t\t\t\t\t\t\t<input id="rating4" type="radio" name="rating" value="4">\n' +
+				'\t\t\t\t\t\t\t<label for="rating4">4</label>\n' +
+				'\t\t\t\t\t\t\t<input id="rating3" type="radio" name="rating" value="3" checked>\n' +
+				'\t\t\t\t\t\t\t<label for="rating3">3</label>\n' +
+				'\t\t\t\t\t\t\t<input id="rating2" type="radio" name="rating" value="2">\n' +
+				'\t\t\t\t\t\t\t<label for="rating2">2</label>\n' +
+				'\t\t\t\t\t\t\t<input id="rating1" type="radio" name="rating" value="1">\n' +
+				'\t\t\t\t\t\t\t<label for="rating1">1</label>\n' +
+				'\t\t\t\t\t\t</span>\n' +
+				'\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t<div class="description">\n' +
+				'\t\t\t\t\t\t<h5><i>Description</i></h5>\n' +
+				'\t\t\t\t\t\t<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore \n' +
+				'\t\t\t\t\t\t\teu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>\n' +
+				'\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t<div class="color-quality">\n' +
+				'\t\t\t\t\t\t<div class="color-quality-left">\n' +
+				'\t\t\t\t\t\t\t<h5>Color : </h5>\n' +
+				'\t\t\t\t\t\t\t<ul>\n' +
+				'\t\t\t\t\t\t\t\t<li><a href="#"><span></span>Red</a></li>\n' +
+				'\t\t\t\t\t\t\t\t<li><a href="#" class="brown"><span></span>Yellow</a></li>\n' +
+				'\t\t\t\t\t\t\t\t<li><a href="#" class="purple"><span></span>Purple</a></li>\n' +
+				'\t\t\t\t\t\t\t\t<li><a href="#" class="gray"><span></span>Violet</a></li>\n' +
+				'\t\t\t\t\t\t\t</ul>\n' +
+				'\t\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t\t<div class="color-quality-right">\n' +
+				'\t\t\t\t\t\t\t<h5>Quality :</h5>\n' +
+				'\t\t\t\t\t\t\t<select id="country1" onchange="change_country(this.value)" class="frm-field required sect">\n' +
+				'\t\t\t\t\t\t\t\t<option value="null">5 Qty</option>\n' +
+				'\t\t\t\t\t\t\t\t<option value="null">6 Qty</option> \n' +
+				'\t\t\t\t\t\t\t\t<option value="null">7 Qty</option>\t\t\t\t\t\n' +
+				'\t\t\t\t\t\t\t\t<option value="null">10 Qty</option>\t\t\t\t\t\t\t\t\n' +
+				'\t\t\t\t\t\t\t</select>\n' +
+				'\t\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t\t<div class="clearfix"> </div>\n' +
+				'\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t<div class="occasional">\n' +
+				'\t\t\t\t\t\t<h5>Occasion :</h5>\n' +
+				'\t\t\t\t\t\t<div class="colr ert">\n' +
+				'\t\t\t\t\t\t\t<label class="radio"><input type="radio" name="radio" checked=""><i></i>Casual Wear</label>\n' +
+				'\t\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t\t<div class="colr">\n' +
+				'\t\t\t\t\t\t\t<label class="radio"><input type="radio" name="radio"><i></i>Party Wear</label>\n' +
+				'\t\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t\t<div class="colr">\n' +
+				'\t\t\t\t\t\t\t<label class="radio"><input type="radio" name="radio"><i></i>Formal Wear</label>\n' +
+				'\t\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t\t<div class="clearfix"> </div>\n' +
+				'\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t<div class="occasion-cart">\n' +
+				'\t\t\t\t\t\t<a class="item_add" href="#">add to cart </a>\n' +
+				'\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t<div class="social">\n' +
+				'\t\t\t\t\t\t<div class="social-left">\n' +
+				'\t\t\t\t\t\t\t<p>Share On :</p>\n' +
+				'\t\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t\t<div class="social-right">\n' +
+				'\t\t\t\t\t\t\t<ul class="social-icons">\n' +
+				'\t\t\t\t\t\t\t\t<li><a href="#" class="facebook"></a></li>\n' +
+				'\t\t\t\t\t\t\t\t<li><a href="#" class="twitter"></a></li>\n' +
+				'\t\t\t\t\t\t\t\t<li><a href="#" class="g"></a></li>\n' +
+				'\t\t\t\t\t\t\t\t<li><a href="#" class="instagram"></a></li>\n' +
+				'\t\t\t\t\t\t\t</ul>\n' +
+				'\t\t\t\t\t\t</div>\n' +
+				'\t\t\t\t\t\t<div class="clearfix"> </div>\n' +
+				'\t\t\t\t\t</div>';
+	lis1+=li1;
+
+		$("#wenben").html(lis1);
+
+		$('.flexslider').flexslider({
+			animation: "slide",
+			controlNav: "thumbnails"
+		});
+	},'json');
+});
+	</script>
 <!-- //animation-effect -->
 </head>
 	
@@ -258,109 +368,117 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 				</div>
 			</div>
+
+
 			<div class="col-md-8 single-right">
 				<div class="col-md-5 single-right-left animated wow slideInUp" data-wow-delay=".5s">
-					<div class="flexslider">
-						<ul class="slides">
-							<li data-thumb="images/si.jpg">
-								<div class="thumb-image"> <img src="images/si.jpg" data-imagezoom="true" class="img-responsive"> </div>
-							</li>
-							<li data-thumb="images/si1.jpg">
-								 <div class="thumb-image"> <img src="images/si1.jpg" data-imagezoom="true" class="img-responsive"> </div>
-							</li>
-							<li data-thumb="images/si2.jpg">
-							   <div class="thumb-image"> <img src="images/si2.jpg" data-imagezoom="true" class="img-responsive"> </div>
-							</li> 
+
+					<div class="flexslider" >
+						<ul class="slides" id="piclist">
+<!--							<li data-thumb="images/si.jpg">-->
+<!--								<div class="thumb-image"> <img src="images/si.jpg" data-imagezoom="true" class="img-responsive"> </div>-->
+<!--							</li>-->
+<!--							<li data-thumb="images/si1.jpg">-->
+<!--								 <div class="thumb-image"> <img src="images/si1.jpg" data-imagezoom="true" class="img-responsive"> </div>-->
+<!--							</li>-->
+<!--							<li data-thumb="images/si2.jpg">-->
+<!--							   <div class="thumb-image"> <img src="images/si2.jpg" data-imagezoom="true" class="img-responsive"> </div>-->
+<!--							</li>-->
 						</ul>
 					</div>
-					<!-- flixslider -->
-						<script defer src="js/jquery.flexslider.js"></script>
-						<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
-						<script>
-						// Can also be used with $(document).ready()
-						$(window).load(function() {
-						  $('.flexslider').flexslider({
-							animation: "slide",
-							controlNav: "thumbnails"
-						  });
-						});
-						</script>
-					<!-- flixslider -->
+<!--					 flixslider -->
+<!--						<script defer src="js/jquery.flexslider.js"></script>-->
+<!--						<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />-->
+<!--						<script>-->
+<!--						// Can also be used with $(document).ready()-->
+<!--						$(window).load(function() {-->
+<!--						  $('.flexslider').flexslider({-->
+<!--							animation: "slide",-->
+<!--							controlNav: "thumbnails"-->
+<!--						  });-->
+<!--						});-->
+<!--						</script>-->
+<!--					 flixslider-->
 				</div>
-				<div class="col-md-7 single-right-left simpleCart_shelfItem animated wow slideInRight" data-wow-delay=".5s">
-					<h3>Men's Solid Casual Shirt</h3>
-					<h4><span class="item_price">$550</span> - $900</h4>
-					<div class="rating1">
-						<span class="starRating">
-							<input id="rating5" type="radio" name="rating" value="5">
-							<label for="rating5">5</label>
-							<input id="rating4" type="radio" name="rating" value="4">
-							<label for="rating4">4</label>
-							<input id="rating3" type="radio" name="rating" value="3" checked>
-							<label for="rating3">3</label>
-							<input id="rating2" type="radio" name="rating" value="2">
-							<label for="rating2">2</label>
-							<input id="rating1" type="radio" name="rating" value="1">
-							<label for="rating1">1</label>
-						</span>
-					</div>
-					<div class="description">
-						<h5><i>Description</i></h5>
-						<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
-							eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-					</div>
-					<div class="color-quality">
-						<div class="color-quality-left">
-							<h5>Color : </h5>
-							<ul>
-								<li><a href="#"><span></span>Red</a></li>
-								<li><a href="#" class="brown"><span></span>Yellow</a></li>
-								<li><a href="#" class="purple"><span></span>Purple</a></li>
-								<li><a href="#" class="gray"><span></span>Violet</a></li>
-							</ul>
-						</div>
-						<div class="color-quality-right">
-							<h5>Quality :</h5>
-							<select id="country1" onchange="change_country(this.value)" class="frm-field required sect">
-								<option value="null">5 Qty</option>
-								<option value="null">6 Qty</option> 
-								<option value="null">7 Qty</option>					
-								<option value="null">10 Qty</option>								
-							</select>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-					<div class="occasional">
-						<h5>Occasion :</h5>
-						<div class="colr ert">
-							<label class="radio"><input type="radio" name="radio" checked=""><i></i>Casual Wear</label>
-						</div>
-						<div class="colr">
-							<label class="radio"><input type="radio" name="radio"><i></i>Party Wear</label>
-						</div>
-						<div class="colr">
-							<label class="radio"><input type="radio" name="radio"><i></i>Formal Wear</label>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-					<div class="occasion-cart">
-						<a class="item_add" href="#">add to cart </a>
-					</div>
-					<div class="social">
-						<div class="social-left">
-							<p>Share On :</p>
-						</div>
-						<div class="social-right">
-							<ul class="social-icons">
-								<li><a href="#" class="facebook"></a></li>
-								<li><a href="#" class="twitter"></a></li>
-								<li><a href="#" class="g"></a></li>
-								<li><a href="#" class="instagram"></a></li>
-							</ul>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
+
+				<div class="col-md-7 single-right-left simpleCart_shelfItem animated wow slideInRight" data-wow-delay=".5s" id="wenben">
+
+
+<!--					<h3>Men's Solid Casual Shirt</h3>-->
+<!--					<h4><span class="item_price">$550</span> - $900</h4>-->
+<!--					<div class="rating1">-->
+<!--						<span class="starRating">-->
+<!--							<input id="rating5" type="radio" name="rating" value="5">-->
+<!--							<label for="rating5">5</label>-->
+<!--							<input id="rating4" type="radio" name="rating" value="4">-->
+<!--							<label for="rating4">4</label>-->
+<!--							<input id="rating3" type="radio" name="rating" value="3" checked>-->
+<!--							<label for="rating3">3</label>-->
+<!--							<input id="rating2" type="radio" name="rating" value="2">-->
+<!--							<label for="rating2">2</label>-->
+<!--							<input id="rating1" type="radio" name="rating" value="1">-->
+<!--							<label for="rating1">1</label>-->
+<!--						</span>-->
+<!--					</div>-->
+<!--					<div class="description">-->
+<!--						<h5><i>Description</i></h5>-->
+<!--						<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore -->
+<!--							eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>-->
+<!--					</div>-->
+<!--					<div class="color-quality">-->
+<!--						<div class="color-quality-left">-->
+<!--							<h5>Color : </h5>-->
+<!--							<ul>-->
+<!--								<li><a href="#"><span></span>Red</a></li>-->
+<!--								<li><a href="#" class="brown"><span></span>Yellow</a></li>-->
+<!--								<li><a href="#" class="purple"><span></span>Purple</a></li>-->
+<!--								<li><a href="#" class="gray"><span></span>Violet</a></li>-->
+<!--							</ul>-->
+<!--						</div>-->
+<!--						<div class="color-quality-right">-->
+<!--							<h5>Quality :</h5>-->
+<!--							<select id="country1" onchange="change_country(this.value)" class="frm-field required sect">-->
+<!--								<option value="null">5 Qty</option>-->
+<!--								<option value="null">6 Qty</option> -->
+<!--								<option value="null">7 Qty</option>					-->
+<!--								<option value="null">10 Qty</option>								-->
+<!--							</select>-->
+<!--						</div>-->
+<!--						<div class="clearfix"> </div>-->
+<!--					</div>-->
+<!--					<div class="occasional">-->
+<!--						<h5>Occasion :</h5>-->
+<!--						<div class="colr ert">-->
+<!--							<label class="radio"><input type="radio" name="radio" checked=""><i></i>Casual Wear</label>-->
+<!--						</div>-->
+<!--						<div class="colr">-->
+<!--							<label class="radio"><input type="radio" name="radio"><i></i>Party Wear</label>-->
+<!--						</div>-->
+<!--						<div class="colr">-->
+<!--							<label class="radio"><input type="radio" name="radio"><i></i>Formal Wear</label>-->
+<!--						</div>-->
+<!--						<div class="clearfix"> </div>-->
+<!--					</div>-->
+<!--					<div class="occasion-cart">-->
+<!--						<a class="item_add" href="#">add to cart </a>-->
+<!--					</div>-->
+<!--					<div class="social">-->
+<!--						<div class="social-left">-->
+<!--							<p>Share On :</p>-->
+<!--						</div>-->
+<!--						<div class="social-right">-->
+<!--							<ul class="social-icons">-->
+<!--								<li><a href="#" class="facebook"></a></li>-->
+<!--								<li><a href="#" class="twitter"></a></li>-->
+<!--								<li><a href="#" class="g"></a></li>-->
+<!--								<li><a href="#" class="instagram"></a></li>-->
+<!--							</ul>-->
+<!--						</div>-->
+<!--						<div class="clearfix"> </div>-->
+<!--					</div>-->
+
 				</div>
+
 				<div class="clearfix"> </div>
 				<div class="bootstrap-tab animated wow slideInUp" data-wow-delay=".5s">
 					<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
@@ -443,7 +561,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="single-related-products">
 		<div class="container">
 			<h3 class="animated wow slideInUp" data-wow-delay=".5s">Related Products</h3>
-			<p class="est animated wow slideInUp" data-wow-delay=".5s">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+			<p class="est animated wow slideInUp" data-wow-delay=".5s">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
 				deserunt mollit anim id est laborum.</p>
 			<div class="new-collections-grids">
 				<div class="col-md-3 new-collections-grid">
