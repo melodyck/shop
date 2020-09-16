@@ -12,7 +12,7 @@ public class UserDaoImpl implements UserDao {
     JdbcTemplate template=new JdbcTemplate(JDBCUtils.getDataSource());
     public void registUser(User user){
         String sql="insert into tab_user values(null,?,?,?,?,?,?,?,?)";
-        System.out.println(user.getUname()+user.getPassword()+","+user.getSex()+","+user.getEmail()+","+user.getPhone()+","+user.getAddress()+","+user.getStatus()+","+user.getCode());
+        //System.out.println(user.getUname()+user.getPassword()+","+user.getSex()+","+user.getEmail()+","+user.getPhone()+","+user.getAddress()+","+user.getStatus()+","+user.getCode());
          template.update(sql,user.getUname(),user.getPassword(),user.getSex(),user.getEmail(),user.getPhone(),user.getAddress(),user.getStatus(),user.getCode());
 
     }
@@ -20,16 +20,20 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findUserByEmailAndPassword(String email,String password) {
         String sql="select * from tab_user where email=? and password=?";
-        User user1=template.queryForObject(sql,new BeanPropertyRowMapper<>(User.class),email,password);
-        return user1;
+        try {
+            User user1=template.queryForObject(sql,new BeanPropertyRowMapper<>(User.class),email,password);
+            return user1;
+        }catch (Exception e){
+            return null;
+        }
+
     }
 
     @Override
-    public User checkUser(String uname) {
+    public boolean checkUser(String uname) {
         String sql="select * from tab_user where uname=?";
-        User user = template.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), uname);
-        System.out.println(user.getUname()+user.getEmail());
-        return user;
+        List list1=template.query(sql, new BeanPropertyRowMapper<>(User.class), uname);
+        return list1.size()==0;
     }
 
     @Override

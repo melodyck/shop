@@ -34,7 +34,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			$.validator.addMethod("checkEmail",function (value) {
 				var flag=false;
             $.ajax({
-				url:"/shop/checkEmail",
+				url:"/shop/user/checkEmail",
 				data:{email: value},
 				success:function (result) {
                    flag=result.flag;
@@ -49,8 +49,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			$.validator.addMethod("checkUser", function (value) {
 				var flag = false;
 				$.ajax({
-					url : "/shop/checkUser",
-					data : {username : value},
+					url : "/shop/user/checkUser",
+					data : {uname : value},
 					success : function (result) {
 						flag = result.flag;
 					},
@@ -339,7 +339,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<p class="est animated wow zoomIn" data-wow-delay=".5s">创建属于你的帐号,开启一场购物之旅</p>
 			<div class="login-form-grids">
 				<h5 class="animated wow slideInUp" data-wow-delay=".5s">个人信息</h5>
-				<form class="animated wow slideInUp form-horizontal" id="registerForm" data-wow-delay=".5s" action="/shop/register" method="post">
+				<form class="animated wow slideInUp form-horizontal" id="registerForm" data-wow-delay=".5s" action="/shop/user/register" method="post">
 					<input type="text" placeholder="请输入用户名" name="uname">
 					<input type="text" placeholder="请输入电话号码" name="phone">
 					<input type="text" placeholder="请输入收件地址" name="address">

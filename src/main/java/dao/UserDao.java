@@ -7,7 +7,7 @@ public interface UserDao {
 
     User findUserByEmailAndPassword(String email,String password);
 
-    User checkUser(String uname);
+    boolean checkUser(String uname);
     boolean checkEmail(String email);
     int updateUserStatus(String code);
 

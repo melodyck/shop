@@ -20,21 +20,22 @@ public class UserServiceImpl implements UserService {
             ud.registUser(user);
             return true;
         } catch (Exception e) {
-            System.out.println("插入出错了");
+            //System.out.println("插入出错了");
             return false;
         }
 
     }
 
     @Override
-    public User login(String email, String password) {
-        User resultUser = ud.findUserByEmailAndPassword(email, password);
+    public User login(String email, String password) throws Exception {
+            User resultUser = ud.findUserByEmailAndPassword(email, password);
+
         if (resultUser == null) {
             //用户不存在
-            return null;
+           throw new Exception("用户不存在");
         } else if (resultUser.getStatus().equals("N")) {
             //未激活
-            return null;
+            throw new Exception("账户未激活");
         } else {
             return resultUser;
         }
@@ -43,12 +44,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUser(String uname) {
-        try {
-            ud.checkUser(uname);
-            return false;
-        } catch (Exception e) {
-            return true;
-        }
+
+        return  ud.checkUser(uname);
+
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+
+        return ud.checkEmail(email);
 
     }
 
@@ -62,10 +66,5 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public boolean checkEmail(String email) {
 
-        return ud.checkEmail(email);
-
-    }
 }
