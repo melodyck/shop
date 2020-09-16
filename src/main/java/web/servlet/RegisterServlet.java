@@ -26,23 +26,26 @@ public class RegisterServlet extends HttpServlet {
 //        entries.stream().forEach(entry -> {
 //            System.out.println(entry.getKey() + ":" + entry.getValue());
 //        });
-        User user=new User();
-        UserService us=new UserServiceImpl();
+        User user = new User();
+        UserService us = new UserServiceImpl();
         try {
-            BeanUtils.populate(user,map);
+            BeanUtils.populate(user, map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        System.out.println(user.getEmail()+user.getPassword()+user.getUname()+user.getSex());
+        System.out.println(user.getEmail() + user.getPassword() + user.getUname() + user.getSex());
         boolean flag = us.registUser(user);
         System.out.println(flag);
-        ResultInfo info=new ResultInfo();
+//        if(flag){
+//           request.getRequestDispatcher(request.getContextPath()+"/login.html").forward(request,response);
+//        }
+        ResultInfo info = new ResultInfo();
         info.setFlag(flag);
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         response.setContentType("application/json;charset=utf-8");
-        mapper.writeValue(response.getOutputStream(),info);
+        mapper.writeValue(response.getOutputStream(), info);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

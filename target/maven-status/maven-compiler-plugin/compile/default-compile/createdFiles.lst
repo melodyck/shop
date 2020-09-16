@@ -1,8 +1,0 @@
-entity\Label.class
-web\servlet\LabelServlet.class
-service\impl\LabelServiceImpl.class
-dao\LabelDao.class
-web\servlet\GoodsSearchServlet.class
-service\LabelService.class
-dao\impl\LabelDaoImpl.class
-web\servlet\BaseServlet.class
