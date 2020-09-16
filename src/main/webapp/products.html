@@ -50,80 +50,181 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		$(function () {
 			var lid=location.search.split("=")[1];
 			// 2.发送异步请求分页查询
-			load(lid,1);
+			load(lid);
 
 		});
 		function load(lid, currentPage) {
-			$.get('/Shop/goods/queryPage',
+			$.get('/Shop/Goods/queryPage',
 					{lid: lid, currentPage: currentPage},
 					function(pb) {
 						// pb就是pageBean对象的json格式
 						// 1.将totalCount更新
-						$("#totalCount").html(pb.totalCount);
-						// 2.将totalPage更新
-						$("#totalPage").html(pb.totalPage);
+
 						// 3.更新页码 - 首页-上一页-末页-下一页
-						// 前2 后2
-						var start = pb.currentPage - 2;
-						var end = pb.currentPage + 2;
+						// 前5 后4
+						var start = pb.currentPage - 5;
+						var end = pb.currentPage + 4;
 						// 前面不足5个, 后面补齐
 						if (start < 1) {
 							start = 1;
-							end = start + 4;
+							end = start + 9;
 						}
+						// 后面不足4个, 前面补齐
 						if (end > pb.totalPage) {
 							end = pb.totalPage;
-							start = end - 4;
+							start = end - 9;
 						}
-						// 总页数不足5个
-						if (pb.totalPage < 5) {
+						// 总页数不足10个
+						if (pb.totalPage < 10) {
 							start = 1;
 							end = pb.totalPage
 						}
-					// <nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
-					// 			<ul class="pagination paging">
-					// 			<li>
-					// 			<a href="#" aria-label="Previous">
-					// 			<span aria-hidden="true">&laquo;</span>
-					// 	</a>
-					// 	</li>
-					// 	<li class="active">
-						// 	<a href="#">1<span class="sr-only">(current)</span></a></li>
-					// 	<li><a href="#">2</a></li>
-					// 	<li><a href="#">3</a></li>
-					// 	<li><a href="#">4</a></li>
-					// 	<li><a href="#">5</a></li>
-					// 	<li>
-					// 	<a href="#" aria-label="Next">
-					// 			<span aria-hidden="true">&raquo;</span>
-					// 	</a>
-					// 	</li>
-					// 	</ul>
-					// 	</nav>
-						var lis='';
-						// var firstPage='<a href="javascript:load()">1<span class="sr-only">(current)</span></a></li>';
-						var beforeNum=pb.currentPage-1;
-						if(beforeNum<1){beforeNum=1;}
-						var beforePage='<li><a href="javascript:load('+lid+','+beforeNum+')" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>';
+
+						var lis = "";
+						var firstPage = '<li><a href="javascript:load('+lid+',1)">首页</a></li>';
+						var beforeNum = pb.currentPage - 1;
+						if (beforeNum < 1) {
+							beforeNum = 1;
+						}
+						var beforePage = '<li class="threeword"><a href="javascript:load('+lid+', '+beforeNum+')">上一页</a></li>';
+						lis += firstPage;
 						lis += beforePage;
-						for(var i=start;i<end;i++){
-							var li='';
+						for (var i = start; i <= end; i++) {
+							var li;
 							if (i == pb.currentPage) {
-								li = '<li  onclick="load('+lid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
+								li = '<li  class="active" onclick="load('+lid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
 							} else {
-								li = '<li  onclick="load('+lid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
+								li = '<li   onclick="load('+lid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
 							}
 							lis += li;
 						}
 						var nextNum=pb.currentPage+1;
 						if(nextNum>pb.totalPage){nextNum=pb.totalPage;}
-						var nextPage = '<li><a href="javascript:load('+lid+','+nextNum+')" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>';
-						lis+=nextPage;
+						var nextPage = '<li class="threeword"><a href="javascript:load('+lid+','+nextNum+')">下一页</a></li>';
+						var lastPage = '<li class="threeword"><a href="javascript:load('+lid+','+pb.totalPage+')">末页</a></li>';
+						lis += nextPage;
+						lis += lastPage;
 						$("#page").html(lis);
-						var lislist='';
 
-			})};
+
+						var divlist1='';
+						var divlist2='';
+						var divlist3='';
+						var divlist4='';
+						var divlist5='';
+						var divlist6='';
+						var divlist7='';
+						var divlist8='';
+						var divlist9='';
+						var leftdivlist='';
+
+						for (var i=0;i<pb.list.length;i++){
+							var good = pb.list[i];
+							var div='<div class="new-collections-grid1-image">\n' +
+									'\t\t\t\t\t\t\t\t<a href="single.html?gid='+good.gid+'" class="product-image"><img src="'+good.gimage+'" alt=" " class="img-responsive"></a>\n' +
+									'\t\t\t\t\t\t\t\t<div class="new-collections-grid1-image-pos products-right-grids-pos">\n' +
+									'\t\t\t\t\t\t\t\t\t<a href="single.html?gid='+good.gid+'">Quick View</a>\n' +
+									'\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t<div class="new-collections-grid1-right products-right-grids-pos-right">\n' +
+									'\t\t\t\t\t\t\t\t\t<div class="rating">\n' +
+									'\t\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<img src="images/2.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<img src="images/2.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<img src="images/2.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<img src="images/1.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<img src="images/1.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t\t<div class="clearfix"> </div>\n' +
+									'\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t<h4><a href="single.html?gid='+good.gid+'">'+good.gname+'</a></h4>\n' +
+									'\t\t\t\t\t\t\t<p>Vel illum qui dolorem.</p>\n' +
+									'\t\t\t\t\t\t\t<div class="simpleCart_shelfItem products-right-grid1-add-cart">\n' +
+									'\t\t\t\t\t\t\t\t<p><i>$'+good.price*2+'</i> <span class="item_price">$'+good.price+'</span><a class="item_add" href="#">add to cart </a></p>\n' +
+									'\t\t\t\t\t\t\t</div>';
+
+							var leftdiv='<div class="new-products-grid">\n' +
+									'\t\t\t\t\t\t\t<div class="new-products-grid-left">\n' +
+									'\t\t\t\t\t\t\t\t<a href="single.html?gid='+good.gid+'"><img src="'+good.gimage+'" alt=" " class="img-responsive" /></a>\n' +
+									'\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t<div class="new-products-grid-right">\n' +
+									'\t\t\t\t\t\t\t\t<h4><a href="single.html">'+good.gname+'</a></h4>\n' +
+									'\t\t\t\t\t\t\t\t<div class="rating">\n' +
+									'\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t<img src="images/2.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t<img src="images/2.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t<img src="images/2.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t<img src="images/1.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t<div class="rating-left">\n' +
+									'\t\t\t\t\t\t\t\t\t\t<img src="images/1.png" alt=" " class="img-responsive">\n' +
+									'\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t<div class="clearfix"> </div>\n' +
+									'\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t<div class="simpleCart_shelfItem new-products-grid-right-add-cart">\n' +
+									'\t\t\t\t\t\t\t\t\t<p> <span class="item_price">$'+good.price+'</span><a class="item_add" href="#">add to cart </a></p>\n' +
+									'\t\t\t\t\t\t\t\t</div>\n' +
+									'\n' +
+									'\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t<div class="clearfix"> </div>\n' +
+									'\t\t\t\t\t\t</div>';
+
+
+
+							switch (i) {
+										case 0:divlist1+=div ;break;
+										case 1:divlist2+=div ;break;
+										case 2:divlist3+=div ;break;
+										case 3:divlist4+=div ;break;
+										case 4:divlist5+=div ;break;
+										case 5:divlist6+=div ;break;
+										case 6:divlist7+=div ;break;
+										case 7:divlist8+=div ;break;
+										case 8:divlist9+=div ;break;
+										case 9:leftdivlist+=leftdiv ;break;
+										case 10: leftdivlist+=leftdiv;break;
+										default:leftdivlist+=leftdiv ;
+
+									}
+
+						}
+
+						$("#list1").html(divlist1);
+						$("#list2").html(divlist2);
+						$("#list3").html(divlist3);
+						$("#list4").html(divlist4);
+						$("#list5").html(divlist5);
+						$("#list6").html(divlist6);
+						$("#list7").html(divlist7);
+						$("#list8").html(divlist8);
+						$("#list9").html(divlist9);
+						$("#leftlist").html(leftdivlist);
+						if(pb.list.length<=9){
+							$("#leftliststart").css("display", "none");
+						}
+						if(pb.currentPage<pb.totalPage){
+							$("#leftliststart").css("display", "block");
+						}
+
+			},'json'
+			)};
 	</script>
+
 <!-- //animation-effect -->
 </head>
 	
@@ -175,9 +276,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="row">
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown" id="labellist1">
-												<h6>Men's Wear</h6>
-												<li><a href="products.html">Clothing</a></li>
-												<li><a href="products.html">Wallets</a></li>
+<!--												<h6>Men's Wear</h6>-->
+<!--												<li><a href="products.html">Clothing</a></li>-->
+<!--												<li><a href="products.html">Wallets</a></li>-->
 <!--												<li><a href="products.html">Shoes</a></li>-->
 <!--												<li><a href="products.html">Watches</a></li>-->
 <!--												<li><a href="products.html">Accessories</a></li>-->
@@ -185,9 +286,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										</div>
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown" id="labellist2">
-												<h6>Women's Wear</h6>
-												<li><a href="products.html">Clothing</a></li>
-												<li><a href="products.html">Wallets,Bags</a></li>
+<!--												<h6>Women's Wear</h6>-->
+<!--												<li><a href="products.html">Clothing</a></li>-->
+<!--												<li><a href="products.html">Wallets,Bags</a></li>-->
 <!--												<li><a href="products.html">Footwear</a></li>-->
 <!--												<li><a href="products.html">Watches</a></li>-->
 <!--												<li><a href="products.html">Accessories</a></li>-->
@@ -197,10 +298,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										</div>
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown" id="labellist3">
-												<h6>Kid's Wear</h6>
+<!--												<h6>Kid's Wear</h6>-->
 <!--												<li><a href="products.html">Kids Home Fashion</a></li>-->
-												<li><a href="products.html">Boy's Clothing</a></li>
-												<li><a href="products.html">Girl's Clothing</a></li>
+<!--												<li><a href="products.html">Boy's Clothing</a></li>-->
+<!--												<li><a href="products.html">Girl's Clothing</a></li>-->
 <!--												<li><a href="products.html">Shoes</a></li>-->
 <!--												<li><a href="products.html">Brand Stores</a></li>-->
 											</ul>
@@ -350,100 +451,107 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</ul>
 					</ul>
 				</div>
-				<div class="new-products animated wow slideInUp" data-wow-delay=".5s">
+				<div class="new-products animated wow slideInUp" data-wow-delay=".5s" id="leftliststart">
+
 					<h3>New Products</h3>
-					<div class="new-products-grids">
-						<div class="new-products-grid">
-							<div class="new-products-grid-left">
-								<a href="single.html"><img src="images/6.jpg" alt=" " class="img-responsive" /></a>
-							</div>
-							<div class="new-products-grid-right">
-								<h4><a href="single.html">occaecat cupidatat</a></h4>
-								<div class="rating">
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
-									</div>
-									<div class="clearfix"> </div>
-								</div>
-								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-									<p> <span class="item_price">$180</span><a class="item_add" href="#">add to cart </a></p>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="new-products-grid">
-							<div class="new-products-grid-left">
-								<a href="single.html"><img src="images/26.jpg" alt=" " class="img-responsive" /></a>
-							</div>
-							<div class="new-products-grid-right">
-								<h4><a href="single.html">eum fugiat quo</a></h4>
-								<div class="rating">
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
-									</div>
-									<div class="clearfix"> </div>
-								</div>
-								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-									<p> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="new-products-grid">
-							<div class="new-products-grid-left">
-								<a href="single.html"><img src="images/11.jpg" alt=" " class="img-responsive" /></a>
-							</div>
-							<div class="new-products-grid-right">
-								<h4><a href="single.html">officia deserunt</a></h4>
-								<div class="rating">
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
-									</div>
-									<div class="clearfix"> </div>
-								</div>
-								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-									<p> <span class="item_price">$259</span><a class="item_add" href="#">add to cart </a></p>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
+					<div class="new-products-grids" id="leftlist">
+<!--						<div class="new-products-grid">-->
+<!--							<div class="new-products-grid-left">-->
+<!--								<a href="single.html"><img src="images/6.jpg" alt=" " class="img-responsive" /></a>-->
+<!--							</div>-->
+<!--							<div class="new-products-grid-right">-->
+<!--								<h4><a href="single.html">occaecat cupidatat</a></h4>-->
+<!--								<div class="rating">-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="clearfix"> </div>-->
+<!--								</div>-->
+<!--								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">-->
+<!--									<p> <span class="item_price">$180</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--								</div>-->
+
+<!--							</div>-->
+<!--							<div class="clearfix"> </div>-->
+<!--						</div>-->
+
+
+<!--						<div class="new-products-grid">-->
+<!--							<div class="new-products-grid-left">-->
+
+<!--								<a href="single.html"><img src="images/26.jpg" alt=" " class="img-responsive" /></a>-->
+<!--							</div>-->
+<!--							<div class="new-products-grid-right">-->
+<!--								<h4><a href="single.html">eum fugiat quo</a></h4>-->
+<!--								<div class="rating">-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="clearfix"> </div>-->
+<!--								</div>-->
+<!--								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">-->
+<!--									<p> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="clearfix"> </div>-->
+<!--						</div>-->
+
+<!--						<div class="new-products-grid">-->
+<!--							<div class="new-products-grid-left">-->
+<!--								<a href="single.html"><img src="images/11.jpg" alt=" " class="img-responsive" /></a>-->
+<!--							</div>-->
+<!--							<div class="new-products-grid-right">-->
+<!--								<h4><a href="single.html">officia deserunt</a></h4>-->
+<!--								<div class="rating">-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="rating-left">-->
+<!--										<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--									</div>-->
+<!--									<div class="clearfix"> </div>-->
+<!--								</div>-->
+<!--								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">-->
+<!--									<p> <span class="item_price">$259</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="clearfix"> </div>-->
+<!--						</div>-->
 					</div>
+
 				</div>
 				<div class="men-position animated wow slideInUp" data-wow-delay=".5s">
 					<a href="single.html"><img src="images/27.jpg" alt=" " class="img-responsive" /></a>
@@ -484,336 +592,341 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 					</div>
 				</div>
-				<div class="products-right-grids-bottom">
-					<div class="col-md-4 products-right-grids-bottom-grid">
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/19.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Formal Shirt</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$325</i> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
+
+				<div class="products-right-grids-bottom" >
+					<div class="col-md-4 products-right-grids-bottom-grid" >
+
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list1">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/19.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Formal Shirt</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$325</i> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
 						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/21.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Casual Shoes</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$325</i> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
+
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list2">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/21.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Casual Shoes</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$325</i> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
 						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/24.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Blazer</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$585</i> <span class="item_price">$489</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 products-right-grids-bottom-grid">
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/7.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Formal Shirt</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$280</i> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
-						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/22.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Casual Shoes</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$500</i> <span class="item_price">$480</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
-						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/25.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Blazer</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$585</i> <span class="item_price">$489</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list3">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/24.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Blazer</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$585</i> <span class="item_price">$489</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
 						</div>
 					</div>
-					<div class="col-md-4 products-right-grids-bottom-grid">
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/20.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Formal Shirt</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$305</i> <span class="item_price">$280</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
+					<div class="col-md-4 products-right-grids-bottom-grid" >
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list4">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/7.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Formal Shirt</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$280</i> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
 						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/23.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Casual Shoes</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$389</i> <span class="item_price">$299</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list5">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/22.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Casual Shoes</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$500</i> <span class="item_price">$480</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
 						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/26.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">Quick View</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">Blazer</a></h4>
-							<p>Vel illum qui dolorem.</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$585</i> <span class="item_price">$489</span><a class="item_add" href="#">add to cart </a></p>
-							</div>
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list6">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/25.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Blazer</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$585</i> <span class="item_price">$489</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
+						</div>
+					</div>
+					<div class="col-md-4 products-right-grids-bottom-grid" >
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list7">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/20.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Formal Shirt</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$305</i> <span class="item_price">$280</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
+						</div>
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list8">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/23.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Casual Shoes</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$389</i> <span class="item_price">$299</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
+						</div>
+						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s" id="list9">
+<!--							<div class="new-collections-grid1-image">-->
+<!--								<a href="single.html" class="product-image"><img src="images/26.jpg" alt=" " class="img-responsive"></a>-->
+<!--								<div class="new-collections-grid1-image-pos products-right-grids-pos">-->
+<!--									<a href="single.html">Quick View</a>-->
+<!--								</div>-->
+<!--								<div class="new-collections-grid1-right products-right-grids-pos-right">-->
+<!--									<div class="rating">-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/2.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="rating-left">-->
+<!--											<img src="images/1.png" alt=" " class="img-responsive">-->
+<!--										</div>-->
+<!--										<div class="clearfix"> </div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<h4><a href="single.html">Blazer</a></h4>-->
+<!--							<p>Vel illum qui dolorem.</p>-->
+<!--							<div class="simpleCart_shelfItem products-right-grid1-add-cart">-->
+<!--								<p><i>$585</i> <span class="item_price">$489</span><a class="item_add" href="#">add to cart </a></p>-->
+<!--							</div>-->
 						</div>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
 				<nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
 				  <ul class="pagination paging" id="page">
-					<li>
-					  <a href="#" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-					  </a>
-					</li>
+<!--					  <li><a href="">首页</a></li>-->
+<!--					<li>-->
+<!--					  <a href="#" aria-label="Previous">-->
+<!--						<span aria-hidden="true">&laquo;</span>-->
+<!--					  </a>-->
+<!--					</li>-->
 <!--					<li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>-->
-					  <li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li>
-					  <a href="#" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-					  </a>
-					</li>
+<!--					<li><a href="#">2</a></li>-->
+<!--					<li><a href="#">3</a></li>-->
+<!--					<li><a href="#">4</a></li>-->
+<!--					<li><a href="#">5</a></li>-->
+<!--					<li>-->
+<!--					  <a href="#" aria-label="Next">-->
+<!--						<span aria-hidden="true">&raquo;</span>-->
+<!--					  </a>-->
+<!--					</li>-->
 				  </ul>
 				</nav>
 			</div>
 			<div class="clearfix"> </div>
 		</div>
 	</div>
+
+
 <!-- //breadcrumbs -->
 <!-- footer -->
 	<div class="footer">
@@ -832,7 +945,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 567</li>
 					</ul>
 				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
+				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s" id="lislist">
 					<h3>Flickr Posts</h3>
 					<div class="footer-grid-left">
 						<a href="single.html"><img src="images/13.jpg" alt=" " class="img-responsive" /></a>
@@ -906,5 +1019,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 	</div>
 <!-- //footer -->
-</body>
+
+
+		</body>
 </html>

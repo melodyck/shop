@@ -9,10 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+@WebServlet("/Goods/*")
 public class GoodsServlet extends BaseServlet {
-    @WebServlet("/Goods/*")
-    public class RouteServlet extends BaseServlet {
+
         private GoodsService GoodsService = new GoodsServiceImpl();
 
         public void queryPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -27,7 +26,7 @@ public class GoodsServlet extends BaseServlet {
             }
             String _pageSize = request.getParameter("pageSize");
             // 处理_pageSize
-            int pageSize = 9;
+            int pageSize = 12;
             if (_pageSize != null && _pageSize.length() > 0) {
                 pageSize = Integer.parseInt(_pageSize);
             }
@@ -36,5 +35,14 @@ public class GoodsServlet extends BaseServlet {
             // 3.将结果序列化为json返回
             outputJson(request, response, page);
         }
+    public void single(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 1.接收参数gid
+        int gid = Integer.parseInt(request.getParameter("gid"));
+        // 2.调用service获得对象
+        Goods goods = GoodsService.findOne(gid);
+        // 3.序列化返回
+        outputJson(request,response, goods);
     }
-}
+
+    }
+
