@@ -21,16 +21,239 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 <!-- for bootstrap working -->
 	<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
-<!-- //for bootstrap working -->
-<link href='http://fonts.useso.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.useso.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
 <!-- animation-effect -->
 <link href="css/animate.min.css" rel="stylesheet"> 
 <script src="js/wow.min.js"></script>
 <script>
  new WOW().init();
 </script>
+	<script src="js/getParameter.js"></script>
 <!-- //animation-effect -->
+	<script>
+		$(function () {
+			var uid = getParameter("uid");
+			load(uid);
+		})
+		//页面动态加载
+		function load(uid, currentPage, pageSize) {
+			$.post(
+					"/shop/cart/findByPage",
+					{uid : uid, currentPage : currentPage, pageSize : pageSize},
+					function (pageBean) {
+						console.log("load");
+						//记录总条数
+						var totalCount = pageBean.totalCount;
+						//产品数标签
+						$("#productNum").html("您的购物车空空如也哦,尽情选购吧~")
+
+						//当前页数
+						var pageNow = pageBean.currentPage;
+						console.log(pageNow)
+						//表头
+						var headLabel = "\t<thead>\n" +
+								"\t\t\t\t\t\t<tr>\n" +
+								"\t\t\t\t\t\t\t<th>序号</th>\t\n" +
+								"\t\t\t\t\t\t\t<th>实物图</th>\n" +
+								"\t\t\t\t\t\t\t<th>数量</th>\n" +
+								"\t\t\t\t\t\t\t<th>商品名</th>\n" +
+								"\t\t\t\t\t\t\t<th>运费</th>\n" +
+								"\t\t\t\t\t\t\t<th>价格</th>\n" +
+								"\t\t\t\t\t\t\t<th>移除商品</th>\n" +
+								"\t\t\t\t\t\t</tr>\n" +
+								"\t\t\t\t\t</thead>"
+						//表内容
+						var list = "";
+						var cartList = pageBean.list;
+						if (totalCount != 0){
+							//产品数标签
+							$("#productNum").html("您的购物车包涵: <span>"+ pageBean.totalCount +" 种商品</span>")
+							for (var i = 0; i < cartList.length; i++) {
+								var cart = cartList[i];
+								//商品
+								var goods = cart.goods;
+								list += "\t\t\t\t\t<tr class=\"rem" + cart.gid + "\">\n" +
+										"\t\t\t\t\t\t<td class=\"invert\">" + (i + 1) + "</td>\n" +
+										"\t\t\t\t\t\t<td class=\"invert-image\"><a href=\"single.html\"><img src=\"images/22.jpg\" alt=\" \" class=\"img-responsive\" /></a></td>\n" +
+										"\t\t\t\t\t\t<td class=\"invert\">\n" +
+										"\t\t\t\t\t\t\t <div class=\"quantity\"> \n" +
+										"\t\t\t\t\t\t\t\t<div class=\"quantity-select\">                           \n" +
+										"\t\t\t\t\t\t\t\t\t<div class=\"entry value-minus\" onclick=\"reduceNum(" + cart.uid + ", " + cart.gid + ", " + cart.number + ", "+ pageNow +","+ cartList.length +")\">&nbsp;</div>\n" +
+										"\t\t\t\t\t\t\t\t\t<div class=\"entry value\"><span>" + cart.number + "</span></div>\n" +
+										"\t\t\t\t\t\t\t\t\t<div class=\"entry value-plus active\" onclick=\"addNum(" + cart.uid + ", " + cart.gid + "," + cart.number + ", "+ pageNow +")\">&nbsp;</div>\n" +
+										"\t\t\t\t\t\t\t\t</div>\n" +
+										"\t\t\t\t\t\t\t</div>\n" +
+										"\t\t\t\t\t\t</td>\n" +
+										"\t\t\t\t\t\t<td class=\"invert\">test</td>\n" +
+										"\t\t\t\t\t\t<td class=\"invert\">￥5.00</td>\n" +
+										"\t\t\t\t\t\t<td class=\"invert\">￥" + 999 + "</td>\n" +
+										"\t\t\t\t\t\t<td class=\"invert\">\n" +
+										"\t\t\t\t\t\t\t<div class=\"rem\">\n" +
+										"\t\t\t\t\t\t\t\t<div class=\"close"+ (i + 1) +"\" onclick=\"remove(" + cart.uid + ", " + cart.gid + ", " + pageNow + ", "+ cartList.length +")\"> </div>\n" +
+										"\t\t\t\t\t\t\t</div>" +
+										"\t\t\t\t\t\t</td>\n" +
+										"\t\t\t\t\t</tr>";
+							}
+							$("#cartTable").html(headLabel + list);
+							//分页
+							var prePage = "<li><a href=\"javascript:load("+cart.uid+","+(pageNow - 1)+");\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span></a></li>";
+							var pageList = "";
+							//只显示当前页面前2页和后2页共5页
+							var totalPage = pageBean.totalPage;
+							$("#totalPage").html(totalPage);
+							$("#totalCount").html(pageBean.totalCount);
+							var start = pageNow - 2;
+							var end = pageNow + 2;
+
+							//  /travel/route/route_list.html?cid=cid&currentPage=currentPage&pageSize=pageSize
+							if (start < 1){
+								//1.当前页数小于6时显示前五页
+								start = 1;
+								end = 5;
+							}else if (start > totalPage - 5){
+								//2.剩余页数小于5页时显示最后五页
+								start = totalPage - 4;
+								end = totalPage
+							}
+							if (totalPage < 5){
+								start = 1;
+								end =  totalPage;
+							}
+							for (var i = start; i <= end; i++){
+								if (i == pageNow){
+									//当前页标高亮 (如果condition是中文uri中当做参数需要转码,方法中当做参数需要加引号)
+									pageList += "<li onclick=\"load("+cart.uid+","+i+");\" class='active'><a href=\"javascript:load("+cart.uid+","+i+");\">"+i+"</a></li>"
+								}else {
+									pageList += "<li onclick=\"load("+cart.uid+","+i+");\"><a href=\"javascript:load("+cart.uid+","+i+");\">"+i+"</a></li>"
+								}
+							}
+							var nextPage = "<li><a href=\"javascript:load("+cart.uid+","+(pageNow + 1)+");\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
+
+							//已经是首页或者尾页
+							if (pageNow <= 1){
+								prePage = "<li><a href=\"javascript:load("+cart.uid+","+pageNow+");\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span></a></li>";
+							}
+							if (pageNow >= totalPage){
+								nextPage = "<li><a href=\"javascript:load("+cart.uid+","+pageNow+");\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
+							}
+							$("#pageIndex").html(prePage + pageList + nextPage);
+
+
+
+						}else {
+							//如果表中无内容则清空html
+							$("#cartTable").html("");
+							$("#pageIndex").html("");
+							//隐藏页数和条数标签
+							$("#countBar").hide();
+							//隐藏账单
+							$("#countDiv").hide();
+						}
+						//更新右上角购物车物品总数和账单
+						findCount(uid);
+						//如果购物车是空的则隐藏账单
+					},
+					"json"
+			)
+		}
+		//移除商品
+		function remove(uid, gid, currentPage, cartNum) {
+			$("[class=\"rem" + gid + "\"]").fadeOut("slow", function () {
+				console.log("fadeOut");
+				if (cartNum < 2 && currentPage > 1){
+					$.get(
+							"/shop/cart/removeOne",
+							{uid : uid, gid : gid},
+							function () {
+								load(uid, currentPage - 1);
+							},
+							"json"
+					)
+				}else {
+					$.get(
+							"/shop/cart/removeOne",
+							{uid : uid, gid : gid},
+							function () {
+								load(uid, currentPage);
+							},
+							"json"
+					)
+				}
+			});
+
+
+		}
+		//商品数量增减
+		function addNum(uid ,gid, number, currentPage){
+			$.get(
+					"/shop/cart/addNum",
+					{uid : uid, gid : gid, number : number},
+					function () {
+						load(uid, currentPage);
+					},
+					"json"
+			)
+
+		}
+		function reduceNum(uid ,gid, number, currentPage, cartNum){
+			if (number > 1){
+				$.get(
+						"/shop/cart/reduceNum",
+						{uid : uid, gid : gid, number : number},
+						function () {
+							load(uid, (currentPage + 1));
+						},
+						"json"
+				)
+			}else{
+				remove(uid, gid, currentPage, cartNum);
+			}
+		}
+		//刷新 物品数 总价 账单
+		function findCount(uid) {
+			$.get(
+					"/shop/cart/findAll",
+					{uid : uid},
+					function (cartList) {
+						//购物车商品总数
+						var count = 0;
+						//购物车商品总价
+						var total = 0;
+						//账单列表
+						var accout = "";
+						if (cartList != null){
+							for (var i = 0;  i < cartList.length ; i++){
+								var cart = cartList[i];
+								var goods = cart.goods;
+								count += cart.number;
+								//单类商品总价
+								// var price = (cart.goods.price * cart.number);
+								// total += price;
+								accout += "<li> + goods.gname + <i>-</i> <span>$ + price + .00 </span></li>";
+							}
+							var carriage = "<li>总运费 <i>-</i> <span>$"+ (cartList.length * 5) +".00</span></li>"
+							var totalPrice = "<li style='font-size: 1em; color: #212121; font-weight: 600; padding: 1em 0; border-top: 1px solid #DDD; border-bottom: 1px solid #DDD; margin: 2em 0 0;'>总金额 <i>-</i> <span>$+ total +.00</span></li>"
+							$("#account").html(accout + carriage + totalPrice)
+						}
+						$("#simpleCart_quantity").html(count);
+						$("#totalPrice").html(total);
+					},
+					"json"
+			)
+		}
+
+		//清空购物车
+		function clearCart(uid) {
+			$.get(
+					"/shop/cart/clearCart",
+					{uid : uid},
+					function () {
+						load(uid);
+					},
+					"json"
+			)
+		}
+	</script>
 </head>
 	
 <body>
@@ -73,7 +296,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 					<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
 						<ul class="nav navbar-nav">
-							<li><a href="index.html">Home</a></li>	
+							<li><a href="index.html">Home</a></li>
 							<!-- Mega Menu -->
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Products <b class="caret"></b></a>
@@ -181,13 +404,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="cart box_1">
 						<a href="checkout.html">
 							<h3> <div class="total">
-								<span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)</div>
+								<span class="simpleCart_total" id="totalPrice"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)</div>
 								<img src="images/bag.png" alt="" />
 							</h3>
 						</a>
-						<p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+						<p><a href="javascript:clearCart(1);;" class="simpleCart_empty">Empty Cart</a></p>
 						<div class="clearfix"> </div>
-					</div>	
+					</div>
 				</div>
 				<div class="clearfix"> </div>
 			</div>
@@ -207,131 +430,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- checkout -->
 	<div class="checkout">
 		<div class="container">
-			<h3 class="animated wow slideInLeft" data-wow-delay=".5s">Your shopping cart contains: <span>3 Products</span></h3>
+			<h3 class="animated wow slideInLeft" data-wow-delay=".5s" id="productNum">你的购物车包涵: <span>0 种商品</span></h3>
 			<div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
-				<table class="timetable_sub">
-					<thead>
-						<tr>
-							<th>SL No.</th>	
-							<th>Product</th>
-							<th>Quality</th>
-							<th>Product Name</th>
-							<th>Service Charges</th>
-							<th>Price</th>
-							<th>Remove</th>
-						</tr>
-					</thead>
-					<tr class="rem1">
-						<td class="invert">1</td>
-						<td class="invert-image"><a href="single.html"><img src="images/22.jpg" alt=" " class="img-responsive" /></a></td>
-						<td class="invert">
-							 <div class="quantity"> 
-								<div class="quantity-select">                           
-									<div class="entry value-minus">&nbsp;</div>
-									<div class="entry value"><span>1</span></div>
-									<div class="entry value-plus active">&nbsp;</div>
-								</div>
-							</div>
-						</td>
-						<td class="invert">Black Shoe</td>
-						<td class="invert">$5.00</td>
-						<td class="invert">$290.00</td>
-						<td class="invert">
-							<div class="rem">
-								<div class="close1"> </div>
-							</div>
-							<script>$(document).ready(function(c) {
-								$('.close1').on('click', function(c){
-									$('.rem1').fadeOut('slow', function(c){
-										$('.rem1').remove();
-									});
-									});	  
-								});
-						   </script>
-						</td>
-					</tr>
-					<tr class="rem2">
-						<td class="invert">2</td>
-						<td class="invert-image"><a href="single.html"><img src="images/30.jpg" alt=" " class="img-responsive" /></a></td>
-						<td class="invert">
-							 <div class="quantity"> 
-								<div class="quantity-select">                           
-									<div class="entry value-minus">&nbsp;</div>
-									<div class="entry value"><span>1</span></div>
-									<div class="entry value-plus active">&nbsp;</div>
-								</div>
-							</div>
-						</td>
-						<td class="invert">Centre Table</td>
-						<td class="invert">$5.00</td>
-						<td class="invert">$250.00</td>
-						<td class="invert">
-							<div class="rem">
-								<div class="close2"> </div>
-							</div>
-							<script>$(document).ready(function(c) {
-								$('.close2').on('click', function(c){
-									$('.rem2').fadeOut('slow', function(c){
-										$('.rem2').remove();
-									});
-									});	  
-								});
-						   </script>
-						</td>
-					</tr>
-					<tr class="rem3">
-						<td class="invert">3</td>
-						<td class="invert-image"><a href="single.html"><img src="images/11.jpg" alt=" " class="img-responsive" /></a></td>
-						<td class="invert">
-							 <div class="quantity"> 
-								<div class="quantity-select">                           
-									<div class="entry value-minus">&nbsp;</div>
-									<div class="entry value"><span>1</span></div>
-									<div class="entry value-plus active">&nbsp;</div>
-								</div>
-							</div>
-						</td>
-						<td class="invert">Stone Bangles</td>
-						<td class="invert">$5.00</td>
-						<td class="invert">$299.00</td>
-						<td class="invert">
-							<div class="rem">
-								<div class="close3"> </div>
-							</div>
-							<script>$(document).ready(function(c) {
-								$('.close3').on('click', function(c){
-									$('.rem3').fadeOut('slow', function(c){
-										$('.rem3').remove();
-									});
-									});	  
-								});
-						   </script>
-						</td>
-					</tr>
-								<!--quantity-->
-									<script>
-									$('.value-plus').on('click', function(){
-										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
-										divUpd.text(newVal);
-									});
 
-									$('.value-minus').on('click', function(){
-										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
-										if(newVal>=1) divUpd.text(newVal);
-									});
-									</script>
-								<!--quantity-->
-				</table>
+<!-- 购物车商品列表,使用ajax请求动态更新 -->
+				<table class="timetable_sub" id="cartTable"></table>
+
+<!-- 分页 -->
+				<nav class="numbering animated wow slideInRight" data-wow-delay=".5s" id="countBar">
+					<div class="page_num_inf">
+					共<span id="totalPage" style="color: #03a9f4">0</span>页<span id="totalCount" style="color: #03a9f4">0</span>条
+					</div>
+					<ul class="pagination paging" id="pageIndex">
+					</ul>
+				</nav>
 			</div>
 			<div class="checkout-left">	
-				<div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
-					<h4>Continue to basket</h4>
-					<ul>
-						<li>Product1 <i>-</i> <span>$250.00 </span></li>
-						<li>Product2 <i>-</i> <span>$290.00 </span></li>
-						<li>Product3 <i>-</i> <span>$299.00 </span></li>
-						<li>Total Service Charges <i>-</i> <span>$15.00</span></li>
-						<li>Total <i>-</i> <span>$854.00</span></li>
+				<div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s" id="countDiv">
+					<a href="/shop/cart/pay"><h4>点击结算</h4></a>
+					<ul id="account">
 					</ul>
 				</div>
 				<div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">

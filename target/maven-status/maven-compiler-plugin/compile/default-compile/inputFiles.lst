@@ -20,6 +20,7 @@ E:\ideaWorkplace\Shop\src\main\java\web\filter\CharchaterFilter.java
 E:\ideaWorkplace\Shop\src\main\java\web\servlet\BaseServlet.java
 E:\ideaWorkplace\Shop\src\main\java\web\servlet\FeedBackServlet.java
 E:\ideaWorkplace\Shop\src\main\java\service\impl\CartServiceImpl.java
+E:\ideaWorkplace\Shop\src\main\java\entity\GoodsPic.java
 E:\ideaWorkplace\Shop\src\main\java\entity\FeedbackMail.java
 E:\ideaWorkplace\Shop\src\main\java\entity\PageBean.java
 E:\ideaWorkplace\Shop\src\main\java\dao\impl\CartDaoImpl.java

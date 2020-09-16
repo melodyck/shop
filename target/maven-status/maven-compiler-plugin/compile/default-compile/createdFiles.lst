@@ -1,5 +1,6 @@
 dao\impl\MailDaoImpl.class
 dao\MailDao.class
+entity\GoodsPic.class
 service\FeedBackService.class
 entity\FeedbackMail.class
 web\servlet\BaseServlet.class

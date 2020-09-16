@@ -1,6 +1,7 @@
 package service;
 
 import entity.Cart;
+import entity.PageBean;
 
 import java.util.List;
 
@@ -9,6 +10,8 @@ public interface CartService {
     void deleteCartByUid(int uid);
     void addNum(Cart cart);
     void reduceNum(Cart cart);
+    Cart findCart(Cart cart);
     void insertCart(Cart cart);
     void deleteCart(Cart cart);
+    PageBean<Cart> findByPage(int uid, int currentPage, int pageSize);
 }
