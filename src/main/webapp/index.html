@@ -32,7 +32,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 	<script>
 		$(function () {
-			$.get('/Shop/label/findAll',{},function (data) {
+			$.get('/shop/label/findAll',{},function (data) {
 				var lis1='<h6>Men\'s Wear</h6>';
 				var lis2='<h6>Women\'s Wear</h6>';
 				var lis3='<h6>Kid\'s Wear</h6>';
@@ -46,7 +46,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$("#labellist2").html(lis2);
 				$("#labellist3").html(lis3);
 			},'json');
+
+
+
+			$.post(
+						"/shop/user/findUser",
+						{},
+						function (data) {
+							if(data.uname!=null){
+								//"<a href=\"#\"></a>
+								// var msg=data.uname<a href='/shop/user/logout'>logout</a>";
+								//"<a href=\"login.html\">login</a>"
+								//var logout = "<a href=\"login.html\">Logout</a>"
+								// $("#loginUser").html(msg);
+							  //指向loginoutServlet
+								var msg='<i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a  href="/shop/user/loginOut">欢迎回来,'+data.uname+'</a>';
+								$("#loginUser").html(msg);
+							}else{
+								var msg='<i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a  href="login.html">login</a>';
+								$("#loginUser").html(msg);
+							}
+
+						},"json"
+				);
+
 		});
+
+
 	</script>
 <!-- //animation-effect -->
 </head>
@@ -60,7 +86,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<ul>
 						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:syh_morar@163.ingstcom">syh_moringstar@163.com</a></li>
 						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 892</li>
-						<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">Login</a></li>
+						<li id="loginUser">
+							<i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a  href="login.html">Login</a>
+						</li>
 						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">Register</a></li>
 					</ul>
 				</div>

@@ -60,9 +60,7 @@ public class UserServlet extends BaseServlet {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        System.out.println(user.getEmail()+user.getPassword()+user.getUname()+user.getSex());
         boolean flag = us.registUser(user);
-        System.out.println(flag);
         if(flag){
           response.sendRedirect("/shop/ok.html");
         }else {
@@ -86,6 +84,7 @@ public class UserServlet extends BaseServlet {
             request.getSession().setAttribute("loginUser", user);
             info.setFlag(true);
         } catch (Exception e) {
+            System.out.println("kao");
             info.setFlag(false);
         }
 
@@ -95,16 +94,31 @@ public class UserServlet extends BaseServlet {
     }
 
 
-    protected void active(HttpServletRequest request, HttpServletResponse response)
+    public void active(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String code = request.getParameter("code");
         UserService us = new UserServiceImpl();
         boolean flag = us.active(code);
-        System.out.println("激活的flag:"+flag);
             if(flag){
               response.sendRedirect("/shop/login.html");
               }else{
                response.getWriter().write("激活失败");
              }
        }
+         //查询用户登录状态
+       public void findUser(HttpServletRequest request,HttpServletResponse response)
+           throws  ServletException,IOException{
+          User user=(User)request.getSession().getAttribute("loginUser");
+           ObjectMapper mapper = new ObjectMapper();
+           response.setContentType("application/json;charset=utf-8");
+           mapper.writeValue(response.getOutputStream(), user);
+       }
+
+    public void loginOut(HttpServletRequest request,HttpServletResponse response)
+            throws  ServletException,IOException{
+        request.getSession().removeAttribute("loginUser");
+       response.sendRedirect(request.getContextPath()+"/login.html");
+    }
+
+
 }
