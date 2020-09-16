@@ -12,6 +12,7 @@ E:\ideaWorkplace\Shop\src\main\java\entity\ResultInfo.java
 E:\ideaWorkplace\Shop\src\main\java\service\CartService.java
 E:\ideaWorkplace\Shop\src\main\java\web\servlet\LabelServlet.java
 E:\ideaWorkplace\Shop\src\main\java\entity\Cart.java
+E:\ideaWorkplace\Shop\src\main\java\web\servlet\GoodsSearchServlet.java
 E:\ideaWorkplace\Shop\src\main\java\util\UuidUtil.java
 E:\ideaWorkplace\Shop\src\main\java\web\servlet\CheckCodeServlet.java
 E:\ideaWorkplace\Shop\src\main\java\entity\Record.java

@@ -19,6 +19,19 @@ import java.util.Map;
 public class UserServlet extends BaseServlet {
     UserService us = new UserServiceImpl();
 
+    //查询用户登录状态
+    public void findUser(HttpServletRequest request,HttpServletResponse response) throws  ServletException,IOException{
+        User user=(User)request.getSession().getAttribute("loginUser");
+        ObjectMapper mapper = new ObjectMapper();
+        response.setContentType("application/json;charset=utf-8");
+        mapper.writeValue(response.getOutputStream(), user);
+    }
+    //删除session
+    public void logout(HttpServletRequest request,HttpServletResponse response) throws  ServletException,IOException{
+        request.getSession().removeAttribute("loginUser");
+        response.sendRedirect(request.getContextPath()+"/login.html");
+    }
+
     public void checkUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String uname = request.getParameter("uname");
@@ -26,7 +39,7 @@ public class UserServlet extends BaseServlet {
         boolean flag = us.checkUser(uname);
         ResultInfo info = new ResultInfo();
         info.setFlag(!flag);
-        outputJson(request,response, info);
+        writeVaule(response, info);
     }
 
     public void checkEmail(HttpServletRequest request, HttpServletResponse response)
@@ -36,7 +49,7 @@ public class UserServlet extends BaseServlet {
         boolean flag = us.checkEmail(email);
         ResultInfo info = new ResultInfo();
         info.setFlag(!flag);
-        outputJson(request,response, info);
+        writeVaule(response, info);
     }
 
 
@@ -64,17 +77,17 @@ public class UserServlet extends BaseServlet {
         } else {
             response.sendRedirect("/shop/ok.html");
         }
-        outputJson(request,response, info);
+        writeVaule(response, info);
     }
 
-    public void login(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         UserService us = new UserServiceImpl();
         ResultInfo info = new ResultInfo();
         try {
             User user = us.login(email, password);
+            System.out.println(user);
             request.getSession().setAttribute("loginUser", user);
             info.setFlag(true);
         } catch (Exception e) {
@@ -117,6 +130,6 @@ public class UserServlet extends BaseServlet {
 
     public void findOne(HttpServletRequest request, HttpServletResponse response){
         User user=(User)request.getSession().getAttribute("loginUser");
-        outputJson(request,response,user);
+        writeVaule(response,user);
     }
 }

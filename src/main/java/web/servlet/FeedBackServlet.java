@@ -18,16 +18,16 @@ import java.util.Map;
 public class FeedBackServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String[]> map = request.getParameterMap();
-        FeedbackMail mail=new FeedbackMail();
-        FeedBackService feedBackService=new FeedBackServiceImpl();
+        FeedbackMail mail = new FeedbackMail();
+        FeedBackService feedBackService = new FeedBackServiceImpl();
         try {
-            BeanUtils.populate(mail,map);
+            BeanUtils.populate(mail, map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        feedBackService.feedBack(mail.getEname(),mail.getEmail(),mail.getSubject(),mail.getMessage());
+        feedBackService.feedBack(mail.getEname(), mail.getEmail(), mail.getSubject(), mail.getMessage());
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,18 +1,43 @@
 package service.impl;
 
 import dao.CartDao;
+import dao.GoodsDao;
+import dao.GoodsPicDao;
+import dao.UserDao;
 import dao.impl.CartDaoImpl;
+import dao.impl.GoodsDaoImpl;
+import dao.impl.GoodsPicDaoImpl;
+import dao.impl.UserDaoImpl;
 import entity.Cart;
+import entity.Goods;
+import entity.GoodsPic;
 import entity.PageBean;
 import service.CartService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartServiceImpl implements CartService {
     private CartDao cd = new CartDaoImpl();
+    private GoodsDao gd = new GoodsDaoImpl();
+    private GoodsPicDao gpd = new GoodsPicDaoImpl();
+
     @Override
     public List<Cart> findByUid(int uid) {
-        List<Cart> cartList = cd.findByUid(uid);
+        List<Cart> _cartList = cd.findByUid(uid);
+        //将goods对象设置进入cart对象中
+        List<Cart> cartList = new ArrayList<>();
+        //如果_cartList不为空
+        if (_cartList != null){
+            for (Cart cart: _cartList){
+                Goods goods = gd.findById(cart.getGid());
+                //将图片列表设置近goods中
+                List<GoodsPic> picList = gpd.findListByGid(goods.getGid());
+                goods.setPicList(picList);
+                cart.setGoods(goods);
+                cartList.add(cart);
+            }
+        }
         return cartList;
     }
 
@@ -33,7 +58,17 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart findCart(Cart cart) {
-        return cd.findCart(cart);
+
+        Cart _cart = cd.findCart(cart);
+        //如果此cart存在 设置goods对象
+        if (_cart != null){
+            Goods goods = gd.findById(_cart.getGid());
+            //将图片列表设置近goods中
+            List<GoodsPic> picList = gpd.findListByGid(goods.getGid());
+            goods.setPicList(picList);
+            _cart.setGoods(goods);
+        }
+        return _cart;
     }
 
     @Override
@@ -51,7 +86,21 @@ public class CartServiceImpl implements CartService {
         //1.计算开始条数
         int start = (currentPage - 1) * pageSize;
         //1.1获取cart列表
-        List<Cart> cartList = cd.findByPage(uid, start, pageSize);
+        List<Cart> _cartList = cd.findByPage(uid, start, pageSize);
+        //将goods对象设置进入cart对象中
+        List<Cart> cartList = new ArrayList<>();
+        //如果_cartList不为空
+        if (_cartList != null){
+            for (Cart cart: _cartList){
+                Goods goods = gd.findById(cart.getGid());
+                //将图片列表设置近goods中
+                List<GoodsPic> picList = gpd.findListByGid(goods.getGid());
+                goods.setPicList(picList);
+                cart.setGoods(goods);
+                cartList.add(cart);
+            }
+        }
+
         //2.获取总记录条数
         int totalCount = cd.findCount(uid);
         //3.计算总页数
