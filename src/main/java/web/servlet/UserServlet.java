@@ -113,7 +113,7 @@ public class UserServlet extends BaseServlet {
            response.setContentType("application/json;charset=utf-8");
            mapper.writeValue(response.getOutputStream(), user);
        }
-
+ //删除session
     public void loginOut(HttpServletRequest request,HttpServletResponse response)
             throws  ServletException,IOException{
         request.getSession().removeAttribute("loginUser");
