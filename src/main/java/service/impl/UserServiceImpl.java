@@ -12,18 +12,21 @@ public class UserServiceImpl implements UserService {
     UserDao ud = new UserDaoImpl();
 
     public boolean registUser(User user) {
-        user.setStatus("N");
-        user.setCode(UuidUtil.getUuid());
-        String text = "<a href='http://localhost:80/shop/active?code=" + user.getCode() + "'>账号激活</a>";
-        MailUtils.sendMail(user.getEmail(), text, "账号激活邮件");
         try {
+            // 设置账号未激活N - 激活Y
+            user.setStatus("N");
+            // 设置唯一的code
+            user.setCode(UuidUtil.getUuid());
+            // 保存这个账号信息
             ud.registUser(user);
+            // 发送激活邮件
+            String text = "<a href='http://localhost:80/shop/user/active?code=" + user.getCode() + "'>账号激活</a>";
+            MailUtils.sendMail(user.getEmail(), text, "指针旅游网账号激活");
             return true;
         } catch (Exception e) {
-            //System.out.println("插入出错了");
+            e.printStackTrace();
             return false;
         }
-
     }
 
     @Override
@@ -44,26 +47,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUser(String uname) {
-
-        return  ud.checkUser(uname);
+        try {
+            ud.checkUser(uname);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
 
     }
 
     @Override
     public boolean checkEmail(String email) {
-
-        return ud.checkEmail(email);
-
+        try {
+            ud.checkEmail(email);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     @Override
     public boolean active(String code) {
-        int i = ud.updateUserStatus(code);
-        if (i > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        int count = ud.updateUserStatus(code);
+        return count!=0;
     }
 
 

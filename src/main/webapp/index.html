@@ -48,6 +48,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			},'json');
 		});
 	</script>
+	<script>
+		$(function () {
+			$.get('/shop/user/findOne',
+					{},
+					function (data) {
+						if(data!=null){
+							$("#_login").html("退出");
+							$("#_login").click(function () {
+								location.href='user/exit';
+							})
+						}
+					},'json')
+		})
+	</script>
 <!-- //animation-effect -->
 </head>
 

@@ -17,7 +17,7 @@ import java.util.Map;
 
 @WebServlet("/user/*")
 public class UserServlet extends BaseServlet {
-    UserService us =new UserServiceImpl();
+    UserService us = new UserServiceImpl();
 
     public void checkUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -25,10 +25,8 @@ public class UserServlet extends BaseServlet {
         UserService us = new UserServiceImpl();
         boolean flag = us.checkUser(uname);
         ResultInfo info = new ResultInfo();
-        info.setFlag(flag);
-        ObjectMapper mapper = new ObjectMapper();
-       response.setCharacterEncoding("application/json;charset=utf-8");
-        mapper.writeValue(response.getOutputStream(), info);
+        info.setFlag(!flag);
+        writeVaule(response, info);
     }
 
     public void checkEmail(HttpServletRequest request, HttpServletResponse response)
@@ -37,10 +35,8 @@ public class UserServlet extends BaseServlet {
         UserService us = new UserServiceImpl();
         boolean flag = us.checkEmail(email);
         ResultInfo info = new ResultInfo();
-        info.setFlag(flag);
-        ObjectMapper mapper = new ObjectMapper();
-        response.setCharacterEncoding("application/json;charset=utf-8");
-        mapper.writeValue(response.getOutputStream(), info);
+        info.setFlag(!flag);
+        writeVaule(response, info);
     }
 
 
@@ -51,28 +47,24 @@ public class UserServlet extends BaseServlet {
 //        entries.stream().forEach(entry -> {
 //            System.out.println(entry.getKey() + ":" + entry.getValue());
 //        });
-        User user=new User();
-        UserService us=new UserServiceImpl();
+        User user = new User();
+        UserService us = new UserServiceImpl();
         try {
-            BeanUtils.populate(user,map);
+            BeanUtils.populate(user, map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        System.out.println(user.getEmail()+user.getPassword()+user.getUname()+user.getSex());
         boolean flag = us.registUser(user);
-        System.out.println(flag);
-        if(flag){
-          response.sendRedirect("/shop/ok.html");
-        }else {
-            response.getWriter().write("注册失败");
-        }
-        ResultInfo info=new ResultInfo();
+        ResultInfo info = new ResultInfo();
         info.setFlag(flag);
-        ObjectMapper mapper=new ObjectMapper();
-        response.setContentType("application/json;charset=utf-8");
-        mapper.writeValue(response.getOutputStream(),info);
+        if (!flag) {
+            info.setErrorMsg("注册失败");
+        } else {
+            response.sendRedirect("/shop/ok.html");
+        }
+        writeVaule(response, info);
     }
 
     public void login(HttpServletRequest request, HttpServletResponse response)
@@ -88,23 +80,43 @@ public class UserServlet extends BaseServlet {
         } catch (Exception e) {
             info.setFlag(false);
         }
-
         ObjectMapper mapper = new ObjectMapper();
         response.setContentType("application/json;charset=utf-8");
         mapper.writeValue(response.getOutputStream(), info);
     }
 
 
-    protected void active(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void active(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String code = request.getParameter("code");
         UserService us = new UserServiceImpl();
         boolean flag = us.active(code);
-        System.out.println("激活的flag:"+flag);
-            if(flag){
-              response.sendRedirect("/shop/login.html");
-              }else{
-               response.getWriter().write("激活失败");
-             }
-       }
+        response.setContentType("text/html;charset=utf-8");
+        if (flag) {
+            try {
+                response.sendRedirect(request.getContextPath() + "/login.html");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                response.getWriter().write("激活失败");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void exit(HttpServletRequest request, HttpServletResponse response){
+        request.getSession().removeAttribute("loginUser");
+        try {
+            response.sendRedirect(request.getContextPath()+"/login.html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void findOne(HttpServletRequest request, HttpServletResponse response){
+        User user=(User)request.getSession().getAttribute("loginUser");
+        writeVaule(response,user);
+    }
 }

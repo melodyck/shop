@@ -41,4 +41,14 @@ public class BaseServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+    public void writeVaule(HttpServletResponse response, Object info){
+        ObjectMapper mapper = new ObjectMapper();
+        response.setContentType("application/json;charset=utf-8");
+        try {
+            mapper.writeValue(response.getOutputStream(),info);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
