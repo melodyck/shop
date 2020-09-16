@@ -32,8 +32,7 @@ public class UserServlet extends BaseServlet {
         response.sendRedirect(request.getContextPath()+"/login.html");
     }
 
-    public void checkUser(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void checkUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uname = request.getParameter("uname");
         UserService us = new UserServiceImpl();
         boolean flag = us.checkUser(uname);
@@ -118,20 +117,4 @@ public class UserServlet extends BaseServlet {
                response.getWriter().write("激活失败");
              }
        }
-         //查询用户登录状态
-       public void findUser(HttpServletRequest request,HttpServletResponse response)
-           throws  ServletException,IOException{
-          User user=(User)request.getSession().getAttribute("loginUser");
-           ObjectMapper mapper = new ObjectMapper();
-           response.setContentType("application/json;charset=utf-8");
-           mapper.writeValue(response.getOutputStream(), user);
-       }
- //删除session
-    public void loginOut(HttpServletRequest request,HttpServletResponse response)
-            throws  ServletException,IOException{
-        request.getSession().removeAttribute("loginUser");
-       response.sendRedirect(request.getContextPath()+"/login.html");
-    }
-
-
 }

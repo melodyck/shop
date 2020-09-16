@@ -44,16 +44,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUser(String uname) {
-
-        return  ud.checkUser(uname);
+        User user = ud.checkUser(uname);
+        if (user == null){
+            return false;
+        }
+        return true;
 
     }
 
     @Override
     public boolean checkEmail(String email) {
-
-        return ud.checkEmail(email);
-
+        User user = ud.checkEmail(email);
+        if (user == null){
+            return false;
+        }
+        return true;
     }
 
     @Override
