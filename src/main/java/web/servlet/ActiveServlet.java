@@ -15,7 +15,8 @@ public class ActiveServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String code = request.getParameter("code");
         UserService us=new UserServiceImpl();
-        us.active(code);
+        boolean flag = us.active(code);
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

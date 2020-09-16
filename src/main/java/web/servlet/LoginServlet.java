@@ -19,7 +19,7 @@ import java.util.Map;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final String email = request.getParameter("email");
+         String email = request.getParameter("email");
         String password = request.getParameter("password");
         UserService us = new UserServiceImpl();
         ResultInfo info = new ResultInfo();
