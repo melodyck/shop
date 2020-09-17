@@ -34,8 +34,6 @@ public class GoodsServiceImpl implements GoodsService {
         Goods goods=GoodsDao.findById(gid);
         List<GoodsPic> list=goodsPicDao.findListByGid( gid);
         goods.setPicList(list);
-
-
         return goods;
     }
     @Override
