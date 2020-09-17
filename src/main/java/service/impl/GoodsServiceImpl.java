@@ -14,6 +14,12 @@ import java.util.List;
 public class GoodsServiceImpl implements GoodsService {
     private GoodsDao GoodsDao=new GoodsDaoImpl();
     private GoodsPicDao goodsPicDao=new GoodsPicDaoImpl();
+
+    @Override
+    public PageBean<Goods> searchByPage(String str, int currentPage, int pageSize) {
+        return null;
+    }
+
     @Override
     public PageBean<Goods> findByPage(int lid, int currentPage, int pageSize) {
         PageBean<Goods> pageBean=new PageBean<>();

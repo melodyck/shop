@@ -35,7 +35,7 @@ public class CartServlet extends BaseServlet {
             int uid = user.getUid();
             CartService cs = new CartServiceImpl();
             cartList = cs.findByUid(uid);
-            System.out.println(cartList);
+//            System.out.println(cartList);
             outputJson(request, response, cartList);
         }
 
@@ -69,7 +69,7 @@ public class CartServlet extends BaseServlet {
             BeanUtils.populate(cart, map);
             cart.setUid(uid);
             cart.setUser(user);
-            System.out.println(cart);
+//            System.out.println(cart);
             CartService cs = new CartServiceImpl();
             //查询cart 如果cart已经存在则number加一 否则在cart表中新增一条记录
             Cart _cart = cs.findCart(cart);
@@ -100,7 +100,7 @@ public class CartServlet extends BaseServlet {
             BeanUtils.populate(cart, map);
             cart.setUid(uid);
             cart.setUser(user);
-            System.out.println(cart);
+//            System.out.println(cart);
 
             //删除购物车记录
             CartService cs = new CartServiceImpl();
@@ -122,7 +122,7 @@ public class CartServlet extends BaseServlet {
             BeanUtils.populate(cart, map);
             cart.setUid(uid);
             cart.setUser(user);
-            System.out.println(cart);
+//            System.out.println(cart);
 
             //增加商品数量
             CartService cs = new CartServiceImpl();
@@ -143,7 +143,7 @@ public class CartServlet extends BaseServlet {
             BeanUtils.populate(cart, map);
             cart.setUid(uid);
             cart.setUser(user);
-            System.out.println(cart);
+//            System.out.println(cart);
 
             //减少商品数量
             CartService cs = new CartServiceImpl();
@@ -170,7 +170,7 @@ public class CartServlet extends BaseServlet {
             //查询当前页相应商品列表
             CartService cs = new CartServiceImpl();
             PageBean<Cart> pageBean = cs.findByPage(uid, Integer.parseInt(currentPage), Integer.parseInt(pageSize));
-            System.out.println(pageBean.getList());
+//            System.out.println(pageBean.getList());
 
             //返回json对象
             outputJson(request,response,pageBean);
