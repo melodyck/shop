@@ -77,6 +77,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					"/shop/cart/findAll",
 					{},
 					function (cartList) {
+						console.log(cartList)
 						//购物车商品总数
 						var count = 0;
 						//购物车商品总价
@@ -91,6 +92,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								total += price;
 							}
 						}
+						console.log("count:" + count);
+						console.log("total:" + total);
 						$("#simpleCart_quantity").html(count);
 						$("#totalPrice").html("￥" + total + ".00");
 					},

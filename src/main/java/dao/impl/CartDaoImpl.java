@@ -78,7 +78,13 @@ public class CartDaoImpl implements CartDao {
         if (cartList == null || cartList.size() == 0){
             return null;
         }
-        System.out.println(cartList);
+//        System.out.println(cartList);
         return cartList;
+    }
+
+    @Override
+    public void addCookie(Cart cart, int number) {
+        String sql = "update `tab_cart` set `number` = ? where uid = ? and gid = ?;";
+        template.update(sql, cart.getNumber() + number, cart.getUid(), cart.getGid());
     }
 }

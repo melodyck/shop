@@ -3,11 +3,9 @@ package service.impl;
 import dao.CartDao;
 import dao.GoodsDao;
 import dao.GoodsPicDao;
-import dao.UserDao;
 import dao.impl.CartDaoImpl;
 import dao.impl.GoodsDaoImpl;
 import dao.impl.GoodsPicDaoImpl;
-import dao.impl.UserDaoImpl;
 import entity.Cart;
 import entity.Goods;
 import entity.GoodsPic;
@@ -114,5 +112,10 @@ public class CartServiceImpl implements CartService {
         pageBean.setTotalCount(totalCount);
         pageBean.setTotalPage(totalPage);
         return pageBean;
+    }
+
+    @Override
+    public void addCookie(Cart cart, int number) {
+        cd.addCookie(cart, number);
     }
 }

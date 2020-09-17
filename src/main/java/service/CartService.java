@@ -14,4 +14,6 @@ public interface CartService {
     void insertCart(Cart cart);
     void deleteCart(Cart cart);
     PageBean<Cart> findByPage(int uid, int currentPage, int pageSize);
+
+    void addCookie(Cart cart, int number);
 }

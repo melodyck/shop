@@ -14,4 +14,6 @@ public interface CartDao {
     void deleteCart(Cart cart);
     int findCount(int uid);
     List<Cart> findByPage(int uid, int start, int pageSize);
+
+    void addCookie(Cart cart, int number);
 }

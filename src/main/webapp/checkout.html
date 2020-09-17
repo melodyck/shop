@@ -287,6 +287,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					"json"
 			)
 		}
+
+		//结算
+		function pay() {
+			$.get(
+					"/shop/user/findUser",
+					{},
+					function (data) {
+						if(data != "null"){
+							console.log(data);
+							//如果没有用户信息则跳出提示框登录
+							//确认消息按钮
+							var r = confirm("请先登录")//方法返回值boolean类型
+							if (r==true)
+							{
+								location.href = "/shop/login.html"
+							}
+						}else{
+							//如果已经登录则跳转到结算界面
+							location.href = "/shop/pay.html"
+						}
+
+					},
+					"json"
+			)
+		}
 	</script>
 </head>
 	
@@ -480,7 +505,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="checkout-left">	
 				<div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s" id="countDiv">
-					<a href="/shop/cart/pay"><h4>点击结算</h4></a>
+					<a href="javascript:pay()"><h4>点击结算</h4></a>
 					<ul id="account">
 					</ul>
 				</div>
