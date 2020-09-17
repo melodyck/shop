@@ -13,9 +13,6 @@ web\servlet\TestCodeServlet.class
 entity\FeedbackMail.class
 util\UuidUtil.class
 entity\Goods.class
-web\servlet\CheckUserServlet.class
-web\servlet\LoginServlet.class
-web\servlet\RegisterServlet.class
 dao\impl\GoodsDaoImpl.class
 util\JDBCUtils.class
 dao\LabelDao.class

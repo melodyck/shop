@@ -14,6 +14,27 @@ import java.util.List;
 public class GoodsServiceImpl implements GoodsService {
     private GoodsDao GoodsDao=new GoodsDaoImpl();
     private GoodsPicDao goodsPicDao=new GoodsPicDaoImpl();
+
+    @Override
+    public PageBean<Goods> searchByPage(String str, int currentPage, int pageSize) {
+        PageBean<Goods> pageBean=new PageBean<>();
+        int totalCount=GoodsDao.findCount(str);
+        int start =(currentPage-1)*pageSize;
+        if(str==null){
+            List<Goods> byPage = GoodsDao.findByPage(start, pageSize);
+            pageBean.setList(byPage);
+        }else{
+            List<Goods> byPage = GoodsDao.findByPage(str, start, pageSize);
+            pageBean.setList(byPage);
+        }
+        int totalPage = (totalCount + pageSize - 1) / pageSize;
+        pageBean.setCurrentPage(currentPage);
+        pageBean.setTotalCount(totalCount);
+        pageBean.setPageSize(pageSize);
+        pageBean.setTotalPage(totalPage);
+        return pageBean;
+    }
+
     @Override
     public PageBean<Goods> findByPage(int lid, int currentPage, int pageSize) {
         PageBean<Goods> pageBean=new PageBean<>();
@@ -29,18 +50,15 @@ public class GoodsServiceImpl implements GoodsService {
         return pageBean;
     }
 
+
     @Override
     public Goods findOne(int gid) {
         Goods goods=GoodsDao.findById(gid);
         List<GoodsPic> list=goodsPicDao.findListByGid( gid);
         goods.setPicList(list);
 
+        return goods;
+    }
 
-        return goods;
-    }
-    @Override
-    public Goods SearchGoods(String str) {
-        Goods goods = GoodsDao.SearchGoods(str);
-        return goods;
-    }
+
 }

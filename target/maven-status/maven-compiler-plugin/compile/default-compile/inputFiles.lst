@@ -10,7 +10,8 @@ D:\Shop\src\main\java\web\servlet\UserServlet.java
 D:\Shop\src\main\java\web\servlet\CartServlet.java
 D:\Shop\src\main\java\service\impl\LabelServiceImpl.java
 D:\Shop\src\main\java\web\servlet\GoodsSearchServlet.java
-D:\Shop\src\main\java\web\servlet\ActiveServlet.java
+D:\Shop\src\main\java\dao\GoodsPicDao.java
+D:\Shop\src\main\java\dao\impl\GoodsPicDaoImpl.java
 D:\Shop\src\main\java\dao\impl\UserDaoImpl.java
 D:\Shop\src\main\java\util\JDBCUtils.java
 D:\Shop\src\main\java\service\impl\GoodsServiceImpl.java
