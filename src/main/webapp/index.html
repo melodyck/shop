@@ -7,6 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Best Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+	<!-- js -->
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/modernizr-custom.js"></script>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 		function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //for-mobile-apps -->
@@ -21,18 +25,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- for bootstrap working -->
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 <!-- //for bootstrap working -->
-
+ 
 <link rel="stylesheet" href="css/jquery.countdown.css" />
 <!-- //timer -->
 <!-- animation-effect -->
-<link href="css/animate.min.css" rel="stylesheet">
+<link href="css/animate.min.css" rel="stylesheet"> 
 <script src="js/wow.min.js"></script>
 <script>
  new WOW().init();
 </script>
 	<script>
 		$(function () {
-			$.get('/Shop/label/findAll',{},function (data) {
+			$.post(
+					"/shop/user/findUser",
+					{},
+					function (data) {
+						if(data.uname!=null){
+							//指向loginoutServlet
+							var msg='<a>欢迎回来,'+data.uname+'</a>' +
+									'<i class="glyphicon glyphicon-log-in" aria-hidden="true" style="margin-left: 25px"></i><a  href="/shop/user/logout">logout</a>';
+							$("#loginUser").html(msg);
+						}else{
+							var msg='<i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a  href="login.html">login</a>';
+							$("#loginUser").html(msg);
+						}
+
+					},"json"
+			);
+
+			//分类标签
+			$.get('/shop/label/findAll',{},function (data) {
 				var lis1='<h6>Men\'s Wear</h6>';
 				var lis2='<h6>Women\'s Wear</h6>';
 				var lis3='<h6>Kid\'s Wear</h6>';
@@ -46,22 +68,63 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$("#labellist2").html(lis2);
 				$("#labellist3").html(lis3);
 			},'json');
+			findCount();
 		});
-	</script>
-	<script>
-		$(function () {
-			$.get('/shop/user/findOne',
+
+		//刷新 物品数 总价
+		function findCount() {
+			$.get(
+					"/shop/cart/findAll",
 					{},
-					function (data) {
-						$("#_login").html("退出");
-					},'json')
-		})
+					function (cartList) {
+						//购物车商品总数
+						var count = 0;
+						//购物车商品总价
+						var total = 0;
+						if (cartList != null){
+							for (var i = 0;  i < cartList.length ; i++){
+								var cart = cartList[i];
+								var goods = cart.goods;
+								count += cart.number;
+								//单类商品总价
+								var price = (cart.goods.price * cart.number);
+								total += price;
+							}
+						}
+						$("#simpleCart_quantity").html(count);
+						$("#totalPrice").html("￥" + total + ".00");
+					},
+					"json"
+			)
+		}
+		//添加商品到购物车
+		function addToCart(gid) {
+			$.get(
+					"/shop/cart/addOne",
+					{gid : gid},
+					function () {
+						findCount()
+					},
+					"json"
+			)
+		}
+		//清空购物车
+		function clearCart() {
+			$.get(
+					"/shop/cart/clearCart",
+					{},
+					function () {
+						findCount();
+					},
+					"json"
+			)
+		}
 	</script>
 <!-- //animation-effect -->
 </head>
 
 <body>
-<!-- header -->
+<!-- header-->
 	<div class="header">
 		<div class="container">
 			<div class="header-grid">
@@ -69,8 +132,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<ul>
 						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:syh_morar@163.ingstcom">syh_moringstar@163.com</a></li>
 						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 892</li>
-						<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
-						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
+						<li id="loginUser"><i  class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">Login</a></li>
+						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">Register</a></li>
 					</ul>
 				</div>
 				<div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
@@ -97,13 +160,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-					</div>
+					</div> 
 					<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
 						<ul class="nav navbar-nav">
 							<li class="active"><a href="index.html" class="act">主页</a></li>
 							<!-- Mega Menu -->
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">产品 <b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">分类 <b class="caret"></b></a>
 								<ul class="dropdown-menu multi-column columns-3">
 									<div class="row">
 										<div class="col-sm-4">
@@ -143,45 +206,44 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</ul>
 							</li>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Furniture <b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">潮牌 <b class="caret"></b></a>
 								<ul class="dropdown-menu multi-column columns-3">
 									<div class="row">
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown">
 												<h6>Home Collection</h6>
-												<li><a href="furniture.html">Cookware</a></li>
-												<li><a href="furniture.html">Sofas</a></li>
-												<li><a href="furniture.html">Dining Tables</a></li>
-												<li><a href="furniture.html">Shoe Racks</a></li>
-												<li><a href="furniture.html">Home Decor</a></li>
+												<li><a href="brand.html">Cookware</a></li>
+												<li><a href="brand.html">Sofas</a></li>
+												<li><a href="brand.html">Dining Tables</a></li>
+												<li><a href="brand.html">Shoe Racks</a></li>
+												<li><a href="brand.html">Home Decor</a></li>
 											</ul>
 										</div>
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown">
 												<h6>Office Collection</h6>
-												<li><a href="furniture.html">Carpets</a></li>
-												<li><a href="furniture.html">Tables</a></li>
-												<li><a href="furniture.html">Sofas</a></li>
-												<li><a href="furniture.html">Shoe Racks</a></li>
-												<li><a href="furniture.html">Sockets</a></li>
-												<li><a href="furniture.html">Electrical Machines</a></li>
+												<li><a href="brand.html">Carpets</a></li>
+												<li><a href="brand.html">Tables</a></li>
+												<li><a href="brand.html">Sofas</a></li>
+												<li><a href="brand.html">Shoe Racks</a></li>
+												<li><a href="brand.html">Sockets</a></li>
+												<li><a href="brand.html">Electrical Machines</a></li>
 											</ul>
 										</div>
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown">
 												<h6>Decorations</h6>
-												<li><a href="furniture.html">Toys</a></li>
-												<li><a href="furniture.html">Wall Clock</a></li>
-												<li><a href="furniture.html">Lighting</a></li>
-												<li><a href="furniture.html">Top Brands</a></li>
+												<li><a href="brand.html">Toys</a></li>
+												<li><a href="brand.html">Wall Clock</a></li>
+												<li><a href="brand.html">Lighting</a></li>
+												<li><a href="brand.html">Top Brands</a></li>
 											</ul>
 										</div>
 										<div class="clearfix"></div>
 									</div>
 								</ul>
 							</li>
-							<li><a href="short-codes.html">Short Codes</a></li>
-							<li><a href="mail.html">Mail Us</a></li>
+							<li><a href="mail.html">提出建议</a></li>
 						</ul>
 					</div>
 					</nav>
@@ -208,11 +270,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="cart box_1">
 						<a href="checkout.html">
 							<h3> <div class="total">
-								<span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)</div>
+								<span id="totalPrice">￥0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> 件)</div>
 								<img src="images/bag.png" alt="" />
 							</h3>
 						</a>
-						<p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+						<p><a href="javascript:clearCart();" class="simpleCart_empty">清空购物车</a></p>
 						<div class="clearfix"> </div>
 					</div>
 				</div>
@@ -317,8 +379,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- collections -->
 	<div class="new-collections">
 		<div class="container">
-			<h3 class="animated wow zoomIn" data-wow-delay=".5s">新藏品</h3>
-			<p class="est animated wow zoomIn" data-wow-delay=".5s">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+			<h3 class="animated wow zoomIn" data-wow-delay=".5s">New Collections</h3>
+			<p class="est animated wow zoomIn" data-wow-delay=".5s">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
 				deserunt mollit anim id est laborum.</p>
 			<div class="new-collections-grids">
 				<div class="col-md-3 new-collections-grid">
@@ -352,7 +414,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<h4><a href="single.html">Formal Shirt</a></h4>
 						<p>Vel illum qui dolorem eum fugiat.</p>
 						<div class="new-collections-grid1-left simpleCart_shelfItem">
-							<p><i>$325</i> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>
+							<p><i>$325</i> <span class="item_price">$250</span><a class="item_add" href="javascript:addToCart(1)">add to cart </a></p>
 						</div>
 					</div>
 					<div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
@@ -385,7 +447,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<h4><a href="single.html">Running Shoes</a></h4>
 						<p>Vel illum qui dolorem eum fugiat.</p>
 						<div class="new-collections-grid1-left simpleCart_shelfItem">
-							<p><i>$280</i> <span class="item_price">$150</span><a class="item_add" href="#">add to cart </a></p>
+							<p><i>$280</i> <span class="item_price">$150</span><a class="item_add" href="javascript:addToCart(2)">add to cart </a></p>
 						</div>
 					</div>
 				</div>
@@ -600,8 +662,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="new-collections-grid1-left simpleCart_shelfItem timer-grid-left-price">
 						<p><i>$580</i> <span class="item_price">$550</span></p>
 						<h4>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
-							nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
-							qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui
+							nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit 
+							qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui 
 							dolorem eum fugiat quo voluptas nulla pariatur.</h4>
 						<p><a class="item_add timer_add" href="#">add to cart </a></p>
 					</div>
@@ -648,7 +710,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="footer-grids">
 				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
 					<h3>About Us</h3>
-					<p>Duis aute irure dolor in reprehenderit in voluptate velit esse.<span>Excepteur sint occaecat cupidatat
+					<p>Duis aute irure dolor in reprehenderit in voluptate velit esse.<span>Excepteur sint occaecat cupidatat 
 						non proident, sunt in culpa qui officia deserunt mollit.</span></p>
 				</div>
 				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">

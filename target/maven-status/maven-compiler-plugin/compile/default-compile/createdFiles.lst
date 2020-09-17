@@ -20,6 +20,7 @@ dao\GoodsPicDao.class
 service\impl\FeedBackServiceImpl.class
 util\JedisUtil.class
 service\impl\UserServiceImpl.class
+web\servlet\GoodsSearchServlet.class
 service\LabelService.class
 dao\impl\MailDaoImpl.class
 service\UserService.class
@@ -41,5 +42,6 @@ service\impl\CartServiceImpl.class
 entity\User.class
 web\servlet\CartServlet.class
 web\servlet\FeedBackServlet.class
+web\servlet\UserServlet.class
 entity\ResultInfo.class
 service\impl\GoodsServiceImpl.class

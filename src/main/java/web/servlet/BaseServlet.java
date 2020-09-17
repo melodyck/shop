@@ -16,7 +16,7 @@ public class BaseServlet extends HttpServlet {
         //从uri(文件地址)中截取方法名
         String uri = req.getRequestURI();
         String methodName = uri.substring(uri.lastIndexOf("/") + 1);
-        System.out.println(methodName);
+
 
         //this表示调用service方法的servlet对象
         //通过this.getClass()获取字节码对象
