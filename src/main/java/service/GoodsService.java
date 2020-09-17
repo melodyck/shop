@@ -10,4 +10,5 @@ public interface GoodsService {
 
     Goods findOne(int gid);
 
+    PageBean<Goods> findByPageBrand(int bid, int currentPage, int pageSize);
 }

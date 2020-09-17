@@ -63,7 +63,24 @@ $(function () {
 		$("#labellist2").html(lis2);
 		$("#labellist3").html(lis3);
 	},'json');
+
+	$.get('/shop/brand/findAllBrand',{},function (data) {
+		var lis1='<h6>Nike\'s Wear</h6>';
+		var lis2='<h6>Li-Ning\'s Wear</h6>';
+		var lis3='<h6>ANTA\'s Wear</h6>';
+		for(var i=0;i<data.length;i++){
+			var li = '<li><a href="brand.html?bid='+ data[i].bid + '">' + data[i].bname + '</a></li>';
+			if(data[i].bname.startsWith("Nike")) {lis1 += li;}
+			else if(data[i].bname.startsWith("Li-Ning")) {lis2 += li;}
+			else { lis3 += li;}
+		}
+		$("#brandlist1").html(lis1);
+		$("#brandlist2").html(lis2);
+		$("#brandlist3").html(lis3);
+	},'json');
+
 	findCount();
+
 	var gid=location.search.split("=")[1];
 
 	$.get('/shop/Goods/single',{gid:gid},function (good) {

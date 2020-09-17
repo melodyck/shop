@@ -34,13 +34,29 @@ public  class GoodsServiceImpl implements GoodsService{
         pageBean.setTotalPage(totalPage);
         return pageBean;
     }
+    @Override
+    public PageBean<Goods> findByPageBrand(int bid, int currentPage, int pageSize) {
+        PageBean<Goods> pageBean=new PageBean<>();
+        int totalCount=GoodsDao.findCountBrand(bid);
+        int start =(currentPage-1)*pageSize;
+        List<Goods> byPage = GoodsDao.findByPageBrand(bid, start, pageSize);
+        int totalPage = (totalCount + pageSize - 1) / pageSize;
+        pageBean.setCurrentPage(currentPage);
+        pageBean.setList(byPage);
+        pageBean.setTotalCount(totalCount);
+        pageBean.setPageSize(pageSize);
+        pageBean.setTotalPage(totalPage);
+        return pageBean;
+    }
 
     @Override
     public Goods findOne(int gid) {
         Goods goods=GoodsDao.findById(gid);
-        List<GoodsPic> list=goodsPicDao.findListByGid(gid);
+        List<GoodsPic> list=goodsPicDao.findListByGid( gid);
         goods.setPicList(list);
         return goods;
     }
+
+
 
 }

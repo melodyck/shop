@@ -348,35 +348,43 @@ public class CartServlet extends BaseServlet {
         }
     }
 
-    //将cookie中的购物车商品数据加入数据库
+    //将cookie中的购物车商品数据加入数据库 并且清除cookie
     public void addCookies(HttpServletRequest request, HttpServletResponse response){
         User user = (User) request.getSession().getAttribute("loginUser");
         Cookie[] cookies = request.getCookies();
         int uid = user.getUid();
 
         for (Cookie cookie : cookies){
-            String _gid = cookie.getName();
-            String _number = cookie.getValue();
-            int gid = Integer.parseInt(_gid);
-            int number = Integer.parseInt(_number);
-
-            //封装cart对象
-            Cart cart = new Cart();
-            cart.setUid(uid);
-            cart.setUser(user);
-            cart.setGid(gid);
-            cart.setNumber(number);
+            //用正则表达式查询gid列表 gid\d+
+            String regx = "gid\\d+";
+            if (cookie.getName().matches(regx)){
+                String _gid = cookie.getName();
+                String _number = cookie.getValue();
+                //获取gid 以及对应数目 创建cart对象加入cartList中
+                int gid = Integer.parseInt(_gid.substring(3));
+                int number = Integer.parseInt(_number);
+                //封装cart对象
+                Cart cart = new Cart();
+                cart.setUid(uid);
+                cart.setUser(user);
+                cart.setGid(gid);
+                cart.setNumber(number);
 //            System.out.println(cart);
+                //增加商品数量
+                CartService cs = new CartServiceImpl();
+                //查询cart 如果cart已经存在则number加上cookie中的number 否则在cart表中新增一条记录
+                Cart _cart = cs.findCart(cart);
+                if (_cart == null){
+                    cs.insertCart(cart);
+                }else {
+                    //否则加上cookie中的商品数
+                    cs.addCookie(_cart, number);
+                }
 
-            //增加商品数量
-            CartService cs = new CartServiceImpl();
-            //查询cart 如果cart已经存在则number加上cookie中的number 否则在cart表中新增一条记录
-            Cart _cart = cs.findCart(cart);
-            if (_cart == null){
-                cs.insertCart(cart);
-            }else {
-                //否则加上cookie中的商品数
-                cs.addCookie(_cart, number);
+                //清除cookie
+                cookie.setPath("/shop");//设置携带路径
+                cookie.setMaxAge(0);//生命周期归零
+                response.addCookie(cookie);//覆盖原cookie
             }
         }
     }

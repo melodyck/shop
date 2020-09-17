@@ -71,6 +71,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$("#labellist2").html(lis2);
 				$("#labellist3").html(lis3);
 			},'json');
+
+			$.get('/shop/brand/findAllBrand',{},function (data) {
+				var lis1='<h6>Nike\'s Wear</h6>';
+				var lis2='<h6>Li-Ning\'s Wear</h6>';
+				var lis3='<h6>ANTA\'s Wear</h6>';
+				for(var i=0;i<data.length;i++){
+					var li = '<li><a href="brand.html?bid='+ data[i].bid + '">' + data[i].bname + '</a></li>';
+					if(data[i].bname.startsWith("Nike")) {lis1 += li;}
+					else if(data[i].bname.startsWith("Li-Ning")) {lis2 += li;}
+					else { lis3 += li;}
+				}
+				$("#brandlist1").html(lis1);
+				$("#brandlist2").html(lis2);
+				$("#brandlist3").html(lis3);
+			},'json');
 			findCount();
 		});
 
@@ -212,33 +227,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<ul class="dropdown-menu multi-column columns-3">
 									<div class="row">
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
-												<h6>Home Collection</h6>
-												<li><a href="brand.html">Cookware</a></li>
-												<li><a href="brand.html">Sofas</a></li>
-												<li><a href="brand.html">Dining Tables</a></li>
-												<li><a href="brand.html">Shoe Racks</a></li>
-												<li><a href="brand.html">Home Decor</a></li>
+											<ul class="multi-column-dropdown" id="brandlist1">
+												<!--												<h6>Home Collection</h6>-->
+												<!--												<li><a href="brand.html">Cookware</a></li>-->
+												<!--												<li><a href="brand.html">Sofas</a></li>-->
+												<!--												<li><a href="brand.html">Dining Tables</a></li>-->
+												<!--												<li><a href="brand.html">Shoe Racks</a></li>-->
+												<!--												<li><a href="brand.html">Home Decor</a></li>-->
 											</ul>
 										</div>
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
-												<h6>Office Collection</h6>
-												<li><a href="brand.html">Carpets</a></li>
-												<li><a href="brand.html">Tables</a></li>
-												<li><a href="brand.html">Sofas</a></li>
-												<li><a href="brand.html">Shoe Racks</a></li>
-												<li><a href="brand.html">Sockets</a></li>
-												<li><a href="brand.html">Electrical Machines</a></li>
+											<ul class="multi-column-dropdown" id="brandlist2">
+												<!--												<h6>Office Collection</h6>-->
+												<!--												<li><a href="brand.html">Carpets</a></li>-->
+												<!--												<li><a href="brand.html">Tables</a></li>-->
+												<!--												<li><a href="brand.html">Sofas</a></li>-->
+												<!--												<li><a href="brand.html">Shoe Racks</a></li>-->
+												<!--												<li><a href="brand.html">Sockets</a></li>-->
+												<!--												<li><a href="brand.html">Electrical Machines</a></li>-->
 											</ul>
 										</div>
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
-												<h6>Decorations</h6>
-												<li><a href="brand.html">Toys</a></li>
-												<li><a href="brand.html">Wall Clock</a></li>
-												<li><a href="brand.html">Lighting</a></li>
-												<li><a href="brand.html">Top Brands</a></li>
+											<ul class="multi-column-dropdown" id="brandlist3">
+												<!--												<h6>Decorations</h6>-->
+												<!--												<li><a href="brand.html">Toys</a></li>-->
+												<!--												<li><a href="brand.html">Wall Clock</a></li>-->
+												<!--												<li><a href="brand.html">Lighting</a></li>-->
+												<!--												<li><a href="brand.html">Top Brands</a></li>-->
 											</ul>
 										</div>
 										<div class="clearfix"></div>
@@ -304,11 +319,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="mail-grids">
 				<div class="col-md-8 mail-grid-left animated wow slideInLeft" data-wow-delay=".5s">
 					<form id="submit">
-						<input type="text" id="ename" name="ename" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-						<input type="email" name="email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-						<input type="text" name="subject" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}" required="">
-						<textarea type="text" name="message"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
-						<input type="button" value="Submit Now" id="submiton">
+						<input type="text" id="ename" name="ename" value="请输入姓名" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '请输入姓名';}" required="">
+						<input type="email" name="email" value="请输入邮箱" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '请输入邮箱';}" required="">
+						<input type="text" name="subject" value="请输入主题" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '请输入主题';}" required="">
+						<textarea type="text" name="message"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">您的建议...</textarea>
+						<input type="button" id="submiton"value="现在提交" style="outline:none;border:none;background:#d8703f;
+						font-size:1em;color:#fff;padding:10px 0;width:30%;">
 					</form>
 				</div>
 				<div class="col-md-4 mail-grid-right animated wow slideInRight" data-wow-delay=".5s">

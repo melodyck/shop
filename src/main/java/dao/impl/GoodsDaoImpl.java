@@ -26,6 +26,13 @@ public class GoodsDaoImpl implements GoodsDao {
         return jdbcTemplate.queryForObject(sql,Integer.class,lid);
     }
 
+    @Override
+    public int findCountBrand(int bid) {
+        String sql="select count(*) from tab_goods where bid=?";
+        return jdbcTemplate.queryForObject(sql,Integer.class,bid);
+    }
+
+
     //查找商品总数(overwrite)
     public int findCount(String str) {
         String sql="select count(*) from tab_goods where str=?";
@@ -40,6 +47,15 @@ public class GoodsDaoImpl implements GoodsDao {
 
         return list;
     }
+
+    @Override
+    public List<Goods> findByPageBrand(int bid, int start, int pageSize) {
+        String sql="select * from tab_goods where bid=? limit ?,?";
+        List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),bid,start,pageSize);
+
+        return list;
+    }
+
 
     //模糊查询出某页要显示的商品页面(overwrite)
     @Override

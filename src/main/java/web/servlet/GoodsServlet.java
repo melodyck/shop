@@ -35,6 +35,27 @@ public class GoodsServlet extends BaseServlet {
             // 3.将结果序列化为json返回
             outputJson(request, response, page);
         }
+    public void queryPageBrand(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 1.接收参数
+        String _bid = request.getParameter("bid");
+        int bid = Integer.parseInt(_bid);
+        String _currentPage = request.getParameter("currentPage");
+        // 处理_currentPage
+        int currentPage = 1;
+        if (_currentPage != null && _currentPage.length() > 0) {
+            currentPage = Integer.parseInt(_currentPage);
+        }
+        String _pageSize = request.getParameter("pageSize");
+        // 处理_pageSize
+        int pageSize = 12;
+        if (_pageSize != null && _pageSize.length() > 0) {
+            pageSize = Integer.parseInt(_pageSize);
+        }
+        // 2.调用service获得pageBean对象
+        PageBean<Goods> page = GoodsService.findByPageBrand(bid, currentPage, pageSize);
+        // 3.将结果序列化为json返回
+        outputJson(request, response, page);
+    }
     public void single(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 1.接收参数gid
         int gid = Integer.parseInt(request.getParameter("gid"));
@@ -43,6 +64,5 @@ public class GoodsServlet extends BaseServlet {
         // 3.序列化返回
         outputJson(request,response, goods);
     }
-
     }
 

@@ -68,6 +68,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$("#labellist2").html(lis2);
 				$("#labellist3").html(lis3);
 			},'json');
+
+			$.get('/shop/brand/findAllBrand',{},function (data) {
+				var lis1='<h6>Nike\'s Wear</h6>';
+				var lis2='<h6>Li-Ning\'s Wear</h6>';
+				var lis3='<h6>ANTA\'s Wear</h6>';
+				for(var i=0;i<data.length;i++){
+					var li = '<li><a href="brand.html?bid='+ data[i].bid + '">' + data[i].bname + '</a></li>';
+					if(data[i].bname.startsWith("Nike")) {lis1 += li;}
+					else if(data[i].bname.startsWith("Li-Ning")) {lis2 += li;}
+					else { lis3 += li;}
+				}
+				$("#brandlist1").html(lis1);
+				$("#brandlist2").html(lis2);
+				$("#brandlist3").html(lis3);
+			},'json');
 			findCount();
 		});
 
@@ -213,33 +228,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<ul class="dropdown-menu multi-column columns-3">
 									<div class="row">
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
-												<h6>Home Collection</h6>
-												<li><a href="brand.html">Cookware</a></li>
-												<li><a href="brand.html">Sofas</a></li>
-												<li><a href="brand.html">Dining Tables</a></li>
-												<li><a href="brand.html">Shoe Racks</a></li>
-												<li><a href="brand.html">Home Decor</a></li>
+											<ul class="multi-column-dropdown" id="brandlist1">
+												<!--												<h6>Home Collection</h6>-->
+												<!--												<li><a href="brand.html">Cookware</a></li>-->
+												<!--												<li><a href="brand.html">Sofas</a></li>-->
+												<!--												<li><a href="brand.html">Dining Tables</a></li>-->
+												<!--												<li><a href="brand.html">Shoe Racks</a></li>-->
+												<!--												<li><a href="brand.html">Home Decor</a></li>-->
 											</ul>
 										</div>
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
-												<h6>Office Collection</h6>
-												<li><a href="brand.html">Carpets</a></li>
-												<li><a href="brand.html">Tables</a></li>
-												<li><a href="brand.html">Sofas</a></li>
-												<li><a href="brand.html">Shoe Racks</a></li>
-												<li><a href="brand.html">Sockets</a></li>
-												<li><a href="brand.html">Electrical Machines</a></li>
+											<ul class="multi-column-dropdown" id="brandlist2">
+												<!--												<h6>Office Collection</h6>-->
+												<!--												<li><a href="brand.html">Carpets</a></li>-->
+												<!--												<li><a href="brand.html">Tables</a></li>-->
+												<!--												<li><a href="brand.html">Sofas</a></li>-->
+												<!--												<li><a href="brand.html">Shoe Racks</a></li>-->
+												<!--												<li><a href="brand.html">Sockets</a></li>-->
+												<!--												<li><a href="brand.html">Electrical Machines</a></li>-->
 											</ul>
 										</div>
 										<div class="col-sm-4">
-											<ul class="multi-column-dropdown">
-												<h6>Decorations</h6>
-												<li><a href="brand.html">Toys</a></li>
-												<li><a href="brand.html">Wall Clock</a></li>
-												<li><a href="brand.html">Lighting</a></li>
-												<li><a href="brand.html">Top Brands</a></li>
+											<ul class="multi-column-dropdown" id="brandlist3">
+												<!--												<h6>Decorations</h6>-->
+												<!--												<li><a href="brand.html">Toys</a></li>-->
+												<!--												<li><a href="brand.html">Wall Clock</a></li>-->
+												<!--												<li><a href="brand.html">Lighting</a></li>-->
+												<!--												<li><a href="brand.html">Top Brands</a></li>-->
 											</ul>
 										</div>
 										<div class="clearfix"></div>

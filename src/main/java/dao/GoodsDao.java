@@ -18,4 +18,8 @@ public interface GoodsDao {
     List<Goods> findByPage( int start, int pageSize);
 
     Goods findById(int gid);
+
+    public int findCountBrand(int bid);
+
+    public List<Goods> findByPageBrand(int bid, int start, int pageSize);
 }

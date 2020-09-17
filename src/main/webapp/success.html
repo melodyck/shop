@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>支付页面</title>
+    <title>success</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -17,17 +16,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="js/jquery.min.js"></script>
     <!-- //js -->
     <!-- cart -->
-    <script src="js/simpleCart.min.js"> </script>
+    <script src="js/simpleCart.min.js"></script>
     <!-- cart -->
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
     <!-- for bootstrap working -->
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+    <!-- //for bootstrap working -->
+
+    <link rel="stylesheet" href="css/jquery.countdown.css" />
+    <!-- //timer -->
     <!-- animation-effect -->
     <link href="css/animate.min.css" rel="stylesheet">
     <script src="js/wow.min.js"></script>
     <script>
         new WOW().init();
     </script>
+    <!-- //animation-effect -->
     <script>
         $(function () {
             $.post(
@@ -77,70 +80,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 $("#brandlist2").html(lis2);
                 $("#brandlist3").html(lis3);
             },'json');
-            //账单列表
-            $.get('/shop/cart/findAll',
-                {},
-                function (list) {
-                    var th=' <thead>\n' +
-                        '                    <tr>\n' +
-                        '                        <th>*</th>\n' +
-                        '                        <th>商品名称</th>\n' +
-                        '                        <th>商品数量</th>\n' +
-                        '                        <th>商品总价</th>\n' +
-                        '                    </tr>\n' +
-                        '                    </thead>\n';
-                    th += '<tbody>\n'
-                    var tb=''
-                    var total=0;
-                    var p=0;
-                    var carriage = 0;
-                    console.log(list)
-                    for (var i = 0; i < list.length; i++) {
-                        p = (list[i].goods.price * list[i].number);
-                        total+= p;
-                        console.log(i)
-                        console.log(total)
-                        tb += '                   <tr>\n' +
-                            '                        <td>'+ (i + 1) +'</td>\n' +
-                            '                        <td>'+list[i].goods.gname+'</td>\n' +
-                            '                        <td>'+list[i].number+'</td>\n' +
-                            '                        <td>￥'+ p +'</td>\n' +
-                            '                      </tr>'
-                    }
-                    tb+='</tbody>\n'
-                    carriage = list.length * 5;
-                    var t=th+tb;
-                    $("#table").html(t);
-                    $("#carriage").html("运费￥" + carriage);
-                    $("#price").html('共计￥' + (total + carriage))
-
-                },'json')
-
-            //电话与地址
-            $.get('/shop/user/findUser',
-                {},
-                function (user) {
-                    if(user!=null){
-                        $("#address").html('您的地址是:'+user.address)
-                        $("#phone").html('您的电话号码是'+user.phone)
-                    }
-                }
-            )
-
-            //支付按钮跳转至成功页面
-            $("#pay").click(function () {
-                var flag = confirm("确认支付?");
-                if (flag){
-                    $.get('/shop/cart/clearCart',
-                        {},
-                        function () {
-                            location.href="success.html";
-                        },
-                        'json'
-                    )
-                }
-            })
-
             findCount();
         });
 
@@ -150,7 +89,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 "/shop/cart/findAll",
                 {},
                 function (cartList) {
-                    console.log(cartList)
                     //购物车商品总数
                     var count = 0;
                     //购物车商品总价
@@ -165,8 +103,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             total += price;
                         }
                     }
-                    console.log("count:" + count);
-                    console.log("total:" + total);
                     $("#simpleCart_quantity").html(count);
                     $("#totalPrice").html("￥" + total + ".00");
                 },
@@ -196,8 +132,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             )
         }
     </script>
-    <!-- //animation-effect -->
 </head>
+
 <body>
 <!-- header -->
 <div class="header">
@@ -357,108 +293,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
 </div>
-<!-- //header -->
-<!-- breadcrumbs -->
-<div class="breadcrumbs">
-    <div class="container">
-        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-            <li class="active">Pay</li>
-        </ol>
-    </div>
-</div>
-<!-- //breadcrumbs -->
 
-<!--typography-page -->
-<div class="typo">
+<!-- collections-bottom -->
+<div class="collections-bottom">
     <div class="container">
-        <div class="typo-grids">
-            <h3 class="title animated wow zoomIn" data-wow-delay=".5s">您的账单</h3>
-            <p class="est animated wow zoomIn" data-wow-delay=".5s">Here is your bill</p>
-            <div class="page-header animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">
-            </div>
-            <h2 class="typoh2 animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">商品列表</h2>
-            <p class="animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms"><code>请仔细查看自己购物商品是否有误</code>(^_−)☆</p>
-            <div class="bs-docs-example animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">
-                <table class="table" id="table">
-                    <thead>
-                    <tr>
-                        <th>*</th>
-                        <th>商品名称</th>
-                        <th>商品数量</th>
-                        <th>商品总价</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>3</td>
-                        <td>￥12.685</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>4</td>
-                        <td>￥ 22.56</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Larry</td>
-                        <td>5</td>
-                        <td>￥12.26</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <hr class="bs-docs-separator">
-            <p class="animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms" id="address">您的地址是:</p>
-            <br>
-<!--            <div class="row animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">-->
-<!--                <div class="col-lg-6 in-gp-tb">-->
-<!--                    <div class="input-group">-->
-<!--                        <input type="text" class="form-control" placeholder="请在此处输入收件地址">-->
-<!--                        <span class="input-group-btn">-->
-<!--							<button class="btn btn-default" type="button">OK!</button>-->
-<!--						</span>-->
-<!--                    </div>&lt;!&ndash; /input-group &ndash;&gt;-->
-<!--                </div>&lt;!&ndash; /.col-lg-6 &ndash;&gt;-->
-<!--            </div>&lt;!&ndash; /.row &ndash;&gt;-->
-            <p class="animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms" id="phone">您的电话号码是</p>
-            <br>
-<!--            <div class="row animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">-->
-<!--                <div class="col-lg-6 in-gp-tb">-->
-<!--                    <div class="input-group">-->
-<!--                        <input type="text" class="form-control" placeholder="请在此处输入电话号码">-->
-<!--                        <span class="input-group-btn">-->
-<!--							<button class="btn btn-default" type="button">OK!</button>-->
-<!--						</span>-->
-<!--                    </div>&lt;!&ndash; /input-group &ndash;&gt;-->
-<!--                </div>&lt;!&ndash; /.col-lg-6 &ndash;&gt;-->
-<!--            </div>&lt;!&ndash; /.row &ndash;&gt;-->
-            <p class="animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms" id="carriage">运费</p>
-            <div class="grid_3 grid_4 animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms" >
-                <div class="bs-example" >
-                    <table class="table" >
-                        <tbody id="price">
-                        <tr>
-                            <td><h2 id="h2.-bootstrap-heading">￥99.99<a class="anchorjs-link" href="#h2.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h2></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="grid_3 grid_5 animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms" align="center">
-                <h1>
-                    <a href="#"><span class="label label-warning" id="pay">Pay</span></a>
-                </h1>
+        <div class="collections-bottom-grids">
+            <div class="collections-bottom-grid animated wow slideInLeft" data-wow-delay=".5s">
+                <h3>亲爱的<span>你已经付款成功啦</span></h3>
+                <h1><a href="index.html">点我返回主页</a></h1>
             </div>
         </div>
     </div>
 </div>
-<!-- //typography-page -->
-
+<!-- //collections-bottom -->
 <!-- footer -->
 <div class="footer">
     <div class="container">
