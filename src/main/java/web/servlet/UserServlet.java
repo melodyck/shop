@@ -56,13 +56,8 @@ public class UserServlet extends BaseServlet {
     }
 
 
-    public void register(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String[]> map = request.getParameterMap();
-//        Set<Map.Entry<String, String[]>> entries = map.entrySet();
-//        entries.stream().forEach(entry -> {
-//            System.out.println(entry.getKey() + ":" + entry.getValue());
-//        });
         User user=new User();
         UserService us=new UserServiceImpl();
         try {
@@ -96,7 +91,6 @@ public class UserServlet extends BaseServlet {
             request.getSession().setAttribute("loginUser", user);
             info.setFlag(true);
         } catch (Exception e) {
-            System.out.println("kao");
             info.setFlag(false);
         }
 
@@ -105,8 +99,7 @@ public class UserServlet extends BaseServlet {
         mapper.writeValue(response.getOutputStream(), info);
     }
 
-    public void active(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void active(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String code = request.getParameter("code");
         UserService us = new UserServiceImpl();
         boolean flag = us.active(code);

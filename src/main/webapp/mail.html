@@ -43,7 +43,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					"/shop/user/findUser",
 					{},
 					function (data) {
-						if(data.uname!=null){
+						if(data != null){
 							//指向loginoutServlet
 							var msg='<a>欢迎回来,'+data.uname+'</a>' +
 									'<i class="glyphicon glyphicon-log-in" aria-hidden="true" style="margin-left: 25px"></i><a  href="/shop/user/logout">logout</a>';

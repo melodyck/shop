@@ -27,12 +27,13 @@ public class CartServlet extends BaseServlet {
         List<Cart> cartList = new ArrayList<>();
         //1.判断其是否登录
         User user = (User) request.getSession().getAttribute("loginUser");
-        System.out.println(user.getUid());
+
         if (user == null){
 
         }else {
             //1.2登录状态下从数据库中查询购物车中的商品信息
             int uid = user.getUid();
+            System.out.println(user.getUid());
             CartService cs = new CartServiceImpl();
             cartList = cs.findByUid(uid);
 //            System.out.println(cartList);
