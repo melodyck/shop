@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String email, String password) throws Exception {
             User resultUser = ud.findUserByEmailAndPassword(email, password);
-
+        System.out.println(resultUser);
         if (resultUser == null) {
             //用户不存在
            throw new Exception("用户不存在");

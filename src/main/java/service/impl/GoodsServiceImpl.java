@@ -11,7 +11,7 @@ import service.GoodsService;
 
 import java.util.List;
 
-public class GoodsServiceImpl implements GoodsService {
+public  class GoodsServiceImpl implements GoodsService{
     private GoodsDao GoodsDao=new GoodsDaoImpl();
     private GoodsPicDao goodsPicDao=new GoodsPicDaoImpl();
 
