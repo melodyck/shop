@@ -65,4 +65,14 @@ public class GoodsPic implements Serializable {
     public void setSmallPic(String smallPic) {
         this.smallPic = smallPic;
     }
+    @Override
+    public String toString() {
+        return "GoodsPic{" +
+                "pid=" + pid +
+                ", gid=" + gid +
+                ", bigPic='" + bigPic + '\'' +
+                ", smallPic='" + smallPic + '\'' +
+                '}';
+    }
+
 }

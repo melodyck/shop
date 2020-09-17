@@ -10,21 +10,14 @@ import java.util.List;
 
 public class GoodsDaoImpl implements GoodsDao {
     private JdbcTemplate jdbcTemplate=new JdbcTemplate(JDBCUtils.getDataSource());
-    //模糊查询商品
-    @Override
-    public Goods SearchGoods(String str) {
-        String sql="select * from tab_goods g join tab_label l on g.lid=l.lid where gname like '%?%' || lname like '%?%'";
-        Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class), str,str);
-        return goods;
-    }
 
-    //查询数据库所有商品
-    @Override
-    public Goods findAllGoods() {
-        String sql="select * from tab_goods";
-        Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class));
-        return goods;
-    }
+//    //查询数据库所有商品
+//    @Override
+//    public Goods findAllGoods() {
+//        String sql="select * from tab_goods";
+//        Goods goods = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Goods.class));
+//        return goods;
+//    }
 
     @Override
     //查找商品总数
@@ -32,6 +25,13 @@ public class GoodsDaoImpl implements GoodsDao {
         String sql="select count(*) from tab_goods where lid=?";
         return jdbcTemplate.queryForObject(sql,Integer.class,lid);
     }
+
+    //查找商品总数(overwrite)
+    public int findCount(String str) {
+        String sql="select count(*) from tab_goods where str=?";
+        return jdbcTemplate.queryForObject(sql,Integer.class,str);
+    }
+
     //查询出某页要显示的商品页面
     @Override
     public List<Goods> findByPage(int lid, int start, int pageSize) {
@@ -40,6 +40,25 @@ public class GoodsDaoImpl implements GoodsDao {
 
         return list;
     }
+
+    //模糊查询出某页要显示的商品页面(overwrite)
+    @Override
+    public List<Goods> findByPage(String str, int start, int pageSize) {
+        String sql="select * from tab_goods g join tab_label l on g.lid=l.lid where gname like '%?%' || lname like '%?%' limit ?,?";
+        List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),str,str,start,pageSize);
+
+        return list;
+    }
+
+    //模糊查询出某页要显示的商品页面(overwrite)
+    @Override
+    public List<Goods> findByPage(int start, int pageSize) {
+        String sql="select * from tab_goods g join tab_label l on g.lid=l.lid limit ?,?";
+        List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),start,pageSize);
+
+        return list;
+    }
+
     //根据商品id查询所有信息
     @Override
     public Goods findById(int gid) {
