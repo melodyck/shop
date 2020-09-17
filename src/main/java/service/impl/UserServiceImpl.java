@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
             ud.registUser(user);
             return true;
         } catch (Exception e) {
-            //System.out.println("插入出错了");
+
             return false;
         }
 
@@ -44,30 +44,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUser(String uname) {
-        User user = ud.checkUser(uname);
-        if (user == null){
+        try{
+            User user = ud.checkUser(uname);
             return false;
+        }catch (Exception e){
+            return true;
         }
-        return true;
-
     }
 
     @Override
     public boolean checkEmail(String email) {
-        User user = ud.checkEmail(email);
-        if (user == null){
+        try{
+            User user = ud.checkEmail(email);
             return false;
+        }catch (Exception e){
+            return true;
         }
-        return true;
     }
 
     @Override
     public boolean active(String code) {
         int i = ud.updateUserStatus(code);
         if (i > 0) {
-            return true;
-        } else {
             return false;
+        } else {
+            return true;
         }
     }
 

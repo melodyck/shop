@@ -105,15 +105,15 @@ public class UserServlet extends BaseServlet {
         mapper.writeValue(response.getOutputStream(), info);
     }
 
-
     public void active(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String code = request.getParameter("code");
         UserService us = new UserServiceImpl();
         boolean flag = us.active(code);
             if(flag){
-              response.sendRedirect("/shop/login.html");
+              response.sendRedirect(request.getContextPath()+"/login.html");
               }else{
+               response.setContentType("html/text;charset=utf-8");
                response.getWriter().write("激活失败");
              }
        }
