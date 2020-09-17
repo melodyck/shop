@@ -32,6 +32,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- //animation-effect -->
 	<script>
 		$(function () {
+			$.post(
+					"/shop/user/findUser",
+					{},
+					function (data) {
+						if(data.uname!=null){
+							//指向loginoutServlet
+							var msg='<a>欢迎回来,'+data.uname+'</a>' +
+									'<i class="glyphicon glyphicon-log-in" aria-hidden="true" style="margin-left: 25px"></i><a  href="/shop/user/logout">logout</a>';
+							$("#loginUser").html(msg);
+						}else{
+							var msg='<i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a  href="login.html">login</a>';
+							$("#loginUser").html(msg);
+						}
+
+					},"json"
+			);
+
 			//动态更新分类标签
 			$.get('/shop/label/findAll',{},function (data) {
 				var lis1='<h6>Men\'s Wear</h6>';
@@ -94,9 +111,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										"\t\t\t\t\t\t<td class=\"invert\">\n" +
 										"\t\t\t\t\t\t\t <div class=\"quantity\"> \n" +
 										"\t\t\t\t\t\t\t\t<div class=\"quantity-select\">                           \n" +
-										"\t\t\t\t\t\t\t\t\t<div class=\"entry value-minus\" onclick=\"reduceNum(" + cart.uid + ", " + cart.gid + ", " + cart.number + ", "+ pageNow +","+ cartList.length +")\">&nbsp;</div>\n" +
+										"\t\t\t\t\t\t\t\t\t<div class=\"entry value-minus\" onclick=\"reduceNum(" + cart.gid + ", " + cart.number + ", "+ pageNow +","+ cartList.length +")\">&nbsp;</div>\n" +
 										"\t\t\t\t\t\t\t\t\t<div class=\"entry value\"><span>" + cart.number + "</span></div>\n" +
-										"\t\t\t\t\t\t\t\t\t<div class=\"entry value-plus active\" onclick=\"addNum(" + cart.uid + ", " + cart.gid + "," + cart.number + ", "+ pageNow +")\">&nbsp;</div>\n" +
+										"\t\t\t\t\t\t\t\t\t<div class=\"entry value-plus active\" onclick=\"addNum(" + cart.gid + "," + cart.number + ", "+ pageNow +")\">&nbsp;</div>\n" +
 										"\t\t\t\t\t\t\t\t</div>\n" +
 										"\t\t\t\t\t\t\t</div>\n" +
 										"\t\t\t\t\t\t</td>\n" +
@@ -105,14 +122,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										"\t\t\t\t\t\t<td class=\"invert\">￥" + goods.price + "</td>\n" +
 										"\t\t\t\t\t\t<td class=\"invert\">\n" +
 										"\t\t\t\t\t\t\t<div class=\"rem\">\n" +
-										"\t\t\t\t\t\t\t\t<div class=\"close"+ (i + 1) +"\" onclick=\"remove(" + cart.uid + ", " + cart.gid + ", " + pageNow + ", "+ cartList.length +")\"> </div>\n" +
+										"\t\t\t\t\t\t\t\t<div class=\"close"+ (i + 1) +"\" onclick=\"remove(" + cart.gid + ", " + pageNow + ", "+ cartList.length +")\"> </div>\n" +
 										"\t\t\t\t\t\t\t</div>" +
 										"\t\t\t\t\t\t</td>\n" +
 										"\t\t\t\t\t</tr>";
 							}
 							$("#cartTable").html(headLabel + list);
 							//分页
-							var prePage = "<li><a href=\"javascript:load("+cart.uid+","+(pageNow - 1)+");\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span></a></li>";
+							var prePage = "<li><a href=\"javascript:load("+(pageNow - 1)+");\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span></a></li>";
 							var pageList = "";
 							//只显示当前页面前2页和后2页共5页
 							var totalPage = pageBean.totalPage;
@@ -138,19 +155,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							for (var i = start; i <= end; i++){
 								if (i == pageNow){
 									//当前页标高亮 (如果condition是中文uri中当做参数需要转码,方法中当做参数需要加引号)
-									pageList += "<li onclick=\"load("+cart.uid+","+i+");\" class='active'><a href=\"javascript:load("+cart.uid+","+i+");\">"+i+"</a></li>"
+									pageList += "<li onclick=\"load("+i+");\" class='active'><a href=\"javascript:load("+i+");\">"+i+"</a></li>"
 								}else {
-									pageList += "<li onclick=\"load("+cart.uid+","+i+");\"><a href=\"javascript:load("+cart.uid+","+i+");\">"+i+"</a></li>"
+									pageList += "<li onclick=\"load("+i+");\"><a href=\"javascript:load("+i+");\">"+i+"</a></li>"
 								}
 							}
-							var nextPage = "<li><a href=\"javascript:load("+cart.uid+","+(pageNow + 1)+");\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
+							var nextPage = "<li><a href=\"javascript:load("+(pageNow + 1)+");\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
 
 							//已经是首页或者尾页
 							if (pageNow <= 1){
-								prePage = "<li><a href=\"javascript:load("+cart.uid+","+pageNow+");\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span></a></li>";
+								prePage = "<li><a href=\"javascript:load("+pageNow+");\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span></a></li>";
 							}
 							if (pageNow >= totalPage){
-								nextPage = "<li><a href=\"javascript:load("+cart.uid+","+pageNow+");\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
+								nextPage = "<li><a href=\"javascript:load("+pageNow+");\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
 							}
 							$("#pageIndex").html(prePage + pageList + nextPage);
 
@@ -173,24 +190,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			)
 		}
 		//移除商品
-		function remove(uid, gid, currentPage, cartNum) {
+		function remove(gid, currentPage, cartNum) {
 			$("[class=\"rem" + gid + "\"]").fadeOut("slow", function () {
 				console.log("fadeOut");
 				if (cartNum < 2 && currentPage > 1){
 					$.get(
 							"/shop/cart/removeOne",
-							{uid : uid, gid : gid},
+							{gid : gid},
 							function () {
-								load(uid, currentPage - 1);
+								load(currentPage - 1);
 							},
 							"json"
 					)
 				}else {
 					$.get(
 							"/shop/cart/removeOne",
-							{uid : uid, gid : gid},
+							{gid : gid},
 							function () {
-								load(uid, currentPage);
+								load(currentPage);
 							},
 							"json"
 					)
@@ -200,29 +217,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		}
 		//商品数量增减
-		function addNum(uid ,gid, number, currentPage){
+		function addNum(gid, number, currentPage){
 			$.get(
 					"/shop/cart/addNum",
-					{uid : uid, gid : gid, number : number},
+					{gid : gid, number : number},
 					function () {
-						load(uid, currentPage);
+						load(currentPage);
 					},
 					"json"
 			)
 
 		}
-		function reduceNum(uid ,gid, number, currentPage, cartNum){
+		function reduceNum(gid, number, currentPage, cartNum){
 			if (number > 1){
 				$.get(
 						"/shop/cart/reduceNum",
-						{uid : uid, gid : gid, number : number},
+						{gid : gid, number : number},
 						function () {
-							load(uid, (currentPage + 1));
+							load(currentPage);
 						},
 						"json"
 				)
 			}else{
-				remove(uid, gid, currentPage, cartNum);
+				remove(gid, currentPage, cartNum);
 			}
 		}
 		//刷新 物品数 总价 账单
