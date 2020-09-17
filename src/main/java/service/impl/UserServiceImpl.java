@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
             ud.registUser(user);
             return true;
         } catch (Exception e) {
-
+            //System.out.println("插入出错了");
             return false;
         }
 
@@ -66,9 +66,9 @@ public class UserServiceImpl implements UserService {
     public boolean active(String code) {
         int i = ud.updateUserStatus(code);
         if (i > 0) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 
