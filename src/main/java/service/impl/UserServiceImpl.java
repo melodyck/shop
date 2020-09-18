@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
     public boolean registUser(User user) {
         user.setStatus("N");
         user.setCode(UuidUtil.getUuid());
-        String text = "<a href='http://localhost:80/shop/user/active?code=" + user.getCode() + "'>账号激活</a>";
+        String text = "<a href='http://192.168.56.103/shop/user/active?code=" + user.getCode() + "'>账号激活</a>";
         MailUtils.sendMail(user.getEmail(), text, "账号激活邮件");
         try {
             ud.registUser(user);
