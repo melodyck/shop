@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.Comparator;
+
 public class Cart {
     private int uid;
     private int gid;
@@ -66,4 +68,5 @@ public class Cart {
                 ", number=" + number +
                 '}';
     }
+
 }

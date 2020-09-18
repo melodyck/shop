@@ -45,6 +45,7 @@ util\MailUtils.class
 entity\Brand.class
 service\impl\CartServiceImpl.class
 entity\User.class
+web\servlet\CartServlet$1.class
 web\servlet\CartServlet.class
 web\servlet\FeedBackServlet.class
 web\servlet\UserServlet.class

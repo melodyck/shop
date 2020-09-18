@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +57,7 @@ public class CartServlet extends BaseServlet {
                 }
             }
 //            System.out.println(cartList + "test");
+
             outputJson(request,response,cartList);
         }else {
             //1.2登录状态下从数据库中查询购物车中的商品信息
@@ -113,6 +115,7 @@ public class CartServlet extends BaseServlet {
                     int number = Integer.parseInt(_number) + 1;
                     cookie.setValue("" + number);
                     cookie.setPath("/shop");
+                    cookie.setMaxAge(60 * 60 * 24);
                     response.addCookie(cookie);
                     flag = true;//表明cookie存在
                 }
@@ -196,6 +199,8 @@ public class CartServlet extends BaseServlet {
                     String _number = cookie.getValue();
                     int number = Integer.parseInt(_number) + 1;
                     cookie.setValue("" + number);
+                    cookie.setPath("/shop");
+                    cookie.setMaxAge(60 * 60 * 24);
                     response.addCookie(cookie);
                 }
             }
@@ -236,11 +241,13 @@ public class CartServlet extends BaseServlet {
                         number = number - 1;
                         cookie.setPath("/shop");
                         cookie.setValue("" + number);
+                        cookie.setMaxAge(60 * 60 * 24);
                         response.addCookie(cookie);
                     }else {
                         //如果商品数量为1则删除此cookie
                         cookie.setPath("/shop");
                         cookie.setMaxAge(0);
+                        cookie.setMaxAge(60 * 60 * 24);
                         response.addCookie(cookie);
                     }
                 }
@@ -301,6 +308,14 @@ public class CartServlet extends BaseServlet {
                     cartList.add(cart);
                 }
             }
+
+            //使用sort方法将cart排序,以固定顺序
+            cartList.sort(new Comparator<Cart>() {
+                @Override
+                public int compare(Cart o1, Cart o2) {
+                    return o1.getGid() - o2.getGid();
+                }
+            });
 
             //总条数
             int totalCount = cartList.size();
