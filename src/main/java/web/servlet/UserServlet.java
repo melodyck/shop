@@ -104,7 +104,7 @@ public class UserServlet extends BaseServlet {
         UserService us = new UserServiceImpl();
         boolean flag = us.active(code);
             if(flag){
-              response.sendRedirect(request.getContextPath()+"/login.html");
+              response.sendRedirect("/shop/login.html");
               }else{
                response.setContentType("html/text;charset=utf-8");
                response.getWriter().write("激活失败");
