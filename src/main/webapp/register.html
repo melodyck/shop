@@ -154,22 +154,67 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					},
 					check : {
 						checkCode: true
+					},
+					rules : {
+						required : true
 					}
-
 				},
 				//使用errorPlacement代替错误信息提示,改为输入框样式改变
 				errorPlacement : function (error, element) {
+					//error.appendTo(element.parent());//$("#registerForm")
+					var  cls = element.prop("class");
+
+					$("#errormsg").html(error)
 					var  cls = element.prop("class");
 					if (cls.indexOf('error') > -1){
 						element.css("border", "solid 1px #ff0000");
+						$("#errorDiv").css("visibility", "visible");
+						// style="visibility: visible"
 					} else {
-						element.css("border", "");
+						element.css("border", "solid 1px rgb(219,219,219)");
+						$("#errorDiv").css("visibility", "hidden");
 					}
 				},
 				//使用此json对象使得成功时不会有任何错误信息框出现
 				success : function (element) {
 					//element为当前验证的element元素
 					console.log(element);
+				},
+				//设定提示信息
+				messages: {
+					uname: {
+						required: "用户名不能为空!",
+						checkUser: "用户名已经存在!",
+						minlength: "用户名至少4位!",
+						maxlength: "用户名最多10位!"
+					},
+					phone: {
+						required: "phone不能为空！",
+						rangelength: "请输入有效的11位手机号码!"
+					},
+					address: {
+						required: "收件地址不能为空!"
+					},
+					email: {
+						required: "邮箱不能为空!",
+						checkEmail: "邮箱不可用!"
+					},
+					password: {
+						required: "密码不能为空!",
+						minlength: "密码至少为6位!",
+						maxlength: "密码最多32位!"
+					},
+					repeatPassword: {
+						required: "请再次输入密码!",
+						equalTo: "密码必须与上次相同!"
+					},
+					check: {
+						required: "验证码不能为空!",
+						checkCode: "验证码错误"
+					},
+					rules: {
+						required: "请接受条款"
+					}
 				}
 			})
 		})
@@ -435,11 +480,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 					<div class="register-check-box">
 						<div class="check">
-							<label class="checkbox"><input type="checkbox" name="checkbox" required><i> </i>我接受这些条款和条件</label>
+							<label class="checkbox"><input type="checkbox" name="rules" ><i> </i>我接受这些条款和条件</label>
 						</div>
 					</div>
 					<input type="submit" value="注册">
 				</form>
+				<div class="alert alert-danger"  role="alert" id="errorDiv" style="margin-top: 20px;visibility: hidden" >
+					<label id="errormsg"></label>
+				</div>
 			</div>
 			<div class="register-home animated wow slideInUp" data-wow-delay=".5s">
 				<a href="index.html">回到主页</a>
