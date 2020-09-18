@@ -34,7 +34,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					"/shop/user/findUser",
 					{},
 					function (data) {
-						if(data != null){
+						if(data!=null){
 							//指向loginoutServlet
 							var msg='<a>欢迎回来,'+data.uname+'</a>' +
 									'<i class="glyphicon glyphicon-log-in" aria-hidden="true" style="margin-left: 25px"></i><a  href="/shop/user/logout">logout</a>';
@@ -53,7 +53,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				var lis2='<h6>Women\'s Wear</h6>';
 				var lis3='<h6>Kid\'s Wear</h6>';
 				for(var i=0;i<data.length;i++){
-					var li = '<li><a href="products.html?lid='+ data[i].lid + '">' + data[i].lname + '</a></li>';
+					var li = '<li><a href='+ data[i].lid + '"../../../../../Users/13157/products.html?lid=">' + data[i].lname + '</a></li>';
 					if(data[i].lname.startsWith("women")) {lis2 += li;}
 					else if(data[i].lname.startsWith("men")) {lis1 += li;}
 					else { lis3 += li;}
@@ -63,21 +63,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$("#labellist3").html(lis3);
 			},'json');
 
-			$.get('/shop/brand/findAllBrand',{},function (data) {
-				var lis1='<h6>Nike\'s Wear</h6>';
-				var lis2='<h6>Li-Ning\'s Wear</h6>';
-				var lis3='<h6>ANTA\'s Wear</h6>';
-				for(var i=0;i<data.length;i++){
-					var li = '<li><a href="brand.html?bid='+ data[i].bid + '">' + data[i].bname + '</a></li>';
-					if(data[i].bname.startsWith("Nike")) {lis1 += li;}
-					else if(data[i].bname.startsWith("Li-Ning")) {lis2 += li;}
-					else { lis3 += li;}
-				}
-				$("#brandlist1").html(lis1);
-				$("#brandlist2").html(lis2);
-				$("#brandlist3").html(lis3);
-			},'json');
-			findCount();
+		$.get('/shop/brand/findAllBrand',{},function (data) {
+			var lis1='<h6>Nike\'s Wear</h6>';
+			var lis2='<h6>Li-Ning\'s Wear</h6>';
+			var lis3='<h6>ANTA\'s Wear</h6>';
+			for(var i=0;i<data.length;i++){
+				var li = '<li><a href="brand.html?bid='+ data[i].bid + '">' + data[i].bname + '</a></li>';
+				if(data[i].bname.startsWith("Nike")) {lis1 += li;}
+				else if(data[i].bname.startsWith("Li-Ning")) {lis2 += li;}
+				else { lis3 += li;}
+			}
+			$("#brandlist1").html(lis1);
+			$("#brandlist2").html(lis2);
+			$("#brandlist3").html(lis3);
+		},'json');
+
+		findCount();
 		});
 
 		//刷新 物品数 总价
@@ -204,7 +205,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						for (var i=0;i<pb.list.length;i++){
 							var good = pb.list[i];
 							var div='<div class="new-collections-grid1-image">\n' +
-									'\t\t\t\t\t\t\t\t<a href="single.html?gid='+good.gid+'" class="product-image"><img src="'+good.gimage+'" alt=" " class="img-responsive"></a>\n' +
+									'\t\t\t\t\t\t\t\t<a href="single.html?gid='+good.gid+'" class="product-image"><img src="'+good.gimage+'" alt=" " class="img-responsive" ></a>\n' +
 									'\t\t\t\t\t\t\t\t<div class="new-collections-grid1-image-pos products-right-grids-pos">\n' +
 									'\t\t\t\t\t\t\t\t\t<a href="single.html?gid='+good.gid+'">Quick View</a>\n' +
 									'\t\t\t\t\t\t\t\t</div>\n' +
@@ -284,62 +285,45 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										default:leftdivlist+=leftdiv ;
 									}
 						}
-
-						//横排加载 稍微修改下顺序
-						// $("#list1").html(divlist1);
-						// $("#list2").html(divlist2);
-						// $("#list3").html(divlist3);
-						// $("#list4").html(divlist4);
-						// $("#list5").html(divlist5);
-						// $("#list6").html(divlist6);
-						// $("#list7").html(divlist7);
-						// $("#list8").html(divlist8);
-						// $("#list9").html(divlist9);
 						$("#list1").html(divlist1);
-						$("#list2").html(divlist4);
-						$("#list3").html(divlist7);
-						$("#list4").html(divlist2);
+						$("#list2").html(divlist2);
+						$("#list3").html(divlist3);
+						$("#list4").html(divlist4);
 						$("#list5").html(divlist5);
-						$("#list6").html(divlist8);
-						$("#list7").html(divlist3);
-						$("#list8").html(divlist6);
+						$("#list6").html(divlist6);
+						$("#list7").html(divlist7);
+						$("#list8").html(divlist8);
 						$("#list9").html(divlist9);
-
-						//如果没有内容则隐藏标签
-						if(divlist1 == ''){
-							$("#list1").hide();
-						}
-						if(divlist4 == ''){
-							$("#list2").hide();
-						}
-						if(divlist7 == ''){
-							$("#list3").hide();
-						}
-						if(divlist2 == ''){
-							$("#list4").hide();
-						}
-						if(divlist5 == ''){
-							$("#list5").hide();
-						}
-						if(divlist8 == ''){
-							$("#list6").hide();
-						}
-						if(divlist3 == ''){
-							$("#list7").hide();
-						}
-						if(divlist6 == ''){
-							$("#list8").hide();
-						}
-						if(divlist9 == ''){
-							$("#list9").hide();
-						}
-
 						$("#leftlist").html(leftdivlist);
+
+							switch (pb.list.length) {
+								case 0:$("#list1").css("display", "none");
+								case 1:$("#list2").css("display", "none");
+								case 2:$("#list3").css("display", "none");
+								case 3:$("#list4").css("display", "none");
+								case 4:$("#list5").css("display", "none");
+								case 5:$("#list6").css("display", "none");
+								case 6:$("#list7").css("display", "none");
+								case 7:$("#list8").css("display", "none");
+								case 8:$("#list9").css("display", "none");
+								default:break;
+
+						}
 						if(pb.list.length<=9){
 							$("#leftliststart").css("display", "none");
 						}
 						if(pb.currentPage<pb.totalPage){
 							$("#leftliststart").css("display", "block");
+						$("#list1").css("display", "block");
+						$("#list2").css("display", "block");
+						$("#list3").css("display", "block");
+						$("#list4").css("display", "block");
+						$("#list5").css("display", "block");
+						$("#list6").css("display", "block");
+						$("#list7").css("display", "block");
+						$("#list8").css("display", "block");
+						$("#list9").css("display", "block");
+
 						}
 
 			},'json'
@@ -359,7 +343,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:syh_morar@163.ingstcom">syh_moringstar@163.com</a></li>
 					<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 892</li>
 					<li id="loginUser"><i  class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">Login</a></li>
-					<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">Register</a></li>
+					<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="../../../../../Users/13157/register.html">Register</a></li>
 				</ul>
 			</div>
 			<div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
@@ -398,8 +382,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown" id="labellist1">
 												<h6>Men's Wear</h6>
-												<li class="li_list"><a href="products.html">Clothing</a></li>
-												<li class="li_list"><a href="products.html">Wallets</a></li>
+												<li class="li_list"><a href="../../../../../Users/13157/products.html">Clothing</a></li>
+												<li class="li_list"><a href="../../../../../Users/13157/products.html">Wallets</a></li>
 												<!--												<li><a href="products.html">Shoes</a></li>-->
 												<!--												<li><a href="products.html">Watches</a></li>-->
 												<!--												<li><a href="products.html">Accessories</a></li>-->
@@ -408,8 +392,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown" id="labellist2">
 												<h6>Women's Wear</h6>
-												<li class="li_list"><a href="products.html">Clothing</a></li>
-												<li class="li_list"><a href="products.html">Wallets,Bags</a></li>
+												<li class="li_list"><a href="../../../../../Users/13157/products.html">Clothing</a></li>
+												<li class="li_list"><a href="../../../../../Users/13157/products.html">Wallets,Bags</a></li>
 												<!--												<li><a href="products.html">Footwear</a></li>-->
 												<!--												<li><a href="products.html">Watches</a></li>-->
 												<!--												<li><a href="products.html">Accessories</a></li>-->
@@ -422,8 +406,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<h6>Kid's Wear</h6>
 												<!--												<li><a href="products.html">Kids Home Fashion</a></li>-->
 												<!--												<li><a href="products.html">Boy's Clothing</a></li>-->
-												<li class="li_list"><a href="products.html">Girl's Clothing</a></li>
-												<li class="li_list"><a href="products.html">Shoes</a></li>
+												<li class="li_list"><a href="../../../../../Users/13157/products.html">Girl's Clothing</a></li>
+												<li class="li_list"><a href="../../../../../Users/13157/products.html">Shoes</a></li>
 												<!--												<li><a href="products.html">Brand Stores</a></li>-->
 											</ul>
 										</div>
@@ -437,32 +421,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="row">
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown" id="brandlist1">
-												<!--												<h6>Home Collection</h6>-->
-												<!--												<li><a href="brand.html">Cookware</a></li>-->
-												<!--												<li><a href="brand.html">Sofas</a></li>-->
-												<!--												<li><a href="brand.html">Dining Tables</a></li>-->
-												<!--												<li><a href="brand.html">Shoe Racks</a></li>-->
-												<!--												<li><a href="brand.html">Home Decor</a></li>-->
+<!--												<h6>Home Collection</h6>-->
+<!--												<li><a href="brand.html">Cookware</a></li>-->
+<!--												<li><a href="brand.html">Sofas</a></li>-->
+<!--												<li><a href="brand.html">Dining Tables</a></li>-->
+<!--												<li><a href="brand.html">Shoe Racks</a></li>-->
+<!--												<li><a href="brand.html">Home Decor</a></li>-->
 											</ul>
 										</div>
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown" id="brandlist2">
-												<!--												<h6>Office Collection</h6>-->
-												<!--												<li><a href="brand.html">Carpets</a></li>-->
-												<!--												<li><a href="brand.html">Tables</a></li>-->
-												<!--												<li><a href="brand.html">Sofas</a></li>-->
-												<!--												<li><a href="brand.html">Shoe Racks</a></li>-->
-												<!--												<li><a href="brand.html">Sockets</a></li>-->
-												<!--												<li><a href="brand.html">Electrical Machines</a></li>-->
+<!--												<h6>Office Collection</h6>-->
+<!--												<li><a href="brand.html">Carpets</a></li>-->
+<!--												<li><a href="brand.html">Tables</a></li>-->
+<!--												<li><a href="brand.html">Sofas</a></li>-->
+<!--												<li><a href="brand.html">Shoe Racks</a></li>-->
+<!--												<li><a href="brand.html">Sockets</a></li>-->
+<!--												<li><a href="brand.html">Electrical Machines</a></li>-->
 											</ul>
 										</div>
 										<div class="col-sm-4">
 											<ul class="multi-column-dropdown" id="brandlist3">
-												<!--												<h6>Decorations</h6>-->
-												<!--												<li><a href="brand.html">Toys</a></li>-->
-												<!--												<li><a href="brand.html">Wall Clock</a></li>-->
-												<!--												<li><a href="brand.html">Lighting</a></li>-->
-												<!--												<li><a href="brand.html">Top Brands</a></li>-->
+<!--												<h6>Decorations</h6>-->
+<!--												<li><a href="brand.html">Toys</a></li>-->
+<!--												<li><a href="brand.html">Wall Clock</a></li>-->
+<!--												<li><a href="brand.html">Lighting</a></li>-->
+<!--												<li><a href="brand.html">Top Brands</a></li>-->
 											</ul>
 										</div>
 										<div class="clearfix"></div>
@@ -550,24 +534,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="categories animated wow slideInUp" data-wow-delay=".5s">
 					<h3>Categories</h3>
 					<ul class="cate">
-						<li><a href="products.html">Best Selling</a> <span>(15)</span></li>
-						<li><a href="products.html">Man</a> <span>(16)</span></li>
+						<li><a href="../../../../../Users/13157/products.html">Best Selling</a> <span>(15)</span></li>
+						<li><a href="../../../../../Users/13157/products.html">Man</a> <span>(16)</span></li>
 							<ul>
-								<li><a href="products.html">Accessories</a> <span>(2)</span></li>
-								<li><a href="products.html">Coats & Jackets</a> <span>(5)</span></li>
-								<li><a href="products.html">Jeans</a> <span>(1)</span></li>
-								<li><a href="products.html">New Arrivals</a> <span>(0)</span></li>
-								<li><a href="products.html">Suits</a> <span>(1)</span></li>
-								<li><a href="products.html">Casual Shirts</a> <span>(0)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Accessories</a> <span>(2)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Coats & Jackets</a> <span>(5)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Jeans</a> <span>(1)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">New Arrivals</a> <span>(0)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Suits</a> <span>(1)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Casual Shirts</a> <span>(0)</span></li>
 							</ul>
-						<li><a href="products.html">Sales</a> <span>(15)</span></li>
-						<li><a href="products.html">Woman</a> <span>(15)</span></li>
+						<li><a href="../../../../../Users/13157/products.html">Sales</a> <span>(15)</span></li>
+						<li><a href="../../../../../Users/13157/products.html">Woman</a> <span>(15)</span></li>
 							<ul>
-								<li><a href="products.html">Accessories</a> <span>(2)</span></li>
-								<li><a href="products.html">New Arrivals</a> <span>(0)</span></li>
-								<li><a href="products.html">Dresses</a> <span>(1)</span></li>
-								<li><a href="products.html">Casual Shirts</a> <span>(0)</span></li>
-								<li><a href="products.html">Shorts</a> <span>(4)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Accessories</a> <span>(2)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">New Arrivals</a> <span>(0)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Dresses</a> <span>(1)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Casual Shirts</a> <span>(0)</span></li>
+								<li><a href="../../../../../Users/13157/products.html">Shorts</a> <span>(4)</span></li>
 							</ul>
 					</ul>
 				</div>
