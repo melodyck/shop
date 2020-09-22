@@ -27,6 +27,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script>
  new WOW().init();
 </script>
+	<script src="js/getParameter.js"></script>
 <!-- //animation-effect -->
 	<script>
 		$(function () {
@@ -134,9 +135,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<script>
 		$(function () {
-			var bid=location.search.split("=")[1];
+			var bid = getParameter("bid");
+			var currentPage = getParameter("currentPage");
+			console.log(currentPage);
 			// 2.发送异步请求分页查询
-			load(bid);
+			load(bid, currentPage);
 
 		});
 		function load(bid, currentPage) {
@@ -166,28 +169,60 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							end = pb.totalPage
 						}
 
+						// var lis = "";
+						// var firstPage = '<li><a href="javascript:load('+bid+',1)">首页</a></li>';
+						// var beforeNum = pb.currentPage - 1;
+						// if (beforeNum < 1) {
+						// 	beforeNum = 1;
+						// }
+						// var beforePage = '<li class="threeword"><a href="javascript:load('+bid+', '+beforeNum+')">上一页</a></li>';
+						// lis += firstPage;
+						// lis += beforePage;
+						// for (var i = start; i <= end; i++) {
+						// 	var li;
+						// 	if (i == pb.currentPage) {
+						// 		li = '<li  class="active" onclick="load('+bid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
+						// 	} else {
+						// 		li = '<li   onclick="load('+bid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
+						// 	}
+						// 	lis += li;
+						// }
+						// var nextNum=pb.currentPage+1;
+						// if(nextNum>pb.totalPage){nextNum=pb.totalPage;}
+						// var nextPage = '<li class="threeword"><a href="javascript:load('+bid+','+nextNum+')">下一页</a></li>';
+						// var lastPage = '<li class="threeword"><a href="javascript:load('+bid+','+pb.totalPage+')">末页</a></li>';
+						// lis += nextPage;
+						// lis += lastPage;
+						// $("#page").html(lis);
+
 						var lis = "";
-						var firstPage = '<li><a href="javascript:load('+bid+',1)">首页</a></li>';
+						var firstPage = "<li><a href=\"/shop/brand.html?bid=" + bid + "&currentPage=" +1+ "\">首页</a></li>";
 						var beforeNum = pb.currentPage - 1;
 						if (beforeNum < 1) {
 							beforeNum = 1;
 						}
-						var beforePage = '<li class="threeword"><a href="javascript:load('+bid+', '+beforeNum+')">上一页</a></li>';
+						var beforePage = "<li><a href=\"/shop/brand.html?bid=" + bid + "&currentPage=" +(pb.currentPage - 1)+ "\">上一页</a></li>";
+						if (pb.currentPage <= 1){
+							beforePage = "<li><a>上一页</a></li>";
+						}
 						lis += firstPage;
 						lis += beforePage;
+						var href = "";
 						for (var i = start; i <= end; i++) {
+							href = "/shop/brand.html?bid=" + bid + "&currentPage=" + i;
 							var li;
 							if (i == pb.currentPage) {
-								li = '<li  class="active" onclick="load('+bid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
+								li = "<li  class=\"active\" onclick=\"open("+ href +")\"><a href=\""+ href +"\">"+ i +"</a></li>";
 							} else {
-								li = '<li   onclick="load('+bid+','+i+')"><a href="javascript:;">'+i+'</a></li>';
+								li = "<li  onclick=\"open("+ href +")\"><a href=\""+ href +"\">" + i +"</a></li>";
 							}
 							lis += li;
 						}
-						var nextNum=pb.currentPage+1;
-						if(nextNum>pb.totalPage){nextNum=pb.totalPage;}
-						var nextPage = '<li class="threeword"><a href="javascript:load('+bid+','+nextNum+')">下一页</a></li>';
-						var lastPage = '<li class="threeword"><a href="javascript:load('+bid+','+pb.totalPage+')">末页</a></li>';
+						var nextPage = "<li><a href=\"/shop/brand.html?bid=" + bid + "&currentPage=" +(pb.currentPage + 1)+ "\">下一页</a></li>";
+						if (pb.currentPage >= pb.totalPage){
+							nextPage = "<li><a>下一页</a></li>";
+						}
+						var lastPage = "<li><a href=\"/shop/brand.html?bid=" + bid + "&currentPage=" +(pb.totalPage)+ "\">末页</a></li>";
 						lis += nextPage;
 						lis += lastPage;
 						$("#page").html(lis);

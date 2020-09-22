@@ -21,7 +21,7 @@ public class GoodsServlet extends BaseServlet {
             String _currentPage = request.getParameter("currentPage");
             // 处理_currentPage
             int currentPage = 1;
-            if (_currentPage != null && _currentPage.length() > 0) {
+            if (!_currentPage.equals("null") && _currentPage.length() > 0) {
                 currentPage = Integer.parseInt(_currentPage);
             }
             String _pageSize = request.getParameter("pageSize");
@@ -42,7 +42,7 @@ public class GoodsServlet extends BaseServlet {
         String _currentPage = request.getParameter("currentPage");
         // 处理_currentPage
         int currentPage = 1;
-        if (_currentPage != null && _currentPage.length() > 0) {
+        if (!_currentPage.equals("null") && _currentPage.length() > 0) {
             currentPage = Integer.parseInt(_currentPage);
         }
         String _pageSize = request.getParameter("pageSize");
