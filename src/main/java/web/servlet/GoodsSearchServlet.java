@@ -16,13 +16,13 @@ import java.io.IOException;
 @WebServlet("/search/*")
 public class GoodsSearchServlet extends BaseServlet {
     private GoodsService GoodsService = new GoodsServiceImpl();
-    public void goodssearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void searchGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 1.接收参数
         String str = request.getParameter("search");
         String _currentPage = request.getParameter("currentPage");
         // 处理_currentPage
         int currentPage = 1;
-        if (_currentPage != null && _currentPage.length() > 0) {
+        if (!_currentPage.equals("null") && _currentPage.length() > 0) {
             currentPage = Integer.parseInt(_currentPage);
         }
         String _pageSize = request.getParameter("pageSize");
@@ -33,11 +33,8 @@ public class GoodsSearchServlet extends BaseServlet {
         }
         // 2.调用service获得pageBean对象
         PageBean<Goods> page = GoodsService.searchByPage(str, currentPage, pageSize);
+        System.out.println(page.getList());
         // 3.将结果序列化为json返回
         outputJson(request, response, page);
-    }
-
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
     }
 }

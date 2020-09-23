@@ -17,7 +17,17 @@ public  class GoodsServiceImpl implements GoodsService{
 
     @Override
     public PageBean<Goods> searchByPage(String str, int currentPage, int pageSize) {
-        return null;
+        PageBean<Goods> pageBean=new PageBean<>();
+        int totalCount=GoodsDao.findCount(str);
+        int start =(currentPage-1)*pageSize;
+        List<Goods> byPage = GoodsDao.findByPage(str, start, pageSize);
+        int totalPage = (totalCount + pageSize - 1) / pageSize;
+        pageBean.setCurrentPage(currentPage);
+        pageBean.setList(byPage);
+        pageBean.setTotalCount(totalCount);
+        pageBean.setPageSize(pageSize);
+        pageBean.setTotalPage(totalPage);
+        return pageBean;
     }
 
     @Override

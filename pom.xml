@@ -84,7 +84,8 @@
       <artifactId>jedis</artifactId>
       <version>3.1.0</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-easysdk -->
+    <!--支付宝sdk-->
   </dependencies>
 
   <build>

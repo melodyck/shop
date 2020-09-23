@@ -35,7 +35,7 @@ public class GoodsDaoImpl implements GoodsDao {
 
     //查找商品总数(overwrite)
     public int findCount(String str) {
-        String sql="select count(*) from tab_goods where str=?";
+        String sql="select count(*) from tab_goods where gname like concat('%',?,'%') ";
         return jdbcTemplate.queryForObject(sql,Integer.class,str);
     }
 
@@ -52,7 +52,6 @@ public class GoodsDaoImpl implements GoodsDao {
     public List<Goods> findByPageBrand(int bid, int start, int pageSize) {
         String sql="select * from tab_goods where bid=? limit ?,?";
         List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),bid,start,pageSize);
-
         return list;
     }
 
@@ -60,9 +59,9 @@ public class GoodsDaoImpl implements GoodsDao {
     //模糊查询出某页要显示的商品页面(overwrite)
     @Override
     public List<Goods> findByPage(String str, int start, int pageSize) {
-        String sql="select * from tab_goods g join tab_label l on g.lid=l.lid where gname like '%?%' || lname like '%?%' limit ?,?";
-        List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),str,str,start,pageSize);
-
+        String sql="select * from tab_goods g join tab_label l on g.lid=l.lid  join tab_brand b on g.bid=b.bid " +
+                " where gname like concat('%',?,'%') or lname like concat('%',?,'%') or bname like concat('%',?,'%') limit ?,?";
+        List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),str,str,str,start,pageSize);
         return list;
     }
 
@@ -71,7 +70,6 @@ public class GoodsDaoImpl implements GoodsDao {
     public List<Goods> findByPage(int start, int pageSize) {
         String sql="select * from tab_goods g join tab_label l on g.lid=l.lid limit ?,?";
         List<Goods> list=  jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(Goods.class),start,pageSize);
-
         return list;
     }
 

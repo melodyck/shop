@@ -17,6 +17,7 @@ E:\ideaWorkplace\Shop\src\main\java\entity\Record.java
 E:\ideaWorkplace\Shop\src\main\java\entity\User.java
 E:\ideaWorkplace\Shop\src\main\java\service\impl\UserServiceImpl.java
 E:\ideaWorkplace\Shop\src\main\java\web\servlet\CartServlet.java
+E:\ideaWorkplace\Shop\src\main\java\dao\RecordDao.java
 E:\ideaWorkplace\Shop\src\main\java\service\impl\FeedBackServiceImpl.java
 E:\ideaWorkplace\Shop\src\main\java\dao\CartDao.java
 E:\ideaWorkplace\Shop\src\main\java\service\impl\LabelServiceImpl.java
@@ -28,6 +29,7 @@ E:\ideaWorkplace\Shop\src\main\java\dao\GoodsDao.java
 E:\ideaWorkplace\Shop\src\main\java\web\servlet\GoodsServlet.java
 E:\ideaWorkplace\Shop\src\main\java\service\BrandService.java
 E:\ideaWorkplace\Shop\src\main\java\service\LabelService.java
+E:\ideaWorkplace\Shop\src\main\java\dao\impl\RecordDaoImpl.java
 E:\ideaWorkplace\Shop\src\main\java\service\UserService.java
 E:\ideaWorkplace\Shop\src\main\java\dao\UserDao.java
 E:\ideaWorkplace\Shop\src\main\java\dao\MailDao.java
