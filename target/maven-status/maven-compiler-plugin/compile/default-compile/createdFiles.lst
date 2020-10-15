@@ -10,6 +10,7 @@ web\servlet\LabelServlet.class
 dao\impl\CartDaoImpl.class
 service\GoodsService.class
 service\impl\LabelServiceImpl.class
+alipay\config\AlipayConfig.class
 web\servlet\CheckCodeServlet.class
 web\servlet\TestCodeServlet.class
 service\impl\BrandServiceImpl.class
